@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "844846155287",
+    "project_id": "chibis-and-dungeons",
+    "storage_bucket": "chibis-and-dungeons.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844846155287:android:1794c4d5458e18ab82be52",
+        "android_client_info": {
+          "package_name": "com.oggames.chibisanddungeons"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "844846155287-7n7i8ehjeci2r4mfpjdk1us5ormjpeqj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqyRl6h_I67x6ywpJCIDYOZ0Ti-BSx93k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "844846155287-7n7i8ehjeci2r4mfpjdk1us5ormjpeqj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
