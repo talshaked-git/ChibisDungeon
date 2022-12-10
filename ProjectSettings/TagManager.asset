@@ -8,15 +8,15 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Background
   - Water
   - UI
+  - Foreground
+  - 
+  - Doors
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Platforms
   - 
   - 
   - 
@@ -38,6 +38,36 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: FarBackground
+    uniqueID: 2131721427
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: NearBackground
+    uniqueID: 2196166249
+    locked: 0
+  - name: Beams
+    uniqueID: 2395804883
+    locked: 0
+  - name: Buildings
+    uniqueID: 1154124313
+    locked: 0
+  - name: Doors
+    uniqueID: 3048722029
+    locked: 0
+  - name: Environment
+    uniqueID: 1886148361
+    locked: 0
+  - name: Platforms
+    uniqueID: 2939549493
+    locked: 0
+  - name: Addons
+    uniqueID: 1246224403
+    locked: 0
+  - name: Extra Addons
+    uniqueID: 3711519917
+    locked: 0
+  - name: Player
+    uniqueID: 2882637773
     locked: 0
