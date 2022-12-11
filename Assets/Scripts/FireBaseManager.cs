@@ -4,10 +4,16 @@ using Firebase;
 using Firebase.Auth;
 using TMPro;
 using System;
+using Google;
+using System.Threading.Tasks;
 
 public class FireBaseManager : MonoBehaviour
 {
     public static FireBaseManager instance;
+
+    public string GoogleWebAPI = "844846155287-7n7i8ehjeci2r4mfpjdk1us5ormjpeqj.apps.googleusercontent.com";
+
+    private GoogleSignInConfiguration configuration;
 
     [Header("FireBase")]
     public FirebaseAuth auth;
@@ -87,9 +93,7 @@ public class FireBaseManager : MonoBehaviour
     {
         if (user != null)
         {
-            //TODO: add sign out then return autologin
-            // GameManager.instance.ChangeScene("Scene_MainMenu");
-            AuthUIManager.instance.LoginScreen();
+            GameManager.instance.ChangeScene("Scene_MainMenu");
         }
         else
         {
@@ -99,6 +103,7 @@ public class FireBaseManager : MonoBehaviour
 
     private void InitializeFirebase()
     {
+        InitConfiguration();
         auth = FirebaseAuth.DefaultInstance;
         StartCoroutine(CheckAutoLogin());
         auth.StateChanged += AuthStateChanged;
@@ -128,6 +133,52 @@ public class FireBaseManager : MonoBehaviour
         registerOutputUI.SetActive(false);
         loginOutputText.text = "";
         registerOutputText.text = "";
+    }
+
+    public void GoogleLoginButton()
+    {
+        GoogleSignIn.Configuration = configuration;
+        GoogleSignIn.Configuration.UseGameSignIn = false;
+        GoogleSignIn.Configuration.RequestIdToken = true;
+        GoogleSignIn.Configuration.RequestEmail = true;
+
+        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(
+            OnAuthenticationFinished);
+    }
+
+    private void OnAuthenticationFinished(Task<GoogleSignInUser> task)
+    {
+        if (task.IsCanceled)
+        {
+            Debug.LogError("SignInWithGoogle canceled");
+            return;
+        }
+        if (task.IsFaulted)
+        {
+            Debug.LogError("SignInWithGoogle encountered an error: " + task.Exception);
+            return;
+        }
+
+        Credential credential = GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
+        auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInWithCredentialAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            user = auth.CurrentUser;
+            Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.UserId);
+            GameManager.instance.ChangeScene("Scene_MainMenu");
+        });
+
+
     }
 
     public void LoginButton()
@@ -304,8 +355,18 @@ public class FireBaseManager : MonoBehaviour
 
     }
 
+    private void InitConfiguration()
+    {
+        configuration = new GoogleSignInConfiguration
+        {
+            WebClientId = GoogleWebAPI,
+            RequestIdToken = true
+        };
+    }
+
     public void SignOut()
     {
+        Debug.Log(message: "Signing Out " + user.Email);
         auth.SignOut();
         GameManager.instance.ChangeScene("Scene_LoginRegister");
     }

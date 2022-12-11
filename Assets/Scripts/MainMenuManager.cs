@@ -22,14 +22,4 @@ public class MainMenuManager : MonoBehaviour
     {
         FireBaseManager.instance.SignOut();
     }
-
-    public void PlayGame()
-    {
-        GameManager.instance.ChangeScene("GameScene");
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
 }
