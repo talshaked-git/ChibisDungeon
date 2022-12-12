@@ -352,7 +352,6 @@ public class FireBaseManager : MonoBehaviour
         }
 
         AuthUIManager.instance.AwaitVerification(false, user.Email, output);
-
     }
 
     private void InitConfiguration()
