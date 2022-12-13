@@ -56,6 +56,9 @@ TagManager:
   - name: Doors
     uniqueID: 3048722029
     locked: 0
+  - name: Higher Platforms
+    uniqueID: 477325647
+    locked: 0
   - name: Environment
     uniqueID: 1886148361
     locked: 0
