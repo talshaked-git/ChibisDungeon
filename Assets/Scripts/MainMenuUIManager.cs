@@ -11,9 +11,14 @@ public class MainMenuUIManager : MonoBehaviour
     private GameObject SettingUI;
     [SerializeField]
     private GameObject CharcterAddUI;
+    [SerializeField]
+    private GameObject AboutUI;
 
 
-    private bool issSetttingUION = false;
+    private bool isSetttingUION = false;
+    private bool isAboutUION = false;
+    // private bool isCharcterAddUION = false;
+
 
 
     private void Awake()
@@ -31,14 +36,18 @@ public class MainMenuUIManager : MonoBehaviour
     private void ClearUI()
     {
         SettingUI.SetActive(false);
+        CharcterAddUI.SetActive(false);
+        AboutUI.SetActive(false);
         //TODO: Clear all UI
     }
+
 
     public void SettingScreen()
     {
         ClearUI();
-        issSetttingUION = !issSetttingUION;
-        SettingUI.SetActive(issSetttingUION);
+        isAboutUION = false;
+        isSetttingUION = !isSetttingUION;
+        SettingUI.SetActive(isSetttingUION);
     }
 
     public void CharcterAddScreen()
@@ -47,10 +56,17 @@ public class MainMenuUIManager : MonoBehaviour
         CharcterAddUI.SetActive(true);
     }
 
+    public void AboutScreen()
+    {
+        ClearUI();
+        isSetttingUION = false;
+        isAboutUION = !isAboutUION;
+        AboutUI.SetActive(isAboutUION);
+    }
+
     public void ExitGame()
     {
         Application.Quit();
     }
-
 
 }
