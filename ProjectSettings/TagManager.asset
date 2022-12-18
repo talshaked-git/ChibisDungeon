@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - GameMusic
+  - SFXMusic
+  - BackgroundMusic
   layers:
   - Default
   - TransparentFX
@@ -15,10 +18,9 @@ TagManager:
   - 
   - Doors
   - 
-
+  - 
   - 
   - Platforms
-  - 
   - 
   - 
   - 

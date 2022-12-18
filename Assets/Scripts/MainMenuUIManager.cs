@@ -15,6 +15,7 @@ public class MainMenuUIManager : MonoBehaviour
     private GameObject AboutUI;
 
 
+
     private bool isSetttingUION = false;
     private bool isAboutUION = false;
     // private bool isCharcterAddUION = false;
@@ -31,6 +32,7 @@ public class MainMenuUIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
     }
 
     private void ClearUI()

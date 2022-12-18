@@ -22,4 +22,10 @@ public class MainMenuManager : MonoBehaviour
     {
         FireBaseManager.instance.SignOut();
     }
+
+    private void PlayBackgroundMusic()
+    {
+        AudioManager.instance.PlayMusic(0);
+    }
+
 }

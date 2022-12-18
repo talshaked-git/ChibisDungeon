@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BackgroundMusicSourceManager : MonoBehaviour
+{
+    public static BackgroundMusicSourceManager instance;
+    public AudioSource backgroundMusicSource;
+
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+        }
+
+        backgroundMusicSource = GameObject.FindGameObjectWithTag("BackgroundMusic").GetComponent<AudioSource>();
+    }
+}
