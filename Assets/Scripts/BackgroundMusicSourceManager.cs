@@ -20,4 +20,9 @@ public class BackgroundMusicSourceManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void Start()
+    {
+        backgroundMusicSource.volume = PlayerPrefs.GetFloat("BGMusicVolume", 1f);
+    }
 }

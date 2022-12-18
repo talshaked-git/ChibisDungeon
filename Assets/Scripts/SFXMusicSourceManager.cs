@@ -19,6 +19,10 @@ public class SFXMusicSourceManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
 
+    private void Start()
+    {
+        sfxMusicSource.volume = PlayerPrefs.GetFloat("SFXVolume", 1f);
     }
 }

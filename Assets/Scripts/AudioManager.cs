@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class AudioManager : MonoBehaviour
 
     public AudioClip[] musicClips;
     public AudioClip[] sfxClips;
+
 
     private void Awake()
     {
@@ -42,10 +44,5 @@ public class AudioManager : MonoBehaviour
         sfxSource.clip = sfxClips[clip];
         sfxSource.loop = false;
         sfxSource.Play();
-    }
-
-    public void onValChangeBGMusic(float val)
-    {
-        musicSource.volume = val;
     }
 }
