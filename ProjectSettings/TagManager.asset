@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Platforms
+  - GameMusic
+  - SFXMusic
+  - BackgroundMusic
   layers:
   - Default
   - TransparentFX
@@ -18,8 +21,8 @@ TagManager:
   - Doors
   - 
   - 
-  - Platforms
   - 
+  - Platforms
   - 
   - 
   - 

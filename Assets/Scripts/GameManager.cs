@@ -16,10 +16,17 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        PlayMusic(0);
     }
 
     public void ChangeScene(string _sceneName)
     {
         SceneManager.LoadSceneAsync(_sceneName);
+    }
+
+    private void PlayMusic(int clip)
+    {
+        AudioManager.instance.PlayMusic(clip);
     }
 }

@@ -22,4 +22,5 @@ public class MainMenuManager : MonoBehaviour
     {
         FireBaseManager.instance.SignOut();
     }
+
 }
