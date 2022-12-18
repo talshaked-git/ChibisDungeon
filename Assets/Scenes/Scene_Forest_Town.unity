@@ -5462,6 +5462,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1200857932597562, guid: 401c7a92c09295044ab7d718ef235da4, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 1208762743255038, guid: 401c7a92c09295044ab7d718ef235da4, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -6818,7 +6822,7 @@ GameObject:
   - component: {fileID: 1750914514}
   - component: {fileID: 1750914513}
   - component: {fileID: 1750914512}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: Platforms Tilemap
   m_TagString: Platforms
   m_Icon: {fileID: 0}
