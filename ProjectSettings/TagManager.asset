@@ -7,18 +7,15 @@ TagManager:
   - GameMusic
   - SFXMusic
   - BackgroundMusic
-  - Platforms
-
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Background
   - Water
   - UI
-  - Player
-  - Background
   - Foreground
+  - 
   - Doors
   - 
   - 
