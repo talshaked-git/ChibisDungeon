@@ -22,8 +22,12 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
 
+    private void Start()
+    {
         musicSource = BackgroundMusicSourceManager.instance.backgroundMusicSource;
+        sfxSource = SFXMusicSourceManager.instance.sfxMusicSource;
     }
 
     public void PlayMusic(int clip)

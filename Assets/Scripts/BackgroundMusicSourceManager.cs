@@ -13,13 +13,11 @@ public class BackgroundMusicSourceManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            backgroundMusicSource = GameObject.FindGameObjectWithTag("BackgroundMusic").GetComponent<AudioSource>();
         }
         else if (instance != this)
         {
-            Destroy(instance.gameObject);
-            instance = this;
+            Destroy(gameObject);
         }
-
-        backgroundMusicSource = GameObject.FindGameObjectWithTag("BackgroundMusic").GetComponent<AudioSource>();
     }
 }

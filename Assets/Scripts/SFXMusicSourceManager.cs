@@ -13,13 +13,12 @@ public class SFXMusicSourceManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            sfxMusicSource = GameObject.FindGameObjectWithTag("SFXMusic").GetComponent<AudioSource>();
         }
         else if (instance != this)
         {
-            Destroy(instance.gameObject);
-            instance = this;
+            Destroy(gameObject);
         }
 
-        sfxMusicSource = GameObject.FindGameObjectWithTag("SFXMusic").GetComponent<AudioSource>();
     }
 }
