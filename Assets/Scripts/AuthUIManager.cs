@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AuthUIManager : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class AuthUIManager : MonoBehaviour
     private GameObject loginUI;
     [SerializeField]
     private GameObject registerUI;
+    [SerializeField]
+    private Toggle rememberMe;
+
 
 
 
@@ -23,7 +27,11 @@ public class AuthUIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
 
+    private void Start()
+    {
+        LoadPrefs();
     }
 
     private void ClearUI()
@@ -57,6 +65,29 @@ public class AuthUIManager : MonoBehaviour
         else
         {
             FireBaseManager.instance.loginOutputText.text = _output;
+        }
+    }
+
+    public void LoadPrefs()
+    {
+        if (PlayerPrefs.HasKey("email"))
+        {
+            FireBaseManager.instance.emailInput.text = PlayerPrefs.GetString("email");
+            rememberMe.isOn = true;
+        }
+    }
+
+    public void SavePrefs(string _email)
+    {
+        if (rememberMe.isOn)
+        {
+            PlayerPrefs.SetString("email", _email);
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            PlayerPrefs.DeleteKey("email");
+            PlayerPrefs.Save();
         }
     }
 

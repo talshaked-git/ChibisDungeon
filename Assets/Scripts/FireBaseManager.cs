@@ -22,7 +22,7 @@ public class FireBaseManager : MonoBehaviour
 
     [Header("Login Refrences")]
     [SerializeField]
-    private TMP_InputField emailInput;
+    public TMP_InputField emailInput;
     [SerializeField]
     private TMP_InputField passwordInput;
     [SerializeField]
@@ -174,7 +174,6 @@ public class FireBaseManager : MonoBehaviour
             }
 
             user = auth.CurrentUser;
-            Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.UserId);
             GameManager.instance.ChangeScene("Scene_MainMenu");
         });
 
@@ -183,6 +182,7 @@ public class FireBaseManager : MonoBehaviour
 
     public void LoginButton()
     {
+        AuthUIManager.instance.SavePrefs(emailInput.text);
         StartCoroutine(LoginLogic(emailInput.text, passwordInput.text));
     }
 
@@ -325,7 +325,6 @@ public class FireBaseManager : MonoBehaviour
         if (emailTask.Exception == null)
         {
             AuthUIManager.instance.AwaitVerification(true, user.Email, "Verification Email Was Sent!");
-            Debug.Log("Verification Email Sent Succesfully");
             yield break;
         }
 
@@ -365,7 +364,6 @@ public class FireBaseManager : MonoBehaviour
 
     public void SignOut()
     {
-        Debug.Log(message: "Signing Out " + user.Email);
         auth.SignOut();
         GameManager.instance.ChangeScene("Scene_LoginRegister");
     }
