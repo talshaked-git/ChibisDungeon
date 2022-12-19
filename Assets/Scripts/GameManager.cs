@@ -39,5 +39,6 @@ public class GameManager : MonoBehaviour
     private void OnAccountLoaded(Account _account)
     {
         account = _account;
+        Debug.Log(account.UID + " loaded\n" + account.players[0].name);
     }
 }

@@ -7,7 +7,7 @@ using System;
 using Google;
 using System.Threading.Tasks;
 using Firebase.Database;
-
+using System.Collections.Generic;
 
 public class FireBaseManager : MonoBehaviour
 {
@@ -110,9 +110,6 @@ public class FireBaseManager : MonoBehaviour
         InitConfiguration();
         auth = FirebaseAuth.DefaultInstance;
         mDatabaseRef = FirebaseDatabase.GetInstance("https://chibis-and-dungeons-default-rtdb.europe-west1.firebasedatabase.app/").RootReference;
-
-        // mDatabaseRef = FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://chibis-and-dungeons-default-rtdb.europe-west1.firebasedatabase.app/");
-        // mDatabaseRef = FirebaseDatabase.DefaultInstance.GetReferenceFromUrl("https://chibis-and-dungeons-default-rtdb.europe-west1.firebasedatabase.app/");
         StartCoroutine(CheckAutoLogin());
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
@@ -402,7 +399,8 @@ public class FireBaseManager : MonoBehaviour
                 }
                 else
                 {
-                    Account account = JsonUtility.FromJson<Account>(snapshot.Value.ToString());
+                    Dictionary<string, object> load = snapshot.Value as Dictionary<string, object>;
+                    Account account = new Account(load);
                     callback(account);
                 }
             }
@@ -412,7 +410,8 @@ public class FireBaseManager : MonoBehaviour
 
     public void SaveAccount(Account _account)
     {
-        mDatabaseRef.Child("users").Child(user.UserId).Child("Account").SetRawJsonValueAsync(JsonUtility.ToJson(_account));
+        Dictionary<string, System.Object> save = _account.ToDictionary();
+        mDatabaseRef.Child("users").Child(user.UserId).Child("Account").SetValueAsync(save);
     }
 
 }
