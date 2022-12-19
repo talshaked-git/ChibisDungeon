@@ -6,6 +6,8 @@ using TMPro;
 using System;
 using Google;
 using System.Threading.Tasks;
+using Firebase.Database;
+
 
 public class FireBaseManager : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class FireBaseManager : MonoBehaviour
     [Header("FireBase")]
     public FirebaseAuth auth;
     public FirebaseUser user;
+    private DatabaseReference mDatabaseRef;
     [Space(5f)]
 
     [Header("Login Refrences")]
@@ -93,6 +96,7 @@ public class FireBaseManager : MonoBehaviour
     {
         if (user != null)
         {
+            GameManager.instance.LoadAccount();
             GameManager.instance.ChangeScene("Scene_MainMenu");
         }
         else
@@ -105,6 +109,10 @@ public class FireBaseManager : MonoBehaviour
     {
         InitConfiguration();
         auth = FirebaseAuth.DefaultInstance;
+        mDatabaseRef = FirebaseDatabase.GetInstance("https://chibis-and-dungeons-default-rtdb.europe-west1.firebasedatabase.app/").RootReference;
+
+        // mDatabaseRef = FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://chibis-and-dungeons-default-rtdb.europe-west1.firebasedatabase.app/");
+        // mDatabaseRef = FirebaseDatabase.DefaultInstance.GetReferenceFromUrl("https://chibis-and-dungeons-default-rtdb.europe-west1.firebasedatabase.app/");
         StartCoroutine(CheckAutoLogin());
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
@@ -207,6 +215,7 @@ public class FireBaseManager : MonoBehaviour
                 loginOutputText.text = "Please Verify Your Email";
                 yield break;
             }
+            GameManager.instance.LoadAccount();
             GameManager.instance.ChangeScene("Scene_MainMenu");
             yield break;
         }
@@ -366,6 +375,44 @@ public class FireBaseManager : MonoBehaviour
     {
         auth.SignOut();
         GameManager.instance.ChangeScene("Scene_LoginRegister");
+    }
+
+    public void LoadAccount(Action<Account> callback)
+    {
+        //TODO: Get Account From Database
+        if (user == null)
+        {
+            return;
+        }
+        mDatabaseRef.Child("users").Child(user.UserId).Child("Account").GetValueAsync().ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.Log("Error Retriving Account: " + task.Exception);
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+
+                if (snapshot.Value == null)
+                {
+                    Account account = new Account(user.UserId);
+                    SaveAccount(account);
+                    callback(account);
+                }
+                else
+                {
+                    Account account = JsonUtility.FromJson<Account>(snapshot.Value.ToString());
+                    callback(account);
+                }
+            }
+        });
+
+    }
+
+    public void SaveAccount(Account _account)
+    {
+        mDatabaseRef.Child("users").Child(user.UserId).Child("Account").SetRawJsonValueAsync(JsonUtility.ToJson(_account));
     }
 
 }

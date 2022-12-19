@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    private Account account;
 
     private void Awake()
     {
@@ -28,5 +29,15 @@ public class GameManager : MonoBehaviour
     private void PlayMusic(int clip)
     {
         AudioManager.instance.PlayMusic(clip);
+    }
+
+    public void LoadAccount()
+    {
+        FireBaseManager.instance.LoadAccount(OnAccountLoaded);
+    }
+
+    private void OnAccountLoaded(Account _account)
+    {
+        account = _account;
     }
 }
