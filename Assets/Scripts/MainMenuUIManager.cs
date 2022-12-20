@@ -18,7 +18,7 @@ public class MainMenuUIManager : MonoBehaviour
 
     private bool isSetttingUION = false;
     private bool isAboutUION = false;
-    // private bool isCharcterAddUION = false;
+    private bool isCharcterAddUION = false;
 
 
 
@@ -48,6 +48,7 @@ public class MainMenuUIManager : MonoBehaviour
     {
         ClearUI();
         isAboutUION = false;
+        isCharcterAddUION = false;
         isSetttingUION = !isSetttingUION;
         SettingUI.SetActive(isSetttingUION);
     }
@@ -55,16 +56,21 @@ public class MainMenuUIManager : MonoBehaviour
     public void CharcterAddScreen()
     {
         ClearUI();
-        CharcterAddUI.SetActive(true);
+        isSetttingUION = false;
+        isAboutUION = false;
+        isCharcterAddUION = !isCharcterAddUION;
+        CharcterAddUI.SetActive(isCharcterAddUION);
     }
 
     public void AboutScreen()
     {
         ClearUI();
         isSetttingUION = false;
+        isCharcterAddUION = false;
         isAboutUION = !isAboutUION;
         AboutUI.SetActive(isAboutUION);
     }
+
 
     public void ExitGame()
     {
