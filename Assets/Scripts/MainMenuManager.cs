@@ -18,6 +18,11 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
+    public void BeginScene()
+    {
+        GameManager.instance.ChangeScene("Scene_Forest_Town");
+    }
+
     public void SignOut()
     {
         FireBaseManager.instance.SignOut();
