@@ -1392,9 +1392,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementJoystick: {fileID: 1057320613}
   playerSpeed: 5
-  playerJump: 100
-  jumpButton: {fileID: 872990233}
+  playerJump: 25
   isGrounded: 1
+  jumpButtonName: Jump
 --- !u!1 &398504911
 GameObject:
   m_ObjectHideFlags: 0
