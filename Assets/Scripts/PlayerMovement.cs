@@ -26,10 +26,8 @@ public class PlayerMovement : MonoBehaviour
 {
     if (isGrounded && Mathf.Abs(rb.velocity.y) < 0.01f)
     {
-        Debug.Log("Character is grounded and not moving vertically.");
         if (Input.GetButtonDown(jumpButtonName))
         {
-            Debug.Log("Jump button pressed.");
             jumpPressed = true;
         }
     }
