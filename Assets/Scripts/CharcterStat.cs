@@ -37,6 +37,13 @@ public class CharcterStat
         BaseValue = baseValue;
     }
 
+    public CharcterStat(Dictionary<string, Object> _dictionary){
+        statModifiers = new List<StatModifier>();
+        StatModifiers = statModifiers.AsReadOnly();
+
+        BaseValue = float.Parse(_dictionary["BaseValue"].ToString());
+    }
+
     public virtual void AddModifier(StatModifier mod)
     {
         isDirty = true;
@@ -110,4 +117,13 @@ public class CharcterStat
 
         return (float)Math.Round(finalValue, 4);
     }
+
+
+    //Discuss to change save of statModifier or create from equiped items
+    public Dictionary<string, Object> ToDictionary(){
+        Dictionary<string, Object> result = new Dictionary<string, Object>();
+        result["BaseValue"] = BaseValue;
+        return result;
+    }
+
 }
