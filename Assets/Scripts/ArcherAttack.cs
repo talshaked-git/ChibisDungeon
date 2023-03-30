@@ -30,20 +30,39 @@ public class ArcherAttack : MonoBehaviour
 
     public void Attack()
     {
-        if (timeSinceLastAttack >= attackCooldown)
+        // if (timeSinceLastAttack >= attackCooldown)
+        // {
+        //     timeSinceLastAttack = 0f;
+        //     isAttacking = true;
+        //     StartCoroutine(SpawnArrow());
+        //     StartCoroutine(ResetIsAttacking());
+        // }
+    if (timeSinceLastAttack >= attackCooldown)
+    {
+        timeSinceLastAttack = 0f;
+        isAttacking = true;
+        // Calculate the arrow velocity based on the character's facing direction
+        float arrowVelocityX = transform.localScale.x * arrowSpeed;
+        if (transform.localScale.x < 0) // If facing left, flip the arrow sprite horizontally
         {
-            timeSinceLastAttack = 0f;
-            isAttacking = true;
-            StartCoroutine(SpawnArrow());
-            StartCoroutine(ResetIsAttacking());
+            arrowSpawnPoint.localScale = new Vector3(-1, 1, 1);
         }
+        StartCoroutine(SpawnArrow());
+        StartCoroutine(ResetIsAttacking());
+    }
     }
 
     IEnumerator SpawnArrow()
     {
         yield return new WaitForSeconds(arrowSpawnDelay);
         GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, Quaternion.identity);
-        arrow.GetComponent<Rigidbody2D>().velocity = new Vector2(transform.localScale.x * arrowSpeed, 0);
+        // Flip the arrow sprite horizontally if the character is facing left
+        if (transform.localScale.x < 0)
+        {
+            arrow.transform.Rotate(new Vector3(0, 180, 0));
+        }
+        Rigidbody2D arrowRb = arrow.GetComponent<Rigidbody2D>();
+        arrowRb.velocity = arrow.transform.right * arrowSpeed;
         Destroy(arrow, arrowLifetime);
     }
 
