@@ -381,7 +381,7 @@ public class FireBaseManager : MonoBehaviour
         {
             return;
         }
-        mDatabaseRef.Child("users").Child(user.UserId).Child("Account").GetValueAsync().ContinueWith(task =>
+        mDatabaseRef.Child("Users").Child(user.UserId).Child("Account").GetValueAsync().ContinueWith(task =>
         {
             if (task.IsFaulted)
             {
@@ -395,12 +395,15 @@ public class FireBaseManager : MonoBehaviour
                 {
                     Account account = new Account(user.UserId);
                     SaveAccount(account);
+                    Debug.Log("Account Created And Saved");
                     callback(account);
                 }
                 else
                 {
                     Dictionary<string, object> load = snapshot.Value as Dictionary<string, object>;
+                    Debug.Log("Account Loaded");
                     Account account = new Account(load);
+                    Debug.Log("Account:" + account);
                     callback(account);
                 }
             }
@@ -411,7 +414,7 @@ public class FireBaseManager : MonoBehaviour
     public void SaveAccount(Account _account)
     {
         Dictionary<string, System.Object> save = _account.ToDictionary();
-        mDatabaseRef.Child("users").Child(user.UserId).Child("Account").SetValueAsync(save);
+        mDatabaseRef.Child("Users").Child(user.UserId).Child("Account").SetValueAsync(save);
     }
 
 }

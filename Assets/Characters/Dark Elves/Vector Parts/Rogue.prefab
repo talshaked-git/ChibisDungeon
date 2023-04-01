@@ -919,7 +919,7 @@ GameObject:
   - component: {fileID: 114904733192643402}
   - component: {fileID: 5210463696596725125}
   m_Layer: 0
-  m_Name: Dark_Elves
+  m_Name: Rogue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

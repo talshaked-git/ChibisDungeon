@@ -5,11 +5,11 @@ using System.Collections.Generic;
 public class Account
 {
     public string UID { get; set; }
-    public Player[] players { get; set; }
+    public List<Player> players;
 
     public Account()
     {
-        players = new Player[4];
+        players = new List<Player>();
     }
 
     public Account(string _UID) : this()
@@ -21,18 +21,13 @@ public class Account
     {
         UID = _dictionary["UID"].ToString();
 
-        players = new Player[4];
-        for (int i = 0; i < players.Length; i++)
+        players = new List<Player>();
+        for (int i = 0; i < 4; i++)
         {
             if (_dictionary.ContainsKey("player" + (i + 1)))
             {
-                players[i] = new Player((Dictionary<string, Object>)_dictionary["player" + (i + 1)]);
+                players.Add(new Player((Dictionary<string, Object>)_dictionary["player" + (i + 1)]));
             }
-            else
-            {
-                players[i] = null;
-            }
-
         }
     }
 
@@ -40,15 +35,24 @@ public class Account
     {
         Dictionary<string, Object> result = new Dictionary<string, Object>();
         result["UID"] = UID;
-
-        for (int i = 0; i < players.Length; i++)
+        int i = 0;
+        foreach (Player player in players)
         {
             if (players[i] == null)
+            {
+                i++;
                 continue;
+            }
             result["player" + (i + 1)] = players[i].ToDictionary();
+            i++;
         }
 
         return result;
+    }
+
+    public void AddPlayer(Player _player)
+    {
+        players.Add(_player);
     }
 
 

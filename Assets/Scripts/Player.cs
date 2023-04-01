@@ -19,8 +19,8 @@ public class Player
     public int level { get; set; }
     public long exp { get; set; }
     public int gold { get; set; }
-    public int[] inventory { get; set; } // change to inventory class To be made
-    public int[] equipment { get; set; } // change to equipment class To be made
+    // public List<int> inventory { get; set; } // change to inventory class To be made
+    // public List<int> equipment { get; set; } // change to equipment class To be made
     public CharcterStat hp { get; set; }
     public CharcterStat mp { get; set; }
     public CharcterStat statSTR { get; set; }
@@ -36,9 +36,9 @@ public class Player
         level = 1;
         exp = 0;
         gold = 100;
-        inventory = new int[20];
-        equipment = new int[6];
-
+        // inventory = new List<int>();
+        // equipment = new List<int>();
+        InitStatesByClassType();
     }
 
     public Player(Dictionary<string, Object> _dictionary)
@@ -49,14 +49,14 @@ public class Player
         level = Convert.ToInt32(_dictionary["level"]);
         exp = Convert.ToInt64(_dictionary["exp"]);
         gold = Convert.ToInt32(_dictionary["gold"]);
-        inventory = (int[])_dictionary["inventory"];
-        equipment = (int[])_dictionary["equipment"];
+        // inventory = (List<int>)_dictionary["inventory"]; //TODO: fix this
+        // equipment = (List<int>)_dictionary["equipment"]; //TODO: fix this
         hp = new CharcterStat((Dictionary<string, Object>)_dictionary["hp"]);
         mp = new CharcterStat((Dictionary<string, Object>)_dictionary["mp"]);
         statSTR = new CharcterStat((Dictionary<string, Object>)_dictionary["statSTR"]);
         statVIT = new CharcterStat((Dictionary<string, Object>)_dictionary["statVIT"]);
         statINT = new CharcterStat((Dictionary<string, Object>)_dictionary["statINT"]);
-        StatAGI = new CharcterStat((Dictionary<string, Object>)_dictionary["StatAGI"]);
+        StatAGI = new CharcterStat((Dictionary<string, Object>)_dictionary["statAGI"]);
     }
 
     private void InitStatesByClassType(){
@@ -104,20 +104,27 @@ public class Player
         Dictionary<string, Object> result = new Dictionary<string, Object>();
         // result["CID"] = CID;
         result["name"] = name;
-        result["classType"] = classType;
+        result["classType"] = ((int)classType);
         result["level"] = level;
         result["exp"] = exp;
         result["gold"] = gold;
-        result["inventory"] = inventory;
-        result["equipment"] = equipment;
+        // result["inventory"] = inventory;
+        // result["equipment"] = equipment;
         result["hp"] = hp.ToDictionary();
         result["mp"] = mp.ToDictionary();
         result["statSTR"] = statSTR.ToDictionary();
         result["statVIT"] = statVIT.ToDictionary();
         result["statINT"] = statINT.ToDictionary();
-        result["StatAGI"] = StatAGI.ToDictionary();
+        result["statAGI"] = StatAGI.ToDictionary();
 
         return result;
     }
+
+    //toString
+    public override string ToString()
+    {
+        return "Player [name=" + name + ", classType=" + classType + ", level=" + level + ", exp=" + exp + ", gold=" + gold + ", hp=" + hp + ", mp=" + mp + ", statSTR=" + statSTR + ", statVIT=" + statVIT + ", statINT=" + statINT + ", StatAGI=" + StatAGI + "]";
+    }
+
 
 }

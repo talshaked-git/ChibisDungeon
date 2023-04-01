@@ -4,7 +4,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    private Account account;
+    public Account account { get; set; }
 
     private void Awake()
     {
@@ -39,6 +39,16 @@ public class GameManager : MonoBehaviour
     private void OnAccountLoaded(Account _account)
     {
         account = _account;
-        Debug.Log(account.UID + " loaded\n" + account.players[0].name);
+        foreach (Player player in account.players)
+        {
+            Debug.Log(player.name + " loaded\n");
+        }
+        Debug.Log(account.UID + " loaded\n");
+    }
+
+    public void SaveNewPlayer(Player _player)
+    {
+        account.AddPlayer(_player);
+        FireBaseManager.instance.SaveAccount(account);
     }
 }

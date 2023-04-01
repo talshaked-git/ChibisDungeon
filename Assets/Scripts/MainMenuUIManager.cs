@@ -36,6 +36,13 @@ public class MainMenuUIManager : MonoBehaviour
     private GameObject _charcterPrefabParent;
     [SerializeField]
     private GameObject[] _charcterPrefab = new GameObject[4];
+    [SerializeField]
+    private GameObject _NicknameTooltip;
+    [SerializeField]
+    private TMP_Text _NicknameTooltipText;
+
+
+
 
 
 
@@ -87,6 +94,7 @@ public class MainMenuUIManager : MonoBehaviour
         if (isCharcterAddUION)
         {
             currentCharcter = 0;
+            _nickName.text = "";
             UpdateCharcterAddScreen();
         }
         CharcterAddUI.SetActive(isCharcterAddUION);
@@ -95,7 +103,7 @@ public class MainMenuUIManager : MonoBehaviour
     public void NextCharcter()
     {
         currentCharcter++;
-        if (currentCharcter > 4)
+        if (currentCharcter > 3)
         {
             currentCharcter = 0;
         }
@@ -125,7 +133,7 @@ public class MainMenuUIManager : MonoBehaviour
         {
             case 0:
                 charcterClass =  "Archer";
-                charcterLore = "In the mystical land of Elvoria, deep in the heart of the forest, there lived a young elf named Lyndria. She was born with an innate talent for archery, and from a young age, she trained tirelessly with her bow and arrows. As she grew older, Lyndria became more skilled and began to explore the vast wilderness of Elvoria. She encountered all manner of creatures, from fearsome dragons to mischievous fairies, and her archery skills proved invaluable in defending herself and others. Lyndria eventually joined the Elvorian Rangers, a group of skilled archers who protect the forest from intruders and threats. With her keen eye and precise aim, she quickly rose through the ranks and became one of the most respected members of the Rangers. Now, Lyndria is a seasoned archer with many battles under her belt. She travels throughout Elvoria, always ready to lend her skills to those in need. Her bow and arrows are her most prized possessions, and she will stop at nothing to protect her home and the people she loves.";
+                charcterLore = "In the mystical land of Elvoria, a young elf was born with a natural talent for archery. He trained tirelessly with his bow and arrows and eventually joined the Elvorian Rangers, a group of skilled archers who protect the forest. He is always ready to defend his home and loved ones with his prized bow and arrows.";
                 CharcterStatsSTR = "15";
                 CharcterStatsVIT = "10";
                 CharcterStatsINT = "5";
@@ -133,7 +141,7 @@ public class MainMenuUIManager : MonoBehaviour
                 break;
             case 1:
                 charcterClass = "Wizard";
-                charcterLore = "In the ancient city of Arcanum, nestled in the foothills of the Misty Mountains, there lived a young wizard named Alaric. From a young age, Alaric showed an exceptional talent for magic, and he quickly rose through the ranks of the Arcanum Academy. As he continued to study and hone his craft, Alaric became fascinated with the ancient and powerful magic of the elves. He spent years delving into ancient tomes and studying under elven masters, eventually mastering the arcane secrets of their long-lost magic. With his newfound knowledge and power, Alaric set out to explore the world, seeking to unravel the mysteries of the arcane and unlock its full potential. He faced many dangers and challenges along the way, but his mastery of magic proved invaluable in overcoming them. Now, Alaric is a renowned wizard, respected and feared in equal measure by those who know of his exploits. He continues to travel the world, seeking new knowledge and power, and his presence is often felt in the most unexpected places. But despite his great power and knowledge, Alaric remains humble and ever-curious, always seeking to learn and grow in his mastery of the arcane.";
+                charcterLore = "A talented wizard from Arcanum became fascinated with the ancient magic of the elves, mastering its secrets and exploring the world. Now a renowned wizard, he continues to seek new knowledge and power, remaining humble and ever-curious in his pursuit of the arcane.";
                 CharcterStatsSTR = "5";
                 CharcterStatsVIT = "10";
                 CharcterStatsINT = "25";
@@ -141,7 +149,7 @@ public class MainMenuUIManager : MonoBehaviour
                 break;
             case 2:
                 charcterClass = "Warrior";
-                charcterLore = "In the rugged hills of Gorgoroth, there lived a fierce warrior named Drogan. He was born into a tribe of nomadic warriors who roamed the lands of Elvoria, battling monsters and raiding enemy villages. From a young age, Drogan showed an exceptional skill with weapons, and he quickly rose through the ranks of his tribe. He became a fierce and unstoppable force on the battlefield, wielding his broadsword and shield with deadly precision. Drogan's exploits on the battlefield soon caught the attention of the leaders of Elvoria's many kingdoms. They offered him a position as a mercenary, and he accepted, eager for new challenges and battles to fight. As a mercenary, Drogan traveled across Elvoria, fighting in countless battles and wars. His reputation as a skilled warrior and fearless fighter grew with each passing year, and he became a legend among those who knew of his exploits. Now, Drogan is a grizzled veteran, having fought in more battles than he can count. He is often called upon by the leaders of Elvoria's kingdoms to lead their armies into battle, and he never fails to deliver. Despite his many victories, Drogan remains humble and grounded, always seeking new challenges and battles to fight.";
+                charcterLore = "In the hills of Gorgoroth lived Drogan, a skilled warrior born into a tribe of nomadic fighters. He rose through the ranks with his broadsword and shield, catching the attention of Elvoria's leaders who offered him a position as a mercenary. Drogan traveled across the land, becoming a legend for his fearless fighting and skilled warrior ways. Now a veteran, he is often called upon to lead armies into battle and always seeks new challenges.";
                 CharcterStatsSTR = "25";
                 CharcterStatsVIT = "20";
                 CharcterStatsINT = "5";
@@ -149,7 +157,7 @@ public class MainMenuUIManager : MonoBehaviour
                 break;
             case 3:
                 charcterClass = "Rogue";
-                charcterLore = "In the dark alleys of the city of Ravenhold, there lived a cunning rogue named Kira. She was born into a family of thieves and grew up learning the ways of the streets. From a young age, Kira showed an exceptional skill for thievery and deception, and she quickly became one of the most skilled rogues in Ravenhold. She could pick any lock, sneak past any guard, and disappear into the shadows without a trace. Kira's talents did not go unnoticed, and she soon caught the attention of the city's powerful underworld. She became a member of the Thieves' Guild, a secret organization that controlled much of the city's criminal activity. As a member of the Thieves' Guild, Kira took on many daring heists and missions, always managing to stay one step ahead of the law. She amassed a small fortune in stolen goods and became known throughout Ravenhold as a master thief and a force to be reckoned with. Now, Kira is a seasoned rogue, having spent years navigating the dangerous streets of Ravenhold. She continues to take on daring missions for the Thieves' Guild and remains one of their most trusted members. Despite her criminal ways, Kira has a strict code of honor and always keeps her word. She is a survivor, a fighter, and a true master of the art of thievery.";
+                charcterLore = "A skilled male thief grew up learning the ways of the streets, quickly becoming one of the most accomplished rogues in the city. He caught the attention of the powerful underworld and joined the Thieves' Guild, amassing a fortune in stolen goods and becoming known as a force to be reckoned with. Now a seasoned rogue, he remains one of the guild's most trusted members, with a strict code of honor and a masterful skillset.";
                 CharcterStatsSTR = "10";
                 CharcterStatsVIT = "10";
                 CharcterStatsINT = "10";
@@ -167,7 +175,10 @@ public class MainMenuUIManager : MonoBehaviour
         _charcterStatsAGI.text = CharcterStatsAGI;
         Destroy(currentCharcterPrefab);
         //instatiate the prefab in the center of _charcterPrefabParent
-        _charcterPrefab[currentCharcter].transform.localScale = new Vector3(100f, 100f, 1f);
+        if(currentCharcter == 0)
+            _charcterPrefab[currentCharcter].transform.localScale = new Vector3(100f, 100f, 1f);
+        else
+            _charcterPrefab[currentCharcter].transform.localScale = new Vector3(80f, 80f, 1f);
         currentCharcterPrefab = (GameObject)Instantiate(_charcterPrefab[currentCharcter], _charcterPrefabParent.transform.position, Quaternion.identity, _charcterPrefabParent.transform);
         currentCharcterPrefab.transform.position += new Vector3(0.2f, -2f, 0);
     }
@@ -183,17 +194,34 @@ public class MainMenuUIManager : MonoBehaviour
 
     public void CreateCharcter(){
         string nickname =  _nickName.text;
-        Player player = CreatePlayer(nickname);
-        if (player == null)
+        //validate nickname here to not be empty and not start with a number
+        if(isStringEmpty(nickname)){
+            Debug.Log("Please Enter a Nickname");
+            _NicknameTooltipText.text = "Please Enter a Nickname";
+            StartCoroutine(RemoveAfterSeconds(_NicknameTooltip, 3f));
+            return;
+        }
+        else if (isStartNumber(nickname))
         {
-            Debug.Log("Player Not Created");
+            Debug.Log("Nickname can't start with a number");
+            _NicknameTooltipText.text = "Nickname can't start with a number";
+            StartCoroutine(RemoveAfterSeconds(_NicknameTooltip, 3f));
             return;
         }
 
-        Debug.Log("Player Created");
-        Debug.Log(player);
 
-        
+        Player newPlayer = CreatePlayer(nickname);
+        if (newPlayer == null)
+        {
+            Debug.LogWarning("Player Not Created");
+            return;
+        }
+
+        Debug.Log("New Player Created");
+        Debug.Log(newPlayer);
+
+        GameManager.instance.SaveNewPlayer(newPlayer);
+        CharcterAddScreen();
     }
 
     public Player CreatePlayer(string nickname){
@@ -216,5 +244,23 @@ public class MainMenuUIManager : MonoBehaviour
         }
     }
 
+    public bool isStartNumber(string str)
+    {
+        char c = str[0];
+        return (c >= '0' && c <= '9');
+    }
 
+    public bool isStringEmpty(string str)
+    {
+        return str == null || str.Length == 0;
+    }
+
+    private IEnumerator RemoveAfterSeconds(GameObject obj, float seconds)
+    {
+        obj.SetActive(true);
+        yield return new WaitForSeconds(seconds);
+        obj.SetActive(false);
+    }
+
+    
 }
