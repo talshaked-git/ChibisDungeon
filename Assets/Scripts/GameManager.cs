@@ -5,6 +5,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public Account account { get; set; }
+    public GameObject[] playerPrefabs;
+    public Player currentPlayer { get; set; }
+
 
     private void Awake()
     {
@@ -39,11 +42,8 @@ public class GameManager : MonoBehaviour
     private void OnAccountLoaded(Account _account)
     {
         account = _account;
-        foreach (Player player in account.players)
-        {
-            Debug.Log(player.name + " loaded\n");
-        }
-        Debug.Log(account.UID + " loaded\n");
+   
+        Debug.Log("Account loaded\n");
     }
 
     public void SaveNewPlayer(Player _player)

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuUIManager : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class MainMenuUIManager : MonoBehaviour
     private GameObject CharcterAddUI;
     [SerializeField]
     private GameObject AboutUI;
+    [SerializeField]
+    private GameObject[] charcterSelectObjects = new GameObject[4];
+    [SerializeField]
+    private GameObject[] charcterAddButtons = new GameObject[4];
 
     [Space(5f)]
     [Header("Charcter Add UI Refrences")]
@@ -41,12 +46,6 @@ public class MainMenuUIManager : MonoBehaviour
     [SerializeField]
     private TMP_Text _NicknameTooltipText;
 
-
-
-
-
-
-
     private bool isSetttingUION = false;
     private bool isAboutUION = false;
     private bool isCharcterAddUION = false;
@@ -65,6 +64,100 @@ public class MainMenuUIManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+    }
+
+    private IEnumerator Start()
+    {
+        for (int h = 0; h < 4; h++)
+        {
+            charcterSelectObjects[h].SetActive(false);
+            charcterAddButtons[h].SetActive(false);
+        }
+
+        yield return new WaitUntil(() => GameManager.instance.account != null);
+        UpdateCharcterScreen();
+    }
+
+    public void UpdateCharcterScreen()
+    {
+        int i = 0;
+        if (GameManager.instance.account == null)
+            return;
+        foreach (Player player in GameManager.instance.account.players)
+        {
+            charcterSelectObjects[i].SetActive(true);
+            charcterAddButtons[i].SetActive(false);
+            UpdateCharTextFields(i, player);
+            InstantiateCharPrefab(i, player);
+            charcterSelectObjects[i].GetComponentInChildren<Button>().onClick.AddListener(() => startGame(player));
+
+            i++;
+        }
+        for (int j = i; j < 4; j++)
+        {
+            charcterSelectObjects[j].SetActive(false);
+            charcterAddButtons[j].SetActive(true);
+        }
+    }
+
+    private void startGame(Player player)
+    {
+        GameManager.instance.currentPlayer = player;
+        //add move to diffrent scene here
+        GameManager.instance.ChangeScene("Scene_Forest_Town");
+
+    }
+
+    private void InstantiateCharPrefab(int i, Player player)
+    {
+        int prefabIndex = 0;
+        switch (player.classType)
+        {
+            case CharClassType.Archer:
+                prefabIndex = 0;
+                break;
+            case CharClassType.Wizard:
+                prefabIndex = 1;
+                break;
+            case CharClassType.Warrior:
+                prefabIndex = 2;
+                break;
+            case CharClassType.Rogue:
+                prefabIndex = 3;
+                break;
+            default:
+                prefabIndex = 0;
+                break;
+        }
+        //instantiate charcter prefab in charcterSelectObjects[i]
+        GameObject charcterPrefab = Instantiate(_charcterPrefab[prefabIndex], charcterSelectObjects[i].transform);
+        Vector3 scale = charcterPrefab.transform.localScale;
+        if (player.classType == CharClassType.Archer)
+        {
+            scale = new Vector3(75f, 75f, 1f);
+        }
+        else
+        {
+            scale = new Vector3(60f, 60f, 1f);
+        }
+        charcterPrefab.transform.localScale = scale;
+        charcterPrefab.transform.localPosition = new Vector3(0f, -225f, 0f);
+    }
+
+    private void UpdateCharTextFields(int i, Player player)
+    {
+        TMP_Text[] fieldsToUpdate = charcterSelectObjects[i].GetComponentsInChildren<TMP_Text>();
+        foreach (TMP_Text field in fieldsToUpdate)
+        {
+            if (field.name == "NicknameText")
+            {
+                field.text = player.name;
+            }
+            else if (field.name == "currentLevel")
+            {
+                field.text = player.level.ToString();
+            }
+        }
     }
 
     private void ClearUI()
@@ -132,7 +225,7 @@ public class MainMenuUIManager : MonoBehaviour
         switch (currentCharcter)
         {
             case 0:
-                charcterClass =  "Archer";
+                charcterClass = "Archer";
                 charcterLore = "In the mystical land of Elvoria, a young elf was born with a natural talent for archery. He trained tirelessly with his bow and arrows and eventually joined the Elvorian Rangers, a group of skilled archers who protect the forest. He is always ready to defend his home and loved ones with his prized bow and arrows.";
                 CharcterStatsSTR = "15";
                 CharcterStatsVIT = "10";
@@ -174,13 +267,14 @@ public class MainMenuUIManager : MonoBehaviour
         _charcterStatsINT.text = CharcterStatsINT;
         _charcterStatsAGI.text = CharcterStatsAGI;
         Destroy(currentCharcterPrefab);
-        //instatiate the prefab in the center of _charcterPrefabParent
-        if(currentCharcter == 0)
-            _charcterPrefab[currentCharcter].transform.localScale = new Vector3(100f, 100f, 1f);
-        else
-            _charcterPrefab[currentCharcter].transform.localScale = new Vector3(80f, 80f, 1f);
+        
+
         currentCharcterPrefab = (GameObject)Instantiate(_charcterPrefab[currentCharcter], _charcterPrefabParent.transform.position, Quaternion.identity, _charcterPrefabParent.transform);
-        currentCharcterPrefab.transform.position += new Vector3(0.2f, -2f, 0);
+        if (currentCharcter == 0)
+            currentCharcterPrefab.transform.localScale = new Vector3(100f, 100f, 1f);
+        else
+            currentCharcterPrefab.transform.localScale = new Vector3(80f, 80f, 1f);
+        currentCharcterPrefab.transform.localPosition += new Vector3(0, -225f, 0);
     }
 
     public void AboutScreen()
@@ -192,10 +286,12 @@ public class MainMenuUIManager : MonoBehaviour
         AboutUI.SetActive(isAboutUION);
     }
 
-    public void CreateCharcter(){
-        string nickname =  _nickName.text;
+    public void CreateCharcter()
+    {
+        string nickname = _nickName.text;
         //validate nickname here to not be empty and not start with a number
-        if(isStringEmpty(nickname)){
+        if (isStringEmpty(nickname))
+        {
             Debug.Log("Please Enter a Nickname");
             _NicknameTooltipText.text = "Please Enter a Nickname";
             StartCoroutine(RemoveAfterSeconds(_NicknameTooltip, 3f));
@@ -222,13 +318,15 @@ public class MainMenuUIManager : MonoBehaviour
 
         GameManager.instance.SaveNewPlayer(newPlayer);
         CharcterAddScreen();
+        UpdateCharcterScreen();
     }
 
-    public Player CreatePlayer(string nickname){
+    public Player CreatePlayer(string nickname)
+    {
         switch (currentCharcter)
         {
             case 0:
-                return new Player(nickname,CharClassType.Archer);
+                return new Player(nickname, CharClassType.Archer);
 
             case 1:
                 return new Player(nickname, CharClassType.Wizard);
@@ -239,7 +337,7 @@ public class MainMenuUIManager : MonoBehaviour
             case 3:
                 return new Player(nickname, CharClassType.Rogue);
 
-            default:            
+            default:
                 return null;
         }
     }
@@ -262,5 +360,5 @@ public class MainMenuUIManager : MonoBehaviour
         obj.SetActive(false);
     }
 
-    
+
 }
