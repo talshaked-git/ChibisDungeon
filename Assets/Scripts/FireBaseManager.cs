@@ -6,6 +6,8 @@ using TMPro;
 using System;
 using Google;
 using System.Threading.Tasks;
+using Firebase.Database;
+using System.Collections.Generic;
 
 public class FireBaseManager : MonoBehaviour
 {
@@ -18,11 +20,12 @@ public class FireBaseManager : MonoBehaviour
     [Header("FireBase")]
     public FirebaseAuth auth;
     public FirebaseUser user;
+    private DatabaseReference mDatabaseRef;
     [Space(5f)]
 
     [Header("Login Refrences")]
     [SerializeField]
-    private TMP_InputField emailInput;
+    public TMP_InputField emailInput;
     [SerializeField]
     private TMP_InputField passwordInput;
     [SerializeField]
@@ -93,6 +96,7 @@ public class FireBaseManager : MonoBehaviour
     {
         if (user != null)
         {
+            GameManager.instance.LoadAccount();
             GameManager.instance.ChangeScene("Scene_MainMenu");
         }
         else
@@ -105,6 +109,7 @@ public class FireBaseManager : MonoBehaviour
     {
         InitConfiguration();
         auth = FirebaseAuth.DefaultInstance;
+        mDatabaseRef = FirebaseDatabase.GetInstance("https://chibis-and-dungeons-default-rtdb.europe-west1.firebasedatabase.app/").RootReference;
         StartCoroutine(CheckAutoLogin());
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
@@ -174,7 +179,6 @@ public class FireBaseManager : MonoBehaviour
             }
 
             user = auth.CurrentUser;
-            Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.UserId);
             GameManager.instance.ChangeScene("Scene_MainMenu");
         });
 
@@ -183,6 +187,7 @@ public class FireBaseManager : MonoBehaviour
 
     public void LoginButton()
     {
+        AuthUIManager.instance.SavePrefs(emailInput.text);
         StartCoroutine(LoginLogic(emailInput.text, passwordInput.text));
     }
 
@@ -207,6 +212,7 @@ public class FireBaseManager : MonoBehaviour
                 loginOutputText.text = "Please Verify Your Email";
                 yield break;
             }
+            GameManager.instance.LoadAccount();
             GameManager.instance.ChangeScene("Scene_MainMenu");
             yield break;
         }
@@ -325,7 +331,6 @@ public class FireBaseManager : MonoBehaviour
         if (emailTask.Exception == null)
         {
             AuthUIManager.instance.AwaitVerification(true, user.Email, "Verification Email Was Sent!");
-            Debug.Log("Verification Email Sent Succesfully");
             yield break;
         }
 
@@ -365,9 +370,51 @@ public class FireBaseManager : MonoBehaviour
 
     public void SignOut()
     {
-        Debug.Log(message: "Signing Out " + user.Email);
         auth.SignOut();
         GameManager.instance.ChangeScene("Scene_LoginRegister");
+    }
+
+    public void LoadAccount(Action<Account> callback)
+    {
+        //TODO: Get Account From Database
+        if (user == null)
+        {
+            return;
+        }
+        mDatabaseRef.Child("Users").Child(user.UserId).Child("Account").GetValueAsync().ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.Log("Error Retriving Account: " + task.Exception);
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+
+                if (snapshot.Value == null)
+                {
+                    Account account = new Account(user.UserId);
+                    SaveAccount(account);
+                    Debug.Log("Account Created And Saved");
+                    callback(account);
+                }
+                else
+                {
+                    Dictionary<string, object> load = snapshot.Value as Dictionary<string, object>;
+                    Debug.Log("Account Loaded");
+                    Account account = new Account(load);
+                    Debug.Log("Account:" + account);
+                    callback(account);
+                }
+            }
+        });
+
+    }
+
+    public void SaveAccount(Account _account)
+    {
+        Dictionary<string, System.Object> save = _account.ToDictionary();
+        mDatabaseRef.Child("Users").Child(user.UserId).Child("Account").SetValueAsync(save);
     }
 
 }
