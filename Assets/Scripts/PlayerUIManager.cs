@@ -53,6 +53,7 @@ public class PlayerUIManager : MonoBehaviour
         if (!gamePaused)
         {
             PauseGame();
+            statsMenu.SetActive(true);
             //settingsMenu.SetActive(true);
             //characterSwitchMenu.SetActive(true);
             //exitMenu.SetActive(true);
@@ -96,6 +97,7 @@ public class PlayerUIManager : MonoBehaviour
         if (!gamePaused)
         {
             PauseGame();
+            statsMenu.SetActive(true);
             //settingsMenu.SetActive(true);
             //characterSwitchMenu.SetActive(true);
             //exitMenu.SetActive(true);
@@ -112,7 +114,7 @@ public class PlayerUIManager : MonoBehaviour
         //settingsMenu.SetActive(false);
         //characterSwitchMenu.SetActive(false);
         //exitMenu.SetActive(false);
-        //statsMenu.SetActive(false);
+        statsMenu.SetActive(false);
         inventoryPanel.SetActive(false);
         //shopMenu.SetActive(false);
     }
@@ -134,5 +136,9 @@ public class PlayerUIManager : MonoBehaviour
         gamePaused = false;
         CloseAllMenus();
         }
+    }
+
+    public void ShowInventoryFromStats(){
+        inventoryPanel.SetActive(true);
     }
 }
