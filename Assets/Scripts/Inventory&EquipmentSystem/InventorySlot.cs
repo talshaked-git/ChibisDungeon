@@ -63,56 +63,6 @@ public void OnPointerClick(PointerEventData eventData)
         _lastClickTime = currentTime;
     }
 
-
-    // public void OnPointerClick(PointerEventData eventData)
-    // {
-
-    //     // If another item is clicked, reset the double-click state
-    //     if (_lastClickedSlot != null && _lastClickedSlot != this)
-    //     {
-    //         _lastClickedSlot._isWaitingForDoubleClick = false;
-    //         _lastClickedSlot.StopAllCoroutines();
-    //     }
-
-    //     _lastClickedSlot = this;
-
-    //     if (!_isWaitingForDoubleClick)
-    //     {
-    //         _isWaitingForDoubleClick = true;
-    //         StartCoroutine(DoubleClickDetection());
-    //     }
-    //     else
-    //     {
-    //         // Double-click detected
-    //         Debug.Log("Double Click");
-    //         _isWaitingForDoubleClick = false;
-    //         StopAllCoroutines();
-    //         if (item != null && OnPressEvent != null)
-    //         {
-    //             Debug.Log("Item is not null");
-    //             OnPressEvent(item);
-    //         }
-    //     }
-    //     if (_isWaitingForDoubleClick) // Add this condition to ensure single-click is triggered only when _isWaitingForDoubleClick is still true
-    //     {
-    //         Debug.Log(name + " Game Object Clicked!");
-    //         _isWaitingForDoubleClick = false;
-    //     }
-
-
-    // }
-
-    // private IEnumerator DoubleClickDetection()
-    // {
-    //     yield return new WaitForSeconds(_maxDoubleClickTime);
-    //     // Single-click detected
-    //     if (_isWaitingForDoubleClick) // Add this condition to ensure single-click is triggered only when _isWaitingForDoubleClick is still true
-    //     {
-    //         Debug.Log(name + " Game Object Clicked!");
-    //         _isWaitingForDoubleClick = false;
-    //     }
-    // }
-
     protected virtual void OnValidate() {
         if (background == null) {
             background = GetComponent<Image>();
