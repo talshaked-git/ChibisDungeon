@@ -15,9 +15,9 @@ MonoBehaviour:
   ItemID: 0
   ItemName: Baisic Bow
   Icon: {fileID: 21300000, guid: 7f254c5c3936951489347f2af5f05236, type: 3}
-  STRBonus: 0
+  STRBonus: 3
   INTBonus: 0
-  AGIBonus: 0
+  AGIBonus: 15
   VITBonus: 0
   STRPercentBonus: 0
   INTPercentBonus: 0

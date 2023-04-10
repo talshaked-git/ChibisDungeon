@@ -57,7 +57,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2469010225320706709}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.39, y: 0.85, z: 0}
+  m_LocalPosition: {x: 1.2, y: 1.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -136,7 +136,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1412329523
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8b6d2745dfb650f47912f72f26889789, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -305,7 +305,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1412329523
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7001760e23715e84f9ac97cfeb3b579e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -456,7 +456,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1412329523
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5081c2578b5b14f4b91f44068013cdef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -588,7 +588,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1412329523
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a3d8cb153aa72c24f8c4e7a668b0ce2a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -705,7 +705,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1412329523
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9ad5307a949eff149ae1836b3be7e25c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -790,7 +790,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1412329523
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 429c5f56dbeec904b9e84c721509db53, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -890,7 +890,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1412329523
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b8ae745f3dab0f84a8d4b2981e62c9e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -975,7 +975,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1412329523
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3c25039854780f44090ac5f738bcd2d6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1107,7 +1107,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1412329523
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: dad14b9cccfd0cc4aa6cdee95f1d3609, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -1191,7 +1191,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1412329523
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 187a9cb3685b3ad4585b7c4f211eb0d9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1275,7 +1275,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1412329523
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 847c82ce02ac71448bc7011aea10ed8f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1336,7 +1336,7 @@ GameObject:
   - component: {fileID: 2469010224203016067}
   - component: {fileID: 2469010224203016064}
   m_Layer: 6
-  m_Name: Archer_With_Move_Attack
+  m_Name: Archer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1463,9 +1463,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 8917598701659617394, guid: 1a5c54cf4b7f04147a25c8ddfeaa289a, type: 3}
   arrowSpawnPoint: {fileID: 2469010225320706708}
-  arrowSpeed: 20
+  arrowSpeed: 14
   attackButton: {fileID: 0}
-  arrowLifetime: 1.8
+  arrowLifetime: 1.3
   arrowSpawnDelay: 0.3
   attackCooldown: 1
 --- !u!1 &2470220028743466109
@@ -1540,7 +1540,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1412329523
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 21723525378a1c1418f110a799c104ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -57,4 +57,9 @@ public class Inventory : MonoBehaviour
     {
         return items.Count >= inventorySlots.Length;
     }
+
+    // Add a method to get inventorySlots
+    public InventorySlot[] GetInventorySlots() {
+        return inventorySlots;
+    }
 }

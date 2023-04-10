@@ -417,4 +417,9 @@ public class FireBaseManager : MonoBehaviour
         mDatabaseRef.Child("Users").Child(user.UserId).Child("Account").SetValueAsync(save);
     }
 
+    public string GetCharacterId()
+    {
+        return mDatabaseRef.Child("Users").Push().Key;
+    }
+
 }

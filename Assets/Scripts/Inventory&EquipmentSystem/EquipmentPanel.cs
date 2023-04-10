@@ -43,4 +43,10 @@ public class EquipmentPanel : MonoBehaviour
         }
         return false;
     }
+
+    // Add a method to get equipmentSlots
+    public EquipmentSlot[] GetEquipmentSlots() {
+        return equipmentSlots;
+    }
+
 }

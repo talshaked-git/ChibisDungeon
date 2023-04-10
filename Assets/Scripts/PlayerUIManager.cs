@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerUIManager : MonoBehaviour
 {
+
     public Button menuButton;
     public Button statsButton;
     public Button inventoryButton;
@@ -21,6 +22,8 @@ public class PlayerUIManager : MonoBehaviour
     public GameObject statsMenu;
     public GameObject inventoryPanel;
     public GameObject shopMenu;
+
+        
 
     private bool gamePaused = false;
 

@@ -323,19 +323,20 @@ public class MainMenuUIManager : MonoBehaviour
 
     public Player CreatePlayer(string nickname)
     {
+        string _CID = FireBaseManager.instance.GetCharacterId();
         switch (currentCharcter)
         {
             case 0:
-                return new Player(nickname, CharClassType.Archer);
+                return new Player(nickname, _CID,CharClassType.Archer);
 
             case 1:
-                return new Player(nickname, CharClassType.Wizard);
+                return new Player(nickname, _CID, CharClassType.Wizard);
 
             case 2:
-                return new Player(nickname, CharClassType.Warrior);
+                return new Player(nickname, _CID, CharClassType.Warrior);
 
             case 3:
-                return new Player(nickname, CharClassType.Rogue);
+                return new Player(nickname, _CID, CharClassType.Rogue);
 
             default:
                 return null;
