@@ -22,8 +22,7 @@ public class PlayerUIManager : MonoBehaviour
     public GameObject statsMenu;
     public GameObject inventoryPanel;
     public GameObject shopMenu;
-
-        
+    [SerializeField] ItemTooltip tooltip;
 
     private bool gamePaused = false;
 
@@ -119,6 +118,8 @@ public class PlayerUIManager : MonoBehaviour
         //exitMenu.SetActive(false);
         statsMenu.SetActive(false);
         inventoryPanel.SetActive(false);
+        tooltip.HideTooltip();
+        InventorySlot.isTooltipActive = false;
         //shopMenu.SetActive(false);
     }
 

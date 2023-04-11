@@ -33,8 +33,10 @@ public class PlayerManager : MonoBehaviour
     }
     
 
-
     public void Equip(EquippableItem item) {
+        //To do: check if item matches CHarType And Min Lv
+        if(currentPlayer.classType != item.EquipableClass || currentPlayer.level < item.EquipableLV)
+            return;
         if (inventory.RemoveItem(item)) {
             EquippableItem previousItem;
             if (equipmentPanel.AddItem(item, out previousItem)) {

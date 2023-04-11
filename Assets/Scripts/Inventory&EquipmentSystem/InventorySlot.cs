@@ -3,12 +3,16 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 using System.Collections;
+using UnityEngine.Events;
 
 public class InventorySlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] public Image icon;
     [SerializeField] Image background;
-
+    [SerializeField] ItemTooltip tooltip;
+    public static bool isTooltipActive = false;
+    public bool isCurrentTooltipActive = false;
+    public event UnityAction<bool,InventorySlot> OnTooltipActiveChanged;
 
     public event Action<Item> OnPressEvent;
 
@@ -49,6 +53,25 @@ public void OnPointerClick(PointerEventData eventData)
         {
             // Single-click detected
             Debug.Log(name + " Game Object Clicked!");
+            if(item != null && OnPressEvent != null && (isTooltipActive == false || isCurrentTooltipActive == false))
+            {
+                isTooltipActive = true;
+                isCurrentTooltipActive = true;
+                if (OnTooltipActiveChanged != null)
+                {
+                    OnTooltipActiveChanged.Invoke(false, this);
+                }
+                tooltip.ShowTooltip(item);
+            }
+            else
+            {
+                isTooltipActive = false;
+                if (OnTooltipActiveChanged != null)
+                {
+                    OnTooltipActiveChanged.Invoke(false, null);
+                }
+                tooltip.HideTooltip();
+            }
         }
         else
         {
@@ -57,6 +80,8 @@ public void OnPointerClick(PointerEventData eventData)
             if (item != null && OnPressEvent != null)
             {
                 OnPressEvent(item);
+                isTooltipActive = false;
+                tooltip.HideTooltip();
             }
         }
 
@@ -70,6 +95,9 @@ public void OnPointerClick(PointerEventData eventData)
         if (icon == null) {
             icon = transform.Find("Icon").GetComponent<Image>();
         }
-    }
 
+        if (tooltip == null) {
+            tooltip = FindObjectOfType<ItemTooltip>();
+        }
+    }
 }

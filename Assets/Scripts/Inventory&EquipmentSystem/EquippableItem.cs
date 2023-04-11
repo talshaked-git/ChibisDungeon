@@ -5,8 +5,8 @@ public enum EquipmentType {
     Chest,
     Gloves,
     Boots,
-    Weapon_MainHand,
-    Weapon_OffHand,
+    MainHand,
+    OffHand,
     Ring1,
     Ring2,
     Neckless, 
@@ -32,6 +32,7 @@ public class EquippableItem : Item
     public float VITPercentMullBonus;
     [Space]
     public EquipmentType equipmentType;
+
     
     public void Equip(Player player){
         if (STRBonus != 0) {

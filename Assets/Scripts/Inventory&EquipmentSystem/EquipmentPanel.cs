@@ -9,9 +9,10 @@ public class EquipmentPanel : MonoBehaviour
 
     public event Action<Item> OnItemPressEvent;
 
-    private void Awake() {
+    private void Start() {
         for (int i = 0; i < equipmentSlots.Length; i++) {
             equipmentSlots[i].OnPressEvent += OnItemPressEvent;
+            equipmentSlots[i].OnTooltipActiveChanged += HandleTooltipActiveChangedEvent;
         }
     }
 
@@ -47,6 +48,14 @@ public class EquipmentPanel : MonoBehaviour
     // Add a method to get equipmentSlots
     public EquipmentSlot[] GetEquipmentSlots() {
         return equipmentSlots;
+    }
+
+    void HandleTooltipActiveChangedEvent(bool isActive, InventorySlot Excludeslot) {
+        foreach (InventorySlot slot in equipmentSlots) {
+            if (slot != Excludeslot) {
+                slot.isCurrentTooltipActive = isActive;
+            }
+        }
     }
 
 }

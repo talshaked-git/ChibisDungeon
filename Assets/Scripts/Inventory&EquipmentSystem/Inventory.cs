@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
@@ -11,9 +12,10 @@ public class Inventory : MonoBehaviour
 
     public event Action<Item> OnItemPressEvent;
 
-    private void Awake() {
+    private void Start() {
         for (int i = 0; i < inventorySlots.Length; i++) {
             inventorySlots[i].OnPressEvent += OnItemPressEvent;
+            inventorySlots[i].OnTooltipActiveChanged += HandleTooltipActiveChangedEvent;
         }
     }
 
@@ -61,5 +63,13 @@ public class Inventory : MonoBehaviour
     // Add a method to get inventorySlots
     public InventorySlot[] GetInventorySlots() {
         return inventorySlots;
+    }
+
+    void HandleTooltipActiveChangedEvent(bool isActive, InventorySlot Excludeslot) {
+        foreach (InventorySlot slot in inventorySlots) {
+            if (slot != Excludeslot) {
+                slot.isCurrentTooltipActive = isActive;
+            }
+        }
     }
 }
