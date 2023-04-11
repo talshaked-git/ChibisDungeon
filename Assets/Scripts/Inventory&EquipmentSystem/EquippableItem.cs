@@ -33,6 +33,8 @@ public class EquippableItem : Item
     [Space]
     public EquipmentType equipmentType;
 
+    public bool isEquipped = false;
+
     
     public void Equip(Player player){
         if (STRBonus != 0) {

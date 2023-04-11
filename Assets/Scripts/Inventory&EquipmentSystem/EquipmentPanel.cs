@@ -7,12 +7,19 @@ public class EquipmentPanel : MonoBehaviour
     [SerializeField] Transform equipmentSlotsParent;
     [SerializeField] EquipmentSlot[] equipmentSlots;
 
-    public event Action<Item> OnItemPressEvent;
+    public event Action<InventorySlot> OnPressEvent;
+    public event Action<InventorySlot> OnBeginDragEvent;
+    public event Action<InventorySlot> OnEndDragEvent;
+    public event Action<InventorySlot> OnDragEvent;
+    public event Action<InventorySlot> OnDropEvent;
 
     private void Start() {
         for (int i = 0; i < equipmentSlots.Length; i++) {
-            equipmentSlots[i].OnPressEvent += OnItemPressEvent;
-            equipmentSlots[i].OnTooltipActiveChanged += HandleTooltipActiveChangedEvent;
+            equipmentSlots[i].OnPressEvent += OnPressEvent;
+            equipmentSlots[i].OnBeginDragEvent += OnBeginDragEvent;
+            equipmentSlots[i].OnEndDragEvent += OnEndDragEvent;
+            equipmentSlots[i].OnDragEvent += OnDragEvent;
+            equipmentSlots[i].OnDropEvent += OnDropEvent;
         }
     }
 
@@ -37,7 +44,7 @@ public class EquipmentPanel : MonoBehaviour
             if (equipmentSlots[i].item == item) {
                 equipmentSlots[i].item = null;
                 equipmentSlots[i].icon.sprite = equipmentSlots[i].defualtIcon;
-                equipmentSlots[i].icon.enabled = true;
+                equipmentSlots[i].icon.color = Color.white;
                 
                 return true;
             }
@@ -50,12 +57,11 @@ public class EquipmentPanel : MonoBehaviour
         return equipmentSlots;
     }
 
-    void HandleTooltipActiveChangedEvent(bool isActive, InventorySlot Excludeslot) {
-        foreach (InventorySlot slot in equipmentSlots) {
-            if (slot != Excludeslot) {
-                slot.isCurrentTooltipActive = isActive;
+    public void ResetIsTooltipActive(InventorySlot inventorySlot) {
+        for (int i = 0; i < equipmentSlots.Length; i++) {
+            if (equipmentSlots[i] == inventorySlot) {
+                equipmentSlots[i].isTooltipActive = false;
             }
         }
     }
-
 }

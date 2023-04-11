@@ -5,87 +5,45 @@ using System;
 using System.Collections;
 using UnityEngine.Events;
 
-public class InventorySlot : MonoBehaviour, IPointerClickHandler
+public class InventorySlot : MonoBehaviour, IPointerClickHandler,  IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
 {
     [SerializeField] public Image icon;
     [SerializeField] Image background;
-    [SerializeField] ItemTooltip tooltip;
-    public static bool isTooltipActive = false;
-    public bool isCurrentTooltipActive = false;
-    public event UnityAction<bool,InventorySlot> OnTooltipActiveChanged;
 
-    public event Action<Item> OnPressEvent;
 
-    // private bool _isWaitingForDoubleClick;
-    private TimeSpan _maxDoubleClickTime = TimeSpan.FromSeconds(0.7);
-    private DateTime _lastClickTime;
+    public event Action<InventorySlot> OnPressEvent;
+    public event Action<InventorySlot> OnBeginDragEvent;
+    public event Action<InventorySlot> OnEndDragEvent;
+    public event Action<InventorySlot> OnDragEvent;
+    public event Action<InventorySlot> OnDropEvent;
 
-    private static InventorySlot _lastClickedSlot;
+    public bool isTooltipActive = false;
 
+
+
+    private Color noramlColor = Color.white;
+    private Color disabledColor = new Color(1,1,1,0);
 
     private Item _item;
     public Item item{
         get { return _item; }
         set {
             _item = value;
-            if (_item == null) {
-                icon.enabled = false;
+            if (_item == null ) {
+                icon.color = disabledColor;
             } else {
-                icon.enabled = true;
+                icon.color = noramlColor;
                 icon.sprite = _item.Icon;
             }
         }
     }
 
-public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        // If another item is clicked, reset the double-click state
-        if (_lastClickedSlot != null && _lastClickedSlot != this)
+        if(OnPressEvent != null)
         {
-            _lastClickedSlot._lastClickTime = DateTime.MinValue;
+            OnPressEvent(this);
         }
-
-        _lastClickedSlot = this;
-
-        DateTime currentTime = DateTime.UtcNow;
-
-        if (currentTime - _lastClickTime > _maxDoubleClickTime)
-        {
-            // Single-click detected
-            Debug.Log(name + " Game Object Clicked!");
-            if(item != null && OnPressEvent != null && (isTooltipActive == false || isCurrentTooltipActive == false))
-            {
-                isTooltipActive = true;
-                isCurrentTooltipActive = true;
-                if (OnTooltipActiveChanged != null)
-                {
-                    OnTooltipActiveChanged.Invoke(false, this);
-                }
-                tooltip.ShowTooltip(item);
-            }
-            else
-            {
-                isTooltipActive = false;
-                if (OnTooltipActiveChanged != null)
-                {
-                    OnTooltipActiveChanged.Invoke(false, null);
-                }
-                tooltip.HideTooltip();
-            }
-        }
-        else
-        {
-            // Double-click detected
-            Debug.Log("Double Click");
-            if (item != null && OnPressEvent != null)
-            {
-                OnPressEvent(item);
-                isTooltipActive = false;
-                tooltip.HideTooltip();
-            }
-        }
-
-        _lastClickTime = currentTime;
     }
 
     protected virtual void OnValidate() {
@@ -95,9 +53,42 @@ public void OnPointerClick(PointerEventData eventData)
         if (icon == null) {
             icon = transform.Find("Icon").GetComponent<Image>();
         }
+    }
 
-        if (tooltip == null) {
-            tooltip = FindObjectOfType<ItemTooltip>();
+    public virtual bool CanReciveItem(Item item) {
+        return true;
+    }
+    
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if(OnBeginDragEvent != null)
+        {
+            OnBeginDragEvent(this);
+        }
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if(OnEndDragEvent != null)
+        {
+            OnEndDragEvent(this);
+        }
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if(OnDragEvent != null)
+        {
+            OnDragEvent(this);
+        }
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        if(OnDropEvent != null)
+        {
+            OnDropEvent(this);
         }
     }
 }

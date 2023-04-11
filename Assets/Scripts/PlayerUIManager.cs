@@ -119,7 +119,7 @@ public class PlayerUIManager : MonoBehaviour
         statsMenu.SetActive(false);
         inventoryPanel.SetActive(false);
         tooltip.HideTooltip();
-        InventorySlot.isTooltipActive = false;
+        PlayerManager.isTooltipActive = false;
         //shopMenu.SetActive(false);
     }
 
