@@ -66,7 +66,7 @@ public class PlayerManager : MonoBehaviour
                 if(dragItem != null) {
                     dragItem.Unequip(currentPlayer);
                     dragItem.isEquipped = false;
-                    draggedSlot.icon.sprite = ((EquipmentSlot)draggedSlot).defualtIcon;
+                    // draggedSlot.icon.sprite = ((EquipmentSlot)draggedSlot).defualtIcon;
                 }
                 if(dropItem != null) {
                     dropItem.Equip(currentPlayer);
@@ -81,7 +81,7 @@ public class PlayerManager : MonoBehaviour
                 if(dropItem != null) {
                     dropItem.Unequip(currentPlayer);
                     dropItem.isEquipped = false;
-                    draggedSlot.icon.sprite = ((EquipmentSlot)draggedSlot).defualtIcon;
+                    // draggedSlot.icon.sprite = ((EquipmentSlot)draggedSlot).defualtIcon;
                 }
             }
             statPanel.UpdateStatValues();
@@ -186,11 +186,9 @@ public class PlayerManager : MonoBehaviour
                 equippableItem.isEquipped = true;
             }
             isTooltipActive = false;
-            tooltip.HideTooltip();
+            tooltip.HideTooltip(); 
         }
 
         _lastClickTime = currentTime;
     }
-
-    
 }

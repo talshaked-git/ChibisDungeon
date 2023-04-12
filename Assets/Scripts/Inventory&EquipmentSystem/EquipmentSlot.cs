@@ -1,6 +1,7 @@
 
 using UnityEngine;
 
+
 public class EquipmentSlot : InventorySlot
 {
     public EquipmentType equipmentType;

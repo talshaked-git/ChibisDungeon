@@ -25,12 +25,17 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler,  IBeginDragHan
     private Color disabledColor = new Color(1,1,1,0);
 
     private Item _item;
-    public Item item{
+    public virtual Item item{
         get { return _item; }
         set {
             _item = value;
             if (_item == null ) {
-                icon.color = disabledColor;
+                EquipmentSlot equipmentSlot = this as EquipmentSlot;
+                if(equipmentSlot != null){
+                    icon.sprite = equipmentSlot.defualtIcon;
+                } else {
+                    icon.color = disabledColor;
+                }
             } else {
                 icon.color = noramlColor;
                 icon.sprite = _item.Icon;

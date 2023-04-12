@@ -44,7 +44,6 @@ public class EquipmentPanel : MonoBehaviour
             if (equipmentSlots[i].item == item) {
                 equipmentSlots[i].item = null;
                 equipmentSlots[i].icon.sprite = equipmentSlots[i].defualtIcon;
-                equipmentSlots[i].icon.color = Color.white;
                 
                 return true;
             }
