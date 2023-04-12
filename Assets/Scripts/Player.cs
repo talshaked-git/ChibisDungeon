@@ -7,6 +7,7 @@ public enum CharClassType{
     Wizard = 2000,
     Warrior = 3000,
     Rogue = 4000,
+    Any = 0
 }
 
 

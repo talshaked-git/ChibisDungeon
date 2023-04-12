@@ -1449,7 +1449,7 @@ RectTransform:
   m_Children:
   - {fileID: 1683294242}
   m_Father: {fileID: 1254385657}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1959,7 +1959,7 @@ RectTransform:
   m_Children:
   - {fileID: 813399205}
   m_Father: {fileID: 1254385657}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3824,8 +3824,8 @@ RectTransform:
   - {fileID: 895110117}
   - {fileID: 1728656231}
   - {fileID: 350662659}
-  - {fileID: 412263237}
   - {fileID: 583680642}
+  - {fileID: 412263237}
   m_Father: {fileID: 1360705815}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4706,10 +4706,10 @@ MonoBehaviour:
   _charcterStatsVIT: {fileID: 1604174452}
   _charcterPrefabParent: {fileID: 2025312216}
   _charcterPrefab:
-  - {fileID: 1200857932597562, guid: 1ecf52baa86601c44a8b76ab94da1ff5, type: 3}
-  - {fileID: 1131733873716716, guid: afaae5b970167294bae2794a09840133, type: 3}
-  - {fileID: 1541123529650618, guid: 1e9847656a85ba84994cc30cc2e96d36, type: 3}
-  - {fileID: 1796321298970178, guid: 39d04f9c71ba33b438b92cbe54ec780d, type: 3}
+  - {fileID: 1200857932597562, guid: 401c7a92c09295044ab7d718ef235da4, type: 3}
+  - {fileID: 1131733873716716, guid: 678c2b8acf462e84db031f63ec336717, type: 3}
+  - {fileID: 1541123529650618, guid: 5afdde10ba1ca8c489d3342a01b10ed1, type: 3}
+  - {fileID: 1796321298970178, guid: 8f10062aae8070f49aef4475cd11508a, type: 3}
   _NicknameTooltip: {fileID: 580285928}
   _NicknameTooltipText: {fileID: 772489181}
   currentCharcter: 0

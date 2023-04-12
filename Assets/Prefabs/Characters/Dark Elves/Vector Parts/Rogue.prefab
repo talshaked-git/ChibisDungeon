@@ -993,8 +993,8 @@ MonoBehaviour:
   movementJoystick: {fileID: 0}
   playerSpeed: 5
   playerJump: 1500
-  jumpButton: {fileID: 0}
   isGrounded: 0
+  jumpButtonName: Jump
 --- !u!1 &1846189781131212
 GameObject:
   m_ObjectHideFlags: 0

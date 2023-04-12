@@ -35,8 +35,8 @@ public class ItemTooltip : MonoBehaviour
         }
         else {
             ItemSlotsText.text = "Consumable";
-            ItemLevelText.text = "1";
-            ItemClassText.text = "Any";
+            ItemLevelText.text = item.EquipableLV.ToString();
+            ItemClassText.text = item.EquipableClass.ToString();
         }
 
         ItemStatsText.text = sb.ToString();

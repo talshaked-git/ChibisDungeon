@@ -31,8 +31,8 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void Awake() {
-        // currentPlayer = GameManager.instance.currentPlayer; //uncomment after tesing
-        currentPlayer = new Player("TestPlayer", "1" ,CharClassType.Archer); //for testing delete later
+        currentPlayer = GameManager.instance.currentPlayer; //uncomment after tesing
+        // currentPlayer = new Player("TestPlayer", "1" ,CharClassType.Archer); //for testing delete later
         statPanel.SetStats(new CharcterStat(currentPlayer.level)
         ,currentPlayer.HP, currentPlayer.MP, currentPlayer.STR, currentPlayer.INT, currentPlayer.VIT, currentPlayer.AGI);
         statPanel.UpdateStatValues();
@@ -62,18 +62,23 @@ public class PlayerManager : MonoBehaviour
         if(draggedSlot.CanReciveItem(draggedSlot.item) && dropItemslot.CanReciveItem(draggedSlot.item)){
             EquippableItem dragItem = draggedSlot.item as EquippableItem;
             EquippableItem dropItem = dropItemslot.item as EquippableItem;
-            if(draggedSlot is EquipmentSlot){
+            EquipmentSlot draggedSlotEquipmentSlot = draggedSlot as EquipmentSlot;
+            bool isChanged = false;
+            //Stat Panels => INV
+            if(draggedSlotEquipmentSlot != null  && (dropItemslot.item == null || isEquipabble(dropItem) && draggedSlotEquipmentSlot.equipmentType == dropItem.equipmentType)){
+                isChanged = true;
                 if(dragItem != null) {
                     dragItem.Unequip(currentPlayer);
                     dragItem.isEquipped = false;
-                    // draggedSlot.icon.sprite = ((EquipmentSlot)draggedSlot).defualtIcon;
                 }
                 if(dropItem != null) {
                     dropItem.Equip(currentPlayer);
                     dropItem.isEquipped = true;
                 }
             }
-            if(dropItemslot is EquipmentSlot){
+            //INV => Stat Panels
+            if(dropItemslot is EquipmentSlot && isEquipabble(dragItem)){
+                isChanged = true;
                 if(dragItem != null) {
                     dragItem.Equip(currentPlayer);
                     dragItem.isEquipped = true;
@@ -81,11 +86,11 @@ public class PlayerManager : MonoBehaviour
                 if(dropItem != null) {
                     dropItem.Unequip(currentPlayer);
                     dropItem.isEquipped = false;
-                    // draggedSlot.icon.sprite = ((EquipmentSlot)draggedSlot).defualtIcon;
                 }
             }
             statPanel.UpdateStatValues();
-            
+            if(!isChanged && (dropItemslot is EquipmentSlot || draggedSlot is EquipmentSlot))
+                return;
             Item draggedItem = draggedSlot.item;
             draggedSlot.item = dropItemslot.item;
             dropItemslot.item = draggedItem;
@@ -106,6 +111,10 @@ public class PlayerManager : MonoBehaviour
 
     private void BeginDrag(InventorySlot slot)
     {
+        isTooltipActive = false;
+        inventory.ResetIsTooltipActive(null);
+        equipmentPanel.ResetIsTooltipActive(null);
+        tooltip.HideTooltip();
         if(slot.item != null){
             draggedSlot = slot;
             dragableItem.sprite = slot.item.Icon;
@@ -115,7 +124,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void Equip(EquippableItem item) {
-        if(currentPlayer.classType != item.EquipableClass || currentPlayer.level < item.EquipableLV)
+        if(!isEquipabble(item))
             return;
         if (inventory.RemoveItem(item)) {
             EquippableItem previousItem;
@@ -190,5 +199,11 @@ public class PlayerManager : MonoBehaviour
         }
 
         _lastClickTime = currentTime;
+    }
+
+    private bool isEquipabble(EquippableItem item){
+        if(item != null && item.EquipableClass == currentPlayer.classType && item.EquipableLV <= currentPlayer.level)
+            return true;
+        return false;
     }
 }

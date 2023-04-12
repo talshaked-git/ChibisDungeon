@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerUIManager : MonoBehaviour
 {
+    public static PlayerUIManager instance;
 
+    [Header("Menu Buttons")]
     public Button menuButton;
     public Button statsButton;
     public Button inventoryButton;
@@ -25,6 +27,20 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] ItemTooltip tooltip;
 
     private bool gamePaused = false;
+
+    //create awake method and dont destroy on scene change
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {    
