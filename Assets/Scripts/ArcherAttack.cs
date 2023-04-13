@@ -16,9 +16,10 @@ public class ArcherAttack : MonoBehaviour
     public float attackCooldown = 1f;
     private float timeSinceLastAttack;
 
-    void Start()
+    public void InitComponents()
     {
         myAnimator = GetComponent<Animator>();
+        attackButton = GameObject.Find("Attack").GetComponent<Button>();
         attackButton.onClick.AddListener(Attack);
     }
 
@@ -37,29 +38,27 @@ public class ArcherAttack : MonoBehaviour
         //     StartCoroutine(SpawnArrow());
         //     StartCoroutine(ResetIsAttacking());
         // }
-    if (timeSinceLastAttack >= attackCooldown)
-    {
-        timeSinceLastAttack = 0f;
-        isAttacking = true;
-        // Calculate the arrow velocity based on the character's facing direction
-        float arrowVelocityX = transform.localScale.x * arrowSpeed;
-        if (transform.localScale.x < 0) // If facing left, flip the arrow sprite horizontally
+        if (timeSinceLastAttack >= attackCooldown)
         {
-            arrowSpawnPoint.localScale = new Vector3(-1, 1, 1);
+            timeSinceLastAttack = 0f;
+            isAttacking = true;
+            // Calculate the arrow velocity based on the character's facing direction
+            float arrowVelocityX = transform.localScale.x * arrowSpeed;
+            StartCoroutine(SpawnArrow());
+            StartCoroutine(ResetIsAttacking());
         }
-        StartCoroutine(SpawnArrow());
-        StartCoroutine(ResetIsAttacking());
-    }
     }
 
     IEnumerator SpawnArrow()
     {
         yield return new WaitForSeconds(arrowSpawnDelay);
         GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, Quaternion.identity);
+        arrow.transform.localScale  = new Vector3(0.4f, 0.4f, 1);
         // Flip the arrow sprite horizontally if the character is facing left
         if (transform.localScale.x < 0)
         {
             arrow.transform.Rotate(new Vector3(0, 180, 0));
+            arrow.transform.localPosition += new Vector3(-0.75f, 0, 0);
         }
         Rigidbody2D arrowRb = arrow.GetComponent<Rigidbody2D>();
         arrowRb.velocity = arrow.transform.right * arrowSpeed;

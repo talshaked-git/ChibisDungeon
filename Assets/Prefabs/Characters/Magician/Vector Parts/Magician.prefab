@@ -128,6 +128,9 @@ GameObject:
   - component: {fileID: 4247935272739512}
   - component: {fileID: 95763106316365224}
   - component: {fileID: 114381864237393456}
+  - component: {fileID: -1065815716004483731}
+  - component: {fileID: -3704009143802537140}
+  - component: {fileID: -8592054927268342604}
   m_Layer: 0
   m_Name: Magician
   m_TagString: Untagged
@@ -188,6 +191,60 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sortingOrder: 0
   applySpriterZOrder: 0
+--- !u!50 &-1065815716004483731
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131733873716716}
+  m_BodyType: 0
+  m_Simulated: 0
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 20
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
+--- !u!70 &-3704009143802537140
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131733873716716}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.018846989, y: 2.1490815}
+  m_Size: {x: 1.8196154, y: 4.006398}
+  m_Direction: 0
+--- !u!114 &-8592054927268342604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131733873716716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42be6453baaa4dd489612078bc9e2c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementJoystick: {fileID: 0}
+  playerSpeed: 5
+  playerJump: 25
+  isGrounded: 0
+  jumpButtonName: Jump
 --- !u!1 &1177078754121038
 GameObject:
   m_ObjectHideFlags: 0

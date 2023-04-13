@@ -917,7 +917,9 @@ GameObject:
   - component: {fileID: 4150031820955506}
   - component: {fileID: 95691290157074572}
   - component: {fileID: 114904733192643402}
-  - component: {fileID: 5210463696596725125}
+  - component: {fileID: -2696762391437167386}
+  - component: {fileID: -1122986883655729863}
+  - component: {fileID: 5485836065405483241}
   m_Layer: 0
   m_Name: Rogue
   m_TagString: Untagged
@@ -978,21 +980,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sortingOrder: 0
   applySpriterZOrder: 0
---- !u!114 &5210463696596725125
+--- !u!50 &-2696762391437167386
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1796321298970178}
+  m_BodyType: 0
+  m_Simulated: 0
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 20
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
+--- !u!70 &-1122986883655729863
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1796321298970178}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.018846989, y: 2.1490815}
+  m_Size: {x: 1.8196154, y: 4.006398}
+  m_Direction: 0
+--- !u!114 &5485836065405483241
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1796321298970178}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42be6453baaa4dd489612078bc9e2c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   movementJoystick: {fileID: 0}
   playerSpeed: 5
-  playerJump: 1500
+  playerJump: 25
   isGrounded: 0
   jumpButtonName: Jump
 --- !u!1 &1846189781131212

@@ -30,5 +30,13 @@ public class InstantiatePlayer : MonoBehaviour
         player = Instantiate(GameManager.instance.playerPrefabs[prefabIndex], transform.position, Quaternion.identity);
         player.GetComponent<Spriter2UnityDX.EntityRenderer>().SortingLayerName = "Player";
         player.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+        player.GetComponentInChildren<Rigidbody2D>().simulated = true;
+        player.GetComponentInChildren<PlayerMovement>().InitComponents();
+        player.GetComponentInChildren<PlayerMovement>().enabled = true;
+        if(GameManager.instance.currentPlayer.classType == CharClassType.Archer){
+            player.GetComponentInChildren<ArcherAttack>().InitComponents();
+            player.GetComponentInChildren<ArcherAttack>().enabled = true;
+        }   
+        GameObject.Find("Follow_Camera").GetComponent<Cinemachine.CinemachineVirtualCamera>().Follow = player.transform;
     }
 }

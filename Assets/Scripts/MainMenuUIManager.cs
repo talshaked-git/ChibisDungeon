@@ -134,14 +134,14 @@ public class MainMenuUIManager : MonoBehaviour
         Vector3 scale = charcterPrefab.transform.localScale;
         if (player.classType == CharClassType.Archer)
         {
-            scale = new Vector3(75f, 75f, 1f);
+            // scale = new Vector3(75f, 75f, 1f);
+            charcterPrefab.GetComponentInChildren<ArcherAttack>().enabled = false;
         }
-        else
-        {
-            scale = new Vector3(60f, 60f, 1f);
-        }
+        scale = new Vector3(60f, 60f, 1f);
         charcterPrefab.transform.localScale = scale;
         charcterPrefab.transform.localPosition = new Vector3(0f, -225f, 0f);
+        charcterPrefab.GetComponentInChildren<PlayerMovement>().enabled = false;
+        
     }
 
     private void UpdateCharTextFields(int i, Player player)
@@ -270,11 +270,14 @@ public class MainMenuUIManager : MonoBehaviour
         
 
         currentCharcterPrefab = (GameObject)Instantiate(_charcterPrefab[currentCharcter], _charcterPrefabParent.transform.position, Quaternion.identity, _charcterPrefabParent.transform);
-        if (currentCharcter == 0)
+        if (currentCharcter == 0){
             currentCharcterPrefab.transform.localScale = new Vector3(100f, 100f, 1f);
+            currentCharcterPrefab.GetComponentInChildren<ArcherAttack>().enabled = false;
+        }
         else
             currentCharcterPrefab.transform.localScale = new Vector3(80f, 80f, 1f);
         currentCharcterPrefab.transform.localPosition += new Vector3(0, -225f, 0);
+        currentCharcterPrefab.GetComponentInChildren<PlayerMovement>().enabled = false;
     }
 
     public void AboutScreen()

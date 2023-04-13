@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,10 +14,14 @@ public class PlayerMovement : MonoBehaviour
     CapsuleCollider2D myCapsuleCollider;
     private bool jumpPressed = false;
     public string jumpButtonName = "Jump";
+    public Button jumpButton;
 
-    // Start is called before the first frame update
-    void Start()
+
+    public void InitComponents()
     {
+        jumpButton = GameObject.Find("Jump").GetComponent<Button>();
+        jumpButton.onClick.AddListener(Jump);
+        movementJoystick = GameObject.Find("JoystickArea").GetComponent<MoveJoystick>();
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         myCapsuleCollider = GetComponent<CapsuleCollider2D>();
