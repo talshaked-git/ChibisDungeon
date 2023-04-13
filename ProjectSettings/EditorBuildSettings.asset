@@ -20,7 +20,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scene_Dark_Forest.unity
     guid: ad65393d9aca159418e7f6a1eb3da83b
-  m_configObjects:
-    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 2c0d8379fa11d5b45bf4e4d7a9af11b4, type: 2}
-    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 78bcd45aaf33ec940b9bd7cd525900db, type: 2}
-    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 5a65212828826fb4581ebba5368d7000, type: 2}
+  m_configObjects: {}

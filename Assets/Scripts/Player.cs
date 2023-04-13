@@ -7,30 +7,30 @@ public enum CharClassType{
     Wizard = 2000,
     Warrior = 3000,
     Rogue = 4000,
+    Any = 0
 }
 
 
 [System.Serializable]
 public class Player
 {
-    // public string CID { get; set; }
+    public string CID { get; set; }
     public string name { get; set; }
     public CharClassType classType { get; set; }
     public int level { get; set; }
     public long exp { get; set; }
     public int gold { get; set; }
-    // public List<int> inventory { get; set; } // change to inventory class To be made
-    // public List<int> equipment { get; set; } // change to equipment class To be made
-    public CharcterStat hp { get; set; }
-    public CharcterStat mp { get; set; }
-    public CharcterStat statSTR { get; set; }
-    public CharcterStat statVIT { get; set; }
-    public CharcterStat statINT { get; set; }
-    public CharcterStat StatAGI { get; set; }
+    public CharcterStat HP { get; set; }
+    public CharcterStat MP { get; set; }
+    public CharcterStat STR { get; set; }
+    public CharcterStat VIT { get; set; }
+    public CharcterStat INT { get; set; }
+    public CharcterStat AGI { get; set; }
+    
 
-    public Player(string _name, CharClassType _class)
+    public Player(string _name,string _CID ,CharClassType _class)
     {
-        // CID = _CID;
+        CID = _CID;
         name = _name;
         classType = _class;
         level = 1;
@@ -43,7 +43,7 @@ public class Player
 
     public Player(Dictionary<string, Object> _dictionary)
     {
-        // CID = _dictionary["CID"].ToString();
+        CID = _dictionary["CID"].ToString();
         name = _dictionary["name"].ToString();
         classType = (CharClassType)Convert.ToInt32(_dictionary["classType"]);
         level = Convert.ToInt32(_dictionary["level"]);
@@ -51,48 +51,48 @@ public class Player
         gold = Convert.ToInt32(_dictionary["gold"]);
         // inventory = (List<int>)_dictionary["inventory"]; //TODO: fix this
         // equipment = (List<int>)_dictionary["equipment"]; //TODO: fix this
-        hp = new CharcterStat((Dictionary<string, Object>)_dictionary["hp"]);
-        mp = new CharcterStat((Dictionary<string, Object>)_dictionary["mp"]);
-        statSTR = new CharcterStat((Dictionary<string, Object>)_dictionary["statSTR"]);
-        statVIT = new CharcterStat((Dictionary<string, Object>)_dictionary["statVIT"]);
-        statINT = new CharcterStat((Dictionary<string, Object>)_dictionary["statINT"]);
-        StatAGI = new CharcterStat((Dictionary<string, Object>)_dictionary["statAGI"]);
+        HP = new CharcterStat((Dictionary<string, Object>)_dictionary["HP"]);
+        MP = new CharcterStat((Dictionary<string, Object>)_dictionary["MP"]);
+        STR = new CharcterStat((Dictionary<string, Object>)_dictionary["STR"]);
+        VIT = new CharcterStat((Dictionary<string, Object>)_dictionary["VIT"]);
+        INT = new CharcterStat((Dictionary<string, Object>)_dictionary["INT"]);
+        AGI = new CharcterStat((Dictionary<string, Object>)_dictionary["AGI"]);
     }
 
     private void InitStatesByClassType(){
         switch (classType)
         {
             case CharClassType.Archer:        
-                hp = new CharcterStat(250);
-                mp = new CharcterStat(150);
-                statSTR = new CharcterStat(15);
-                statVIT = new CharcterStat(10);
-                statINT = new CharcterStat(5);
-                StatAGI = new CharcterStat(25);
+                HP = new CharcterStat(250);
+                MP = new CharcterStat(150);
+                STR = new CharcterStat(15);
+                VIT = new CharcterStat(10);
+                INT = new CharcterStat(5);
+                AGI = new CharcterStat(25);
                 break;
             case CharClassType.Wizard:
-                hp = new CharcterStat(150);
-                mp = new CharcterStat(450);
-                statSTR = new CharcterStat(5);
-                statVIT = new CharcterStat(10);
-                statINT = new CharcterStat(25);
-                StatAGI = new CharcterStat(10);
+                HP = new CharcterStat(150);
+                MP = new CharcterStat(450);
+                STR = new CharcterStat(5);
+                VIT = new CharcterStat(10);
+                INT = new CharcterStat(25);
+                AGI = new CharcterStat(10);
                 break;
             case CharClassType.Warrior:
-                hp = new CharcterStat(450);
-                mp = new CharcterStat(70);
-                statSTR = new CharcterStat(25);
-                statVIT = new CharcterStat(20);
-                statINT = new CharcterStat(5);
-                StatAGI = new CharcterStat(10);
+                HP = new CharcterStat(450);
+                MP = new CharcterStat(70);
+                STR = new CharcterStat(25);
+                VIT = new CharcterStat(20);
+                INT = new CharcterStat(5);
+                AGI = new CharcterStat(10);
                 break;
             case CharClassType.Rogue:
-                hp = new CharcterStat(250);
-                mp = new CharcterStat(125);
-                statSTR = new CharcterStat(10);
-                statVIT = new CharcterStat(10);
-                statINT = new CharcterStat(10);
-                StatAGI = new CharcterStat(25);
+                HP = new CharcterStat(250);
+                MP = new CharcterStat(125);
+                STR = new CharcterStat(10);
+                VIT = new CharcterStat(10);
+                INT = new CharcterStat(10);
+                AGI = new CharcterStat(25);
                 break;
             default:
                 break;
@@ -102,7 +102,7 @@ public class Player
     public virtual Dictionary<string, Object> ToDictionary()
     {
         Dictionary<string, Object> result = new Dictionary<string, Object>();
-        // result["CID"] = CID;
+        result["CID"] = CID;
         result["name"] = name;
         result["classType"] = ((int)classType);
         result["level"] = level;
@@ -110,12 +110,12 @@ public class Player
         result["gold"] = gold;
         // result["inventory"] = inventory;
         // result["equipment"] = equipment;
-        result["hp"] = hp.ToDictionary();
-        result["mp"] = mp.ToDictionary();
-        result["statSTR"] = statSTR.ToDictionary();
-        result["statVIT"] = statVIT.ToDictionary();
-        result["statINT"] = statINT.ToDictionary();
-        result["statAGI"] = StatAGI.ToDictionary();
+        result["HP"] = HP.ToDictionary();
+        result["MP"] = MP.ToDictionary();
+        result["STR"] = STR.ToDictionary();
+        result["VIT"] = VIT.ToDictionary();
+        result["INT"] = INT.ToDictionary();
+        result["AGI"] = AGI.ToDictionary();
 
         return result;
     }
@@ -123,7 +123,7 @@ public class Player
     //toString
     public override string ToString()
     {
-        return "Player [name=" + name + ", classType=" + classType + ", level=" + level + ", exp=" + exp + ", gold=" + gold + ", hp=" + hp + ", mp=" + mp + ", statSTR=" + statSTR + ", statVIT=" + statVIT + ", statINT=" + statINT + ", StatAGI=" + StatAGI + "]";
+        return "Player [name=" + name + ", classType=" + classType + ", level=" + level + ", exp=" + exp + ", gold=" + gold + ", HP=" + HP + ", MP=" + MP + ", STR=" + STR + ", VIT=" + VIT + ", INT=" + INT + ", AGI=" + AGI + "]";
     }
 
 
