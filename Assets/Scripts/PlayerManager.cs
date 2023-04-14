@@ -206,4 +206,18 @@ public class PlayerManager : MonoBehaviour
             return true;
         return false;
     }
+
+    public bool AddItem(Item item){
+        if(!inventory.IsFull()){
+            return inventory.AddItem(item);
+        }
+        return false;
+    }
+
+    // public void SaveInventory(){
+    //     string json = JsonUtility.ToJson(inventory);
+    //     PlayerPrefs.SetString("Inventory", json);
+    //     json = JsonUtility.ToJson(equipmentPanel);
+    //     PlayerPrefs.SetString("Equipment", json);
+    // }
 }

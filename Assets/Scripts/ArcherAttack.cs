@@ -60,6 +60,10 @@ public class ArcherAttack : MonoBehaviour
             arrow.transform.Rotate(new Vector3(0, 180, 0));
             arrow.transform.localPosition += new Vector3(-0.75f, 0, 0);
         }
+        else
+        {
+            arrow.transform.localPosition += new Vector3(0.75f, 0, 0);
+        }
         Rigidbody2D arrowRb = arrow.GetComponent<Rigidbody2D>();
         arrowRb.velocity = arrow.transform.right * arrowSpeed;
         Destroy(arrow, arrowLifetime);

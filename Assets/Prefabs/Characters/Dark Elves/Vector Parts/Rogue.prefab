@@ -922,7 +922,7 @@ GameObject:
   - component: {fileID: 5485836065405483241}
   m_Layer: 0
   m_Name: Rogue
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1034,6 +1034,7 @@ MonoBehaviour:
   playerJump: 25
   isGrounded: 0
   jumpButtonName: Jump
+  jumpButton: {fileID: 0}
 --- !u!1 &1846189781131212
 GameObject:
   m_ObjectHideFlags: 0

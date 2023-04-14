@@ -8,6 +8,9 @@ TagManager:
   - GameMusic
   - SFXMusic
   - BackgroundMusic
+  - UI
+  - Interactables
+  - Inventory
   layers:
   - Default
   - TransparentFX

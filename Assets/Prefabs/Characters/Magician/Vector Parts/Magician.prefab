@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: -8592054927268342604}
   m_Layer: 0
   m_Name: Magician
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -245,6 +245,7 @@ MonoBehaviour:
   playerJump: 25
   isGrounded: 0
   jumpButtonName: Jump
+  jumpButton: {fileID: 0}
 --- !u!1 &1177078754121038
 GameObject:
   m_ObjectHideFlags: 0

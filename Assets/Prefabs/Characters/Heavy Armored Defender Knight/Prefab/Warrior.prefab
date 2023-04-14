@@ -598,7 +598,7 @@ GameObject:
   - component: {fileID: -5317000222029411269}
   m_Layer: 0
   m_Name: Warrior
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -710,6 +710,7 @@ MonoBehaviour:
   playerJump: 25
   isGrounded: 0
   jumpButtonName: Jump
+  jumpButton: {fileID: 0}
 --- !u!1 &1559303672269180
 GameObject:
   m_ObjectHideFlags: 0
