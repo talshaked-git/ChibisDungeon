@@ -422,4 +422,10 @@ public class FireBaseManager : MonoBehaviour
         return mDatabaseRef.Child("Users").Push().Key;
     }
 
+    public List<AuctionListingItem> GetAuctionListingItems()
+    {
+        //TODO: Get AuctionListing From Database
+        return null;
+    }
+
 }

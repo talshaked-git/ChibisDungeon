@@ -245,6 +245,7 @@ MonoBehaviour:
   playerJump: 25
   isGrounded: 0
   jumpButtonName: Jump
+  jumpButton: {fileID: 0}
 --- !u!1 &1177078754121038
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,7 +1125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4693315091423072}
   - component: {fileID: 212816249483892062}
-  - component: {fileID: 114654188838673034}
+  - component: {fileID: 821272506065739212}
   m_Layer: 0
   m_Name: Face 01
   m_TagString: Untagged
@@ -1199,7 +1200,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114654188838673034
+--- !u!114 &821272506065739212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

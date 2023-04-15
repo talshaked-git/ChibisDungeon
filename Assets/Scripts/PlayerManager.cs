@@ -11,7 +11,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] EquipmentPanel equipmentPanel;
     [SerializeField] StatPanel statPanel;
     [SerializeField] ItemTooltip tooltip;
+    [SerializeField] Auction auction;
     [SerializeField] Image dragableItem;
+    [SerializeField] RegisterItemWindow registerItemWindow;
 
     private InventorySlot draggedSlot;
 
@@ -35,8 +37,8 @@ public class PlayerManager : MonoBehaviour
         // currentPlayer = new Player("TestPlayer", "1" ,CharClassType.Archer); //for testing delete later
         statPanel.SetStats(new CharcterStat(currentPlayer.level)
         ,currentPlayer.HP, currentPlayer.MP, currentPlayer.STR, currentPlayer.INT, currentPlayer.VIT, currentPlayer.AGI);
-        statPanel.UpdateStatValues();
-
+        statPanel.UpdateStatValues(); 
+        
         //Setup events:
         //click(Tooltip) and double click(equip) on inventory item
         inventory.OnPressEvent += HandlePressEvent;
@@ -44,15 +46,19 @@ public class PlayerManager : MonoBehaviour
         //begin drag
         inventory.OnBeginDragEvent += BeginDrag;
         equipmentPanel.OnBeginDragEvent += BeginDrag;
+        registerItemWindow.OnBeginDragEvent += BeginDrag;
         //end drag
         inventory.OnEndDragEvent += EndDrag;
         equipmentPanel.OnEndDragEvent += EndDrag;
+        registerItemWindow.OnEndDragEvent += EndDrag;
         //drag
         inventory.OnDragEvent += Drag;
         equipmentPanel.OnDragEvent += Drag;
+        registerItemWindow.OnDragEvent += Drag;
         //drop
         inventory.OnDropEvent += Drop;
         equipmentPanel.OnDropEvent += Drop;
+        registerItemWindow.OnDropEvent += Drop;
     }
 
     //fix equip defualt icon bug
@@ -205,5 +211,22 @@ public class PlayerManager : MonoBehaviour
         if(item != null && item.EquipableClass == currentPlayer.classType && item.EquipableLV <= currentPlayer.level)
             return true;
         return false;
+    }
+
+    public void RegisterNewItemToAuction()
+    {
+        Item item = registerItemWindow.inventorySlot.item;
+        string timeLeft = registerItemWindow.GetExpirationTime();
+        string buyoutPrice = registerItemWindow.buyoutPrice.ToString();
+        string bidPrice = registerItemWindow.startingBid.ToString();
+        string sellerName = currentPlayer.name;//need to add player id + player name
+        if(item == null || buyoutPrice == "" || bidPrice == "")
+            return;
+        AuctionListingItem auctionListingItem = new AuctionListingItem(item, timeLeft, sellerName, buyoutPrice, bidPrice);
+        registerItemWindow.inventorySlot.item = null;
+        
+        
+
+        registerItemWindow.gameObject.SetActive(false);
     }
 }

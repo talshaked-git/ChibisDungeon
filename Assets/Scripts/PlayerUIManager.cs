@@ -20,13 +20,15 @@ public class PlayerUIManager : MonoBehaviour
     public GameObject settingsMenu;
     [SerializeField]
     public GameObject exitMenu;
-    // public GameObject characterSwitchMenu;
+    public GameObject AuctionMenu;
+    public GameObject ListItemWindow;
     public GameObject statsMenu;
     public GameObject inventoryPanel;
     public GameObject shopMenu;
     [SerializeField] ItemTooltip tooltip;
 
     private bool gamePaused = false;
+    private bool isListItemWindowActive = false;
 
     //create awake method and dont destroy on scene change
     private void Awake()
@@ -115,7 +117,7 @@ public class PlayerUIManager : MonoBehaviour
         if (!gamePaused)
         {
             PauseGame();
-            statsMenu.SetActive(true);
+            AuctionMenu.SetActive(true);
             //settingsMenu.SetActive(true);
             //characterSwitchMenu.SetActive(true);
             //exitMenu.SetActive(true);
@@ -126,14 +128,40 @@ public class PlayerUIManager : MonoBehaviour
         }
     }
 
+    public void ShowRegisterItemToAuctionWindow()
+    {
+        ListItemWindow.SetActive(true);
+        isListItemWindowActive = true;
+        ShowInventoryFromStats();//this is a hack to show the inventory panel
+    }
+
+    public void HideAuction()
+    {
+        AuctionMenu.SetActive(false);
+        if (isListItemWindowActive)
+        {
+            ListItemWindow.SetActive(false);
+            isListItemWindowActive = false;
+        }
+        ResumeGame();
+        //settingsMenu.SetActive(false);
+        //characterSwitchMenu.SetActive(false);
+        //exitMenu.SetActive(false);
+    }
+
+    
+
     void CloseAllMenus()
     {
         MenuWindow.SetActive(false);
         //settingsMenu.SetActive(false);
         //characterSwitchMenu.SetActive(false);
         //exitMenu.SetActive(false);
+        AuctionMenu.SetActive(false);
+        ListItemWindow.SetActive(false);
         statsMenu.SetActive(false);
         inventoryPanel.SetActive(false);
+        ListItemWindow.SetActive(false);
         tooltip.HideTooltip();
         PlayerManager.isTooltipActive = false;
         //shopMenu.SetActive(false);
