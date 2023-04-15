@@ -43,7 +43,7 @@ public class PlayerUIManager : MonoBehaviour
     }
 
     void Start()
-    {    
+    {
         CloseAllMenus();
     }
 
@@ -60,7 +60,7 @@ public class PlayerUIManager : MonoBehaviour
         {
             ResumeGame();
         }
-        
+
         //settingsMenu.SetActive(true);
         //characterSwitchMenu.SetActive(true);
         //exitMenu.SetActive(true);
@@ -88,6 +88,7 @@ public class PlayerUIManager : MonoBehaviour
         {
             PauseGame();
             inventoryPanel.SetActive(true);
+            inventoryPanel.GetComponentInChildren<Scrollbar>().value = 1;
         }
         else
         {
@@ -152,13 +153,24 @@ public class PlayerUIManager : MonoBehaviour
     {
         if (gamePaused)
         {
-        Time.timeScale = 1;
-        gamePaused = false;
-        CloseAllMenus();
+            Time.timeScale = 1;
+            gamePaused = false;
+            CloseAllMenus();
         }
     }
 
-    public void ShowInventoryFromStats(){
+    public void ShowInventoryFromStats()
+    {
         inventoryPanel.SetActive(true);
+    }
+
+    public void ScrollUp()
+    {
+        inventoryPanel.GetComponentInChildren<Scrollbar>().value += 0.1f;
+    }
+
+    public void ScrollDown()
+    {
+        inventoryPanel.GetComponentInChildren<Scrollbar>().value -= 0.1f;
     }
 }

@@ -1,11 +1,21 @@
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Chibis and Dungeons/Item", order = 0)]
-public class Item : ScriptableObject {
-    public int ItemID;
+public class Item : ScriptableObject
+{
+    [SerializeField] string id;
+    public string ID { get { return id; } }
+    private string uniqueID;
     public string ItemName;
     public Sprite Icon;
     public int EquipableLV;
     public CharClassType EquipableClass;
+
+    private void OnValidate()
+    {
+        string path = AssetDatabase.GetAssetPath(this);
+        id = AssetDatabase.AssetPathToGUID(path);
+    }
 }
 

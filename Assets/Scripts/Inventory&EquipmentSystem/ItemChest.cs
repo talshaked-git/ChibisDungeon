@@ -12,8 +12,9 @@ public class ItemChest : MonoBehaviour
     private ArcherAttack attackButton;
     private Button openChestButton; // Add a reference to the button
 
-    
-    private void Start() {
+
+    private void Start()
+    {
         animator = GetComponent<Animator>();
         playerManager = GameObject.FindGameObjectWithTag("UI").GetComponentInChildren<PlayerManager>();
         openChestButton = GameObject.Find("Attack").GetComponent<Button>(); // Get the button component
@@ -22,8 +23,9 @@ public class ItemChest : MonoBehaviour
 
     private void OnOpenChestButtonPressed()
     {
-        if (isInRange && !isLooted) {
-            if(!playerManager.AddItem(item))
+        if (isInRange && !isLooted)
+        {
+            if (!playerManager.AddItem(Instantiate(item)))
                 return;
             isLooted = true;
             item = null;
@@ -33,14 +35,15 @@ public class ItemChest : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        CheckCollision(other.gameObject,true);
+        CheckCollision(other.gameObject, true);
     }
 
-    private void OnTriggerExit2D(Collider2D other) {
-        CheckCollision(other.gameObject,false);
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        CheckCollision(other.gameObject, false);
     }
 
-    private void CheckCollision(GameObject gameObject,bool state)
+    private void CheckCollision(GameObject gameObject, bool state)
     {
         if (gameObject.CompareTag("Player"))
         {
