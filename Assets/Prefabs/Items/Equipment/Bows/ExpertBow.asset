@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b4064f918e1a14d85caa28d6c47b3c, type: 3}
   m_Name: ExpertBow
   m_EditorClassIdentifier: 
-  ItemID: 30
+  id: f834489836106d94ab3341bb96e6cda6
   ItemName: Expert Bow
+  MaxStack: 1
   Icon: {fileID: 21300000, guid: bbb872ae597c2074f91a7fcbbf2f6524, type: 3}
   EquipableLV: 1
   EquipableClass: 1000

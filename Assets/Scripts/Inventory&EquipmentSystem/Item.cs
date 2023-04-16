@@ -8,6 +8,8 @@ public class Item : ScriptableObject
     public string ID { get { return id; } }
     private string uniqueID;
     public string ItemName;
+    [Range(1, 999)]
+    public int MaxStack = 1;
     public Sprite Icon;
     public int EquipableLV;
     public CharClassType EquipableClass;
@@ -16,6 +18,15 @@ public class Item : ScriptableObject
     {
         string path = AssetDatabase.GetAssetPath(this);
         id = AssetDatabase.AssetPathToGUID(path);
+    }
+
+    public virtual Item GetCopy()
+    {
+        return this;
+    }
+
+    public virtual void Destroy()
+    {
     }
 }
 

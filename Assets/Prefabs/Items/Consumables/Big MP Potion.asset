@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40183bee1502920468e2b3bd8250c28d, type: 3}
   m_Name: Big MP Potion
   m_EditorClassIdentifier: 
+  id: daefa7de153d2464f9e1c2879eb46990
   ItemName: Big MP Potion
+  MaxStack: 10
   Icon: {fileID: 21300000, guid: 147e6abb9b1a7ab40b8e9d59f5a28439, type: 3}
-  Type: 0
+  EquipableLV: 0
+  EquipableClass: 0

@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40183bee1502920468e2b3bd8250c28d, type: 3}
   m_Name: Small HP Potion
   m_EditorClassIdentifier: 
+  id: 86c1221d70e406a42831753a40baddeb
   ItemName: Small HP Potion
+  MaxStack: 10
   Icon: {fileID: 21300000, guid: 53a3d932f3e33c84f8f48bd35167cb34, type: 3}
-  Type: 0
+  EquipableLV: 1
+  EquipableClass: 0

@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public enum EquipmentType {
+public enum EquipmentType
+{
     Helmet,
     Chest,
     Gloves,
@@ -9,7 +10,7 @@ public enum EquipmentType {
     OffHand,
     Ring1,
     Ring2,
-    Neckless, 
+    Neckless,
 }
 
 
@@ -35,38 +36,58 @@ public class EquippableItem : Item
 
     public bool isEquipped = false;
 
-    
-    public void Equip(Player player){
-        if (STRBonus != 0) {
+
+    public void Equip(Player player)
+    {
+        if (STRBonus != 0)
+        {
             player.STR.AddModifier(new StatModifier(STRBonus, StatModType.Flat, this));
         }
-        if (INTBonus != 0) {
+        if (INTBonus != 0)
+        {
             player.INT.AddModifier(new StatModifier(INTBonus, StatModType.Flat, this));
         }
-        if (AGIBonus != 0) {
+        if (AGIBonus != 0)
+        {
             player.AGI.AddModifier(new StatModifier(AGIBonus, StatModType.Flat, this));
         }
-        if (VITBonus != 0) {
+        if (VITBonus != 0)
+        {
             player.VIT.AddModifier(new StatModifier(VITBonus, StatModType.Flat, this));
         }
-        if (STRPercentAddBonus != 0) {
+        if (STRPercentAddBonus != 0)
+        {
             player.STR.AddModifier(new StatModifier(STRPercentAddBonus, StatModType.PercentMult, this));
         }
-        if (INTPercentAddBonus != 0) {
+        if (INTPercentAddBonus != 0)
+        {
             player.INT.AddModifier(new StatModifier(INTPercentAddBonus, StatModType.PercentMult, this));
         }
-        if (AGIPercentAddBonus != 0) {
+        if (AGIPercentAddBonus != 0)
+        {
             player.AGI.AddModifier(new StatModifier(AGIPercentAddBonus, StatModType.PercentMult, this));
         }
-        if (VITPercentAddBonus != 0) {
+        if (VITPercentAddBonus != 0)
+        {
             player.VIT.AddModifier(new StatModifier(VITPercentAddBonus, StatModType.PercentMult, this));
-        }   
+        }
     }
 
-    public void Unequip(Player player){
+    public void Unequip(Player player)
+    {
         player.STR.RemoveAllModifiersFromSource(this);
         player.INT.RemoveAllModifiersFromSource(this);
         player.AGI.RemoveAllModifiersFromSource(this);
         player.VIT.RemoveAllModifiersFromSource(this);
+    }
+
+    public override Item GetCopy()
+    {
+        return Instantiate(this);
+    }
+
+    public override void Destroy()
+    {
+        Destroy(this);
     }
 }

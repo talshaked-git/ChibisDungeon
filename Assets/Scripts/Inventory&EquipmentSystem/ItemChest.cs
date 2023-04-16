@@ -6,6 +6,7 @@ public class ItemChest : MonoBehaviour
 {
     Animator animator;
     public Item item;
+    [SerializeField] int Amount = 1;
     public bool isLooted = false;
     public bool isInRange = false;
     private PlayerManager playerManager;
@@ -25,11 +26,22 @@ public class ItemChest : MonoBehaviour
     {
         if (isInRange && !isLooted)
         {
-            if (!playerManager.AddItem(Instantiate(item)))
-                return;
-            isLooted = true;
-            item = null;
-            animator.SetTrigger("Open");
+            Item itemCopy = item.GetCopy();
+            if (playerManager.AddItem(itemCopy))
+            {
+                Amount--;
+                if (Amount == 0)
+                {
+                    isLooted = true;
+                    item = null;
+                    animator.SetTrigger("Open");
+                }
+            }
+            else
+            {
+                itemCopy.Destroy();
+            }
+
         }
     }
 

@@ -62,49 +62,76 @@ public class PlayerManager : MonoBehaviour
     private void Drop(InventorySlot dropItemslot)
     {
         if (draggedSlot == null) return;
-        if (draggedSlot.CanReciveItem(draggedSlot.item) && dropItemslot.CanReciveItem(draggedSlot.item))
+
+        if (dropItemslot.CanAddStack(draggedSlot.item))
         {
-            EquippableItem dragItem = draggedSlot.item as EquippableItem;
-            EquippableItem dropItem = dropItemslot.item as EquippableItem;
-            EquipmentSlot draggedSlotEquipmentSlot = draggedSlot as EquipmentSlot;
-            bool isChanged = false;
-            //Stat Panels => INV
-            if (draggedSlotEquipmentSlot != null && (dropItemslot.item == null || isEquipabble(dropItem) && draggedSlotEquipmentSlot.equipmentType == dropItem.equipmentType))
-            {
-                isChanged = true;
-                if (dragItem != null)
-                {
-                    dragItem.Unequip(currentPlayer);
-                    dragItem.isEquipped = false;
-                }
-                if (dropItem != null)
-                {
-                    dropItem.Equip(currentPlayer);
-                    dropItem.isEquipped = true;
-                }
-            }
-            //INV => Stat Panels
-            if (dropItemslot is EquipmentSlot && isEquipabble(dragItem))
-            {
-                isChanged = true;
-                if (dragItem != null)
-                {
-                    dragItem.Equip(currentPlayer);
-                    dragItem.isEquipped = true;
-                }
-                if (dropItem != null)
-                {
-                    dropItem.Unequip(currentPlayer);
-                    dropItem.isEquipped = false;
-                }
-            }
-            statPanel.UpdateStatValues();
-            if (!isChanged && (dropItemslot is EquipmentSlot || draggedSlot is EquipmentSlot))
-                return;
-            Item draggedItem = draggedSlot.item;
-            draggedSlot.item = dropItemslot.item;
-            dropItemslot.item = draggedItem;
+            AddStacks(dropItemslot);
         }
+        else if (draggedSlot.CanReciveItem(draggedSlot.item) && dropItemslot.CanReciveItem(draggedSlot.item))
+        {
+            SwapItems(dropItemslot);
+        }
+    }
+
+    private void SwapItems(InventorySlot dropItemslot)
+    {
+        EquippableItem dragItem = draggedSlot.item as EquippableItem;
+        EquippableItem dropItem = dropItemslot.item as EquippableItem;
+        EquipmentSlot draggedSlotEquipmentSlot = draggedSlot as EquipmentSlot;
+        bool isChanged = false;
+        //Stat Panels => INV
+        if (draggedSlotEquipmentSlot != null && (dropItemslot.item == null || isEquipabble(dropItem) && draggedSlotEquipmentSlot.equipmentType == dropItem.equipmentType))
+        {
+            isChanged = true;
+            if (dragItem != null)
+            {
+                dragItem.Unequip(currentPlayer);
+                dragItem.isEquipped = false;
+            }
+            if (dropItem != null)
+            {
+                dropItem.Equip(currentPlayer);
+                dropItem.isEquipped = true;
+            }
+        }
+        //INV => Stat Panels
+        if (dropItemslot is EquipmentSlot && isEquipabble(dragItem))
+        {
+            isChanged = true;
+            if (dragItem != null)
+            {
+                dragItem.Equip(currentPlayer);
+                dragItem.isEquipped = true;
+            }
+            if (dropItem != null)
+            {
+                dropItem.Unequip(currentPlayer);
+                dropItem.isEquipped = false;
+            }
+        }
+        statPanel.UpdateStatValues();
+        if (!isChanged && (dropItemslot is EquipmentSlot || draggedSlot is EquipmentSlot))
+            return;
+
+        Item draggedItem = draggedSlot.item;
+        int draggedItemAmount = draggedSlot.Amount;
+
+        draggedSlot.item = dropItemslot.item;
+        draggedSlot.Amount = dropItemslot.Amount;
+
+        dropItemslot.item = draggedItem;
+        dropItemslot.Amount = draggedItemAmount;
+    }
+
+
+
+    private void AddStacks(InventorySlot dropItemslot)
+    {
+        int numAddableStacks = dropItemslot.item.MaxStack - dropItemslot.Amount;
+        int stacksToAdd = Mathf.Min(numAddableStacks, draggedSlot.Amount);
+
+        dropItemslot.Amount += stacksToAdd;
+        draggedSlot.Amount -= stacksToAdd;
     }
 
     private void Drag(InventorySlot slot)
