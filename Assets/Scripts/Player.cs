@@ -52,8 +52,21 @@ public class Player
     }
     public int gold { get; set; }
     public CharcterStat HP { get; set; }
-    public int currentHP { get; set; }
+    private int _currentHP;
+    public int currentHP
+    {
+        get { return _currentHP; }
+        set
+        {
+            _currentHP = value;
+            if (_currentHP <= 0)
+            {
+                // Die();
+            }
+        }
+    }
     public CharcterStat MP { get; set; }
+    public int currentMP { get; set; }
     public CharcterStat STR { get; set; }
     public CharcterStat VIT { get; set; }
     public CharcterStat INT { get; set; }
@@ -78,6 +91,8 @@ public class Player
         // inventory = new List<int>();
         // equipment = new List<int>();
         InitStatesByClassType();
+        currentHP = (int)HP.Value;
+        currentMP = (int)MP.Value;
     }
 
     public Player(Dictionary<string, Object> _dictionary)
@@ -96,6 +111,16 @@ public class Player
         VIT = new CharcterStat((Dictionary<string, Object>)_dictionary["VIT"]);
         INT = new CharcterStat((Dictionary<string, Object>)_dictionary["INT"]);
         AGI = new CharcterStat((Dictionary<string, Object>)_dictionary["AGI"]);
+        DMG = new CharcterStat(0);
+        DEF = new CharcterStat(0);
+
+        _requiredExpForNextLevel = CalculateExpForLevel(level);
+        LevelChanged += UpdateRequiredExpForNextLevel;
+
+        ListenAndUpdateDerivedStats();
+
+        currentHP = (int)HP.Value;
+        currentMP = (int)MP.Value;
     }
 
     private void InitStatesByClassType()
@@ -140,6 +165,11 @@ public class Player
         DMG = new CharcterStat(0);
         DEF = new CharcterStat(0);
 
+        ListenAndUpdateDerivedStats();
+    }
+
+    private void ListenAndUpdateDerivedStats()
+    {
         STR.StatChanged += UpdateDerivedStats;
         VIT.StatChanged += UpdateDerivedStats;
         INT.StatChanged += UpdateDerivedStats;
@@ -178,6 +208,15 @@ public class Player
                 break;
             default:
                 break;
+        }
+
+        if (currentHP > HP.Value)
+        {
+            currentHP = (int)HP.Value;
+        }
+        if (currentMP > MP.Value)
+        {
+            currentMP = (int)MP.Value;
         }
     }
 

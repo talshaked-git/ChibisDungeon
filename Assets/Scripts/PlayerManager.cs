@@ -36,9 +36,6 @@ public class PlayerManager : MonoBehaviour
     {
         currentPlayer = GameManager.instance.currentPlayer; //uncomment after tesing
         // currentPlayer = new Player("TestPlayer", "1" ,CharClassType.Archer); //for testing delete later
-        statPanel.SetStats(new CharcterStat(currentPlayer.level)
-        , currentPlayer.HP, currentPlayer.MP, currentPlayer.STR, currentPlayer.INT, currentPlayer.VIT, currentPlayer.AGI);
-        statPanel.UpdateStatValues();
 
         //Setup events:
         //click(Tooltip) and double click(equip) on inventory item
@@ -56,6 +53,56 @@ public class PlayerManager : MonoBehaviour
         //drop
         inventory.OnDropEvent += Drop;
         equipmentPanel.OnDropEvent += Drop;
+    }
+
+    private void Start()
+    {
+        statPanel.SetStats(currentPlayer.STR, currentPlayer.INT, currentPlayer.VIT, currentPlayer.AGI);
+        statPanel.UpdateStatValues();
+        statPanel.UpdateLevel(currentPlayer.level);
+
+        UpdateOnLevelChange();
+        // currentPlayer.LevelChanged += OnLevelChanged;
+    }
+
+    private void UpdateOnLevelChange()
+    {
+        string text;
+        float ratio;
+
+        statPanel.UpdateLevel(currentPlayer.level);
+
+        UpdateEXPStat(out text, out ratio);
+
+        UpdateHPStat(out text, out ratio);
+
+        UpdateMPStat(out text, out ratio);
+    }
+
+    private void UpdateMPStat(out string text, out float ratio)
+    {
+        ratio = (float)currentPlayer.currentMP / currentPlayer.MP.Value;
+        text = currentPlayer.currentMP + " / " + (int)currentPlayer.MP.Value;
+        statPanel.UpdateMP(ratio, text);
+    }
+
+    private void UpdateHPStat(out string text, out float ratio)
+    {
+        ratio = (float)currentPlayer.currentHP / currentPlayer.HP.Value;
+        text = currentPlayer.currentHP + " / " + (int)currentPlayer.HP.Value;
+        statPanel.UpdateHP(ratio, text);
+    }
+
+    private void UpdateEXPStat(out string text, out float ratio)
+    {
+        ratio = (float)currentPlayer.CurrentExp / (float)currentPlayer.requiredExpForNextLevel;
+        text = currentPlayer.CurrentExp + " / " + currentPlayer.requiredExpForNextLevel;
+        statPanel.UpdateExp(ratio, text);
+    }
+
+    private void OnLevelChanged(object sender, EventArgs e)
+    {
+        UpdateOnLevelChange();
     }
 
     //fix equip defualt icon bug
@@ -93,6 +140,7 @@ public class PlayerManager : MonoBehaviour
                 dropItem.Equip(currentPlayer);
                 dropItem.isEquipped = true;
             }
+            UpdateOnLevelChange();
         }
         //INV => Stat Panels
         if (dropItemslot is EquipmentSlot && isEquipabble(dragItem))
@@ -108,6 +156,7 @@ public class PlayerManager : MonoBehaviour
                 dropItem.Unequip(currentPlayer);
                 dropItem.isEquipped = false;
             }
+            UpdateOnLevelChange();
         }
         statPanel.UpdateStatValues();
         if (!isChanged && (dropItemslot is EquipmentSlot || draggedSlot is EquipmentSlot))
@@ -122,8 +171,6 @@ public class PlayerManager : MonoBehaviour
         dropItemslot.item = draggedItem;
         dropItemslot.Amount = draggedItemAmount;
     }
-
-
 
     private void AddStacks(InventorySlot dropItemslot)
     {
@@ -178,6 +225,7 @@ public class PlayerManager : MonoBehaviour
                 }
                 item.Equip(currentPlayer);
                 statPanel.UpdateStatValues();
+                UpdateOnLevelChange();
             }
             else
             {
@@ -192,10 +240,13 @@ public class PlayerManager : MonoBehaviour
         {
             item.Unequip(currentPlayer);
             statPanel.UpdateStatValues();
+            UpdateOnLevelChange();
             inventory.AddItem(item);
         }
     }
 
+
+    //fix double click bug in the change amount when equip item
     private void HandlePressEvent(InventorySlot inventorySlot)
     {
         if (inventorySlot.item == null)
@@ -233,6 +284,7 @@ public class PlayerManager : MonoBehaviour
             // Double-click detected
             Debug.Log("Double Click");
             EquippableItem equippableItem = inventorySlot.item as EquippableItem;
+            UsableItem usableItem = inventorySlot.item as UsableItem;
             if (equippableItem != null && equippableItem.isEquipped)
             {
                 Unequip(equippableItem);
@@ -242,6 +294,13 @@ public class PlayerManager : MonoBehaviour
             {
                 Equip(equippableItem);
                 equippableItem.isEquipped = true;
+            }
+            else if (usableItem != null)
+            {
+                usableItem.Use(currentPlayer);
+                if (usableItem.IsConsumable)
+                    inventory.RemoveItem(usableItem);
+                UpdateOnLevelChange();
             }
             isTooltipActive = false;
             tooltip.HideTooltip();

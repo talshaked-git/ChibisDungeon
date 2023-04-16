@@ -834,7 +834,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 203244455}
-  - component: {fileID: 5187123917852266133}
   m_Layer: 6
   m_Name: HP
   m_TagString: Untagged
@@ -864,20 +863,6 @@ RectTransform:
   m_AnchoredPosition: {x: 60, y: -210}
   m_SizeDelta: {x: 415, y: 150}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &5187123917852266133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203244454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 794f6dad21e70e5419d349d55e3296bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NameText: {fileID: 960290242}
-  ValueText: {fileID: 1336180599}
 --- !u!1 &212938478
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,7 +1316,6 @@ GameObject:
   m_Component:
   - component: {fileID: 344954726}
   - component: {fileID: 344954727}
-  - component: {fileID: 344954728}
   m_Layer: 6
   m_Name: Level
   m_TagString: Untagged
@@ -1387,20 +1371,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &344954728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 344954725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 794f6dad21e70e5419d349d55e3296bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NameText: {fileID: 1604441566}
-  ValueText: {fileID: 796990713}
 --- !u!1 &347527329
 GameObject:
   m_ObjectHideFlags: 0
@@ -2483,7 +2453,7 @@ GameObject:
   - component: {fileID: 658834767}
   - component: {fileID: 658834766}
   m_Layer: 6
-  m_Name: Item Stat Text
+  m_Name: Item Description Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4458,7 +4428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingItems:
   - {fileID: 11400000, guid: 86c1221d70e406a42831753a40baddeb, type: 2}
-  - {fileID: 11400000, guid: daefa7de153d2464f9e1c2879eb46990, type: 2}
+  - {fileID: 11400000, guid: 86c1221d70e406a42831753a40baddeb, type: 2}
   - {fileID: 11400000, guid: ccf4ba33b28bc3a46b1bbb30c48d4510, type: 2}
   - {fileID: 11400000, guid: 8fecef6ae69b69a49b6c2489fd26ff20, type: 2}
   - {fileID: 11400000, guid: f834489836106d94ab3341bb96e6cda6, type: 2}
@@ -4516,7 +4486,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1079172234}
-  - component: {fileID: 5187123917852266132}
   m_Layer: 6
   m_Name: MP
   m_TagString: Untagged
@@ -4546,20 +4515,6 @@ RectTransform:
   m_AnchoredPosition: {x: 475, y: -210}
   m_SizeDelta: {x: 415, y: 150}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &5187123917852266132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1079172233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 794f6dad21e70e5419d349d55e3296bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NameText: {fileID: 914998895}
-  ValueText: {fileID: 1098448859}
 --- !u!1 &1098448857
 GameObject:
   m_ObjectHideFlags: 0
@@ -6295,21 +6250,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statDisplays:
-  - {fileID: 344954728}
-  - {fileID: 5187123917852266133}
-  - {fileID: 5187123917852266132}
   - {fileID: 1661629593}
   - {fileID: 19520610}
   - {fileID: 1511813573}
   - {fileID: 2137697058}
   statNames:
-  - 'Level:'
-  - HP
-  - MP
   - STR
   - INT
   - VIT
   - AGI
+  LevelText: {fileID: 796990713}
+  ExpSlider: {fileID: 2570667804111652941}
+  HPSlider: {fileID: 1896909915}
+  MPSlider: {fileID: 611109795}
 --- !u!1 &1492953484
 GameObject:
   m_ObjectHideFlags: 0
@@ -8776,7 +8729,7 @@ GameObject:
   - component: {fileID: 1796423654}
   - component: {fileID: 1796423653}
   m_Layer: 6
-  m_Name: Item Slot Text
+  m_Name: Item Type Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9446,8 +9399,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemNameText: {fileID: 2099730089}
-  ItemSlotsText: {fileID: 1796423653}
-  ItemStatsText: {fileID: 658834766}
+  ItemTypeText: {fileID: 1796423653}
+  ItemDescriptionText: {fileID: 658834766}
   ItemLevelText: {fileID: 1759678870}
   ItemClassText: {fileID: 1737275667}
 --- !u!1 &1936175760

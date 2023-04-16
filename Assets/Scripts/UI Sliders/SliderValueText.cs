@@ -10,22 +10,33 @@ public class SliderValueText : MonoBehaviour
     [SerializeField]
     private TMPro.TextMeshProUGUI text;
 
-    private void Start() {
-        slider.onValueChanged.AddListener( UpdateText);
+    private void Awake()
+    {
+        slider.maxValue = 1;
     }
 
-    public void UpdateText(float value) {
-        text.text = slider.value.ToString();
+    public void UpdateText(string textValue)
+    {
+        text.text = textValue;
+    }
+
+    public void UpdateSlider(float value)
+    {
+        slider.value = value;
     }
 
 
-    private void OnValidate() {
-        if (slider == null) {
+    private void OnValidate()
+    {
+        if (slider == null)
+        {
             slider = GetComponent<Slider>();
         }
-        if (text == null) {
+        if (text == null)
+        {
             text = slider.GetComponentInChildren<TMPro.TextMeshProUGUI>();
         }
     }
+
 
 }
