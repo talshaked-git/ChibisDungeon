@@ -9,12 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40183bee1502920468e2b3bd8250c28d, type: 3}
+  m_Script: {fileID: 11500000, guid: ac147f259136a8240913b46dd0041408, type: 3}
   m_Name: Small HP Potion
   m_EditorClassIdentifier: 
   id: 86c1221d70e406a42831753a40baddeb
   ItemName: Small HP Potion
-  MaxStack: 10
+  MaxStack: 99
   Icon: {fileID: 21300000, guid: 53a3d932f3e33c84f8f48bd35167cb34, type: 3}
   EquipableLV: 1
   EquipableClass: 0
+  IsConsumable: 1
+  Effects:
+  - {fileID: 11400000, guid: 9d1f3314c962ff04faa2ad37e6117c30, type: 2}

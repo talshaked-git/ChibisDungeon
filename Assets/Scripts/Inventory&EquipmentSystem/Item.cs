@@ -1,7 +1,8 @@
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Item", menuName = "Chibis and Dungeons/Item", order = 0)]
+[CreateAssetMenu(fileName = "Item", menuName = "Chibis and Dungeons/Item/Item")]
 public class Item : ScriptableObject
 {
     [SerializeField] string id;
@@ -13,6 +14,8 @@ public class Item : ScriptableObject
     public Sprite Icon;
     public int EquipableLV;
     public CharClassType EquipableClass;
+
+    protected static readonly StringBuilder sb = new StringBuilder();
 
     private void OnValidate()
     {
@@ -27,6 +30,16 @@ public class Item : ScriptableObject
 
     public virtual void Destroy()
     {
+    }
+
+    public virtual string GetItemType()
+    {
+        return "";
+    }
+
+    public virtual string GetDescription()
+    {
+        return string.Empty;
     }
 }
 
