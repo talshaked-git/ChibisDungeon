@@ -8,6 +8,8 @@ public class CharcterStat
     public float BaseValue;
     protected readonly List<StatModifier> statModifiers;
     public readonly ReadOnlyCollection<StatModifier> StatModifiers;
+    public delegate void OnStatChanged();
+    public event OnStatChanged StatChanged;
 
     public virtual float Value
     {
@@ -32,12 +34,13 @@ public class CharcterStat
         StatModifiers = statModifiers.AsReadOnly();
     }
 
-    public CharcterStat(float baseValue): this()
+    public CharcterStat(float baseValue) : this()
     {
         BaseValue = baseValue;
     }
 
-    public CharcterStat(Dictionary<string, Object> _dictionary){
+    public CharcterStat(Dictionary<string, Object> _dictionary)
+    {
         statModifiers = new List<StatModifier>();
         StatModifiers = statModifiers.AsReadOnly();
 
@@ -49,6 +52,7 @@ public class CharcterStat
         isDirty = true;
         statModifiers.Add(mod);
         statModifiers.Sort(CompareModifierOrder);
+        StatChanged?.Invoke();
     }
 
     protected virtual int CompareModifierOrder(StatModifier a, StatModifier b)
@@ -65,6 +69,7 @@ public class CharcterStat
         if (statModifiers.Remove(mod))
         {
             isDirty = true;
+            StatChanged?.Invoke();
             return true;
         }
         return false;
@@ -83,11 +88,14 @@ public class CharcterStat
                 statModifiers.RemoveAt(i);
             }
         }
+        if (didRemove)
+            StatChanged?.Invoke();
 
         return didRemove;
     }
 
-    protected virtual float CalculateFinalValue(){
+    protected virtual float CalculateFinalValue()
+    {
         float finalValue = BaseValue;
         float sumPercentAdd = 0;
 
@@ -118,12 +126,11 @@ public class CharcterStat
         return (float)Math.Round(finalValue, 4);
     }
 
-
     //Discuss to change save of statModifier or create from equiped items
-    public Dictionary<string, Object> ToDictionary(){
+    public Dictionary<string, Object> ToDictionary()
+    {
         Dictionary<string, Object> result = new Dictionary<string, Object>();
         result["BaseValue"] = BaseValue;
         return result;
     }
-
 }
