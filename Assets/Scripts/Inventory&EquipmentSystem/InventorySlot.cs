@@ -47,6 +47,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
             {
                 icon.color = noramlColor;
                 icon.sprite = _item.Icon;
+                icon.preserveAspect = true;
             }
         }
     }
