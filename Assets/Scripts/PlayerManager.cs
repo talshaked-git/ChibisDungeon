@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
+    public static PlayerManager instance;
+
     [SerializeField] Inventory inventory;
     [SerializeField] EquipmentPanel equipmentPanel;
     [SerializeField] StatPanel statPanel;
@@ -18,7 +20,6 @@ public class PlayerManager : MonoBehaviour
     public static bool isTooltipActive = false;
     private static InventorySlot _lastClickedSlot;
 
-    // private bool _isWaitingForDoubleClick;
     private TimeSpan _maxDoubleClickTime = TimeSpan.FromSeconds(0.7);
     private DateTime _lastClickTime;
 
@@ -34,6 +35,16 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
+        // DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+
         currentPlayer = GameManager.instance.currentPlayer; //uncomment after tesing
         // currentPlayer = new Player("TestPlayer", "1" ,CharClassType.Archer); //for testing delete later
 
@@ -58,17 +69,17 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         statPanel.SetStats(currentPlayer.STR, currentPlayer.INT, currentPlayer.VIT, currentPlayer.AGI);
-        statPanel.UpdateStatValues();
-        statPanel.UpdateLevel(currentPlayer.level);
 
-        UpdateOnLevelChange();
-        // currentPlayer.LevelChanged += OnLevelChanged;
+        UpdateStatusPanel();
+        // currentPlayer.LevelChanged += OnLevelChanged; // might be a problem
     }
 
-    private void UpdateOnLevelChange()
+    public void UpdateStatusPanel()
     {
         string text;
         float ratio;
+
+        statPanel.UpdateStatValues();
 
         statPanel.UpdateLevel(currentPlayer.level);
 
@@ -102,13 +113,12 @@ public class PlayerManager : MonoBehaviour
 
     private void OnLevelChanged(object sender, EventArgs e)
     {
-        UpdateOnLevelChange();
+        UpdateStatusPanel();
     }
 
-    //fix equip defualt icon bug
     private void Drop(InventorySlot dropItemslot)
     {
-        if (draggedSlot == null) return;
+        if (draggedSlot == null || draggedSlot == dropItemslot) return;
 
         if (dropItemslot.CanAddStack(draggedSlot.item))
         {
@@ -140,7 +150,6 @@ public class PlayerManager : MonoBehaviour
                 dropItem.Equip(currentPlayer);
                 dropItem.isEquipped = true;
             }
-            UpdateOnLevelChange();
         }
         //INV => Stat Panels
         if (dropItemslot is EquipmentSlot && isEquipabble(dragItem))
@@ -156,9 +165,8 @@ public class PlayerManager : MonoBehaviour
                 dropItem.Unequip(currentPlayer);
                 dropItem.isEquipped = false;
             }
-            UpdateOnLevelChange();
         }
-        statPanel.UpdateStatValues();
+        UpdateStatusPanel();
         if (!isChanged && (dropItemslot is EquipmentSlot || draggedSlot is EquipmentSlot))
             return;
 
@@ -208,30 +216,34 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void Equip(EquippableItem item)
+    public void Equip(EquippableItem item, out EquippableItem previousItem)
     {
         if (!isEquipabble(item))
+        {
+            previousItem = null;
             return;
+        }
         if (inventory.RemoveItem(item))
         {
-            EquippableItem previousItem;
             if (equipmentPanel.AddItem(item, out previousItem))
             {
                 if (previousItem != null)
                 {
                     inventory.AddItem(previousItem);
-                    item.Unequip(currentPlayer);
-                    statPanel.UpdateStatValues();
+                    previousItem.Unequip(currentPlayer);
                 }
                 item.Equip(currentPlayer);
-                statPanel.UpdateStatValues();
-                UpdateOnLevelChange();
             }
             else
             {
                 inventory.AddItem(item);
             }
         }
+        else
+        {
+            previousItem = null;
+        }
+        UpdateStatusPanel();
     }
 
     public void Unequip(EquippableItem item)
@@ -239,10 +251,10 @@ public class PlayerManager : MonoBehaviour
         if (!inventory.IsFull() && equipmentPanel.RemoveItem(item))
         {
             item.Unequip(currentPlayer);
-            statPanel.UpdateStatValues();
-            UpdateOnLevelChange();
+            UpdateStatusPanel();
             inventory.AddItem(item);
         }
+        UpdateStatusPanel();
     }
 
 
@@ -292,18 +304,23 @@ public class PlayerManager : MonoBehaviour
             }
             else if (equippableItem != null && !equippableItem.isEquipped)
             {
-                Equip(equippableItem);
+                EquippableItem previousItem;
+                Equip(equippableItem, out previousItem);
                 equippableItem.isEquipped = true;
+                if (previousItem != null)
+                    previousItem.isEquipped = false;
             }
             else if (usableItem != null)
             {
                 usableItem.Use(currentPlayer);
                 if (usableItem.IsConsumable)
                     inventory.RemoveItem(usableItem);
-                UpdateOnLevelChange();
+                UpdateStatusPanel();
             }
             isTooltipActive = false;
             tooltip.HideTooltip();
+            _lastClickTime = DateTime.MinValue;
+            return;
         }
 
         _lastClickTime = currentTime;
