@@ -248,7 +248,7 @@ public class PlayerManager : MonoBehaviour
 
     public void Unequip(EquippableItem item)
     {
-        if (!inventory.IsFull() && equipmentPanel.RemoveItem(item))
+        if (!inventory.CanAddItem(item) && equipmentPanel.RemoveItem(item))
         {
             item.Unequip(currentPlayer);
             UpdateStatusPanel();
@@ -335,7 +335,7 @@ public class PlayerManager : MonoBehaviour
 
     public bool AddItem(Item item)
     {
-        if (!inventory.IsFull())
+        if (inventory.CanAddItem(item))
         {
             return inventory.AddItem(item);
         }

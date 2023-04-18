@@ -10,7 +10,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     [SerializeField] Image background;
     [SerializeField] TMP_Text amountText;
 
-
     public event Action<InventorySlot> OnPressEvent;
     public event Action<InventorySlot> OnBeginDragEvent;
     public event Action<InventorySlot> OnEndDragEvent;
@@ -18,8 +17,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     public event Action<InventorySlot> OnDropEvent;
 
     public bool isTooltipActive = false;
-
-
 
     private Color noramlColor = Color.white;
     private Color disabledColor = new Color(1, 1, 1, 0);
@@ -31,6 +28,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         set
         {
             _item = value;
+            if (item == null && Amount != 0) Amount = 0;
             if (_item == null)
             {
                 EquipmentSlot equipmentSlot = this as EquipmentSlot;

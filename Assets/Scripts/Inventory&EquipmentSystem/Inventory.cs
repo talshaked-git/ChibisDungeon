@@ -44,25 +44,43 @@ public class Inventory : MonoBehaviour, IItemContainer
 
     private void SetStartingItems()
     {
-        int i = 0;
-        for (; i < startingItems.Count && i < inventorySlots.Count; i++)
+        Clear();
+
+        for (int i = 0; i < startingItems.Count && i < inventorySlots.Count; i++)
         {
             inventorySlots[i].item = startingItems[i].GetCopy();
             inventorySlots[i].Amount = 1;
         }
+    }
 
-        for (; i < inventorySlots.Capacity; i++)
+    public virtual bool CanAddItem(Item item, int amount = 1)
+    {
+        int freeSpaces = 0;
+
+        foreach (InventorySlot slot in inventorySlots)
         {
-            inventorySlots[i].item = null;
-            inventorySlots[i].Amount = 0;
+            if (slot.item == null || slot.item.ID == item.ID)
+            {
+                freeSpaces += item.MaxStack - slot.Amount;
+            }
         }
+
+        return freeSpaces >= amount;
     }
 
     public bool AddItem(Item item)
     {
         for (int i = 0; i < inventorySlots.Capacity; i++)
         {
-            if (inventorySlots[i].item == null || inventorySlots[i].CanAddStack(item))
+            if (inventorySlots[i].CanAddStack(item))
+            {
+                inventorySlots[i].Amount++;
+                return true;
+            }
+        }
+        for (int i = 0; i < inventorySlots.Capacity; i++)
+        {
+            if (inventorySlots[i].item == null)
             {
                 inventorySlots[i].item = item;
                 inventorySlots[i].Amount++;
@@ -70,18 +88,6 @@ public class Inventory : MonoBehaviour, IItemContainer
             }
         }
         return false;
-    }
-
-    public bool IsFull()
-    {
-        for (int i = 0; i < inventorySlots.Capacity; i++)
-        {
-            if (inventorySlots[i].item == null)
-            {
-                return false;
-            }
-        }
-        return true;
     }
 
     public List<InventorySlot> GetInventorySlots()
@@ -117,7 +123,7 @@ public class Inventory : MonoBehaviour, IItemContainer
         {
             if (inventorySlots[i].item.ID == itemID)
             {
-                count++;
+                count += inventorySlots[i].Amount;
             }
         }
         return count;
@@ -148,5 +154,13 @@ public class Inventory : MonoBehaviour, IItemContainer
             }
         }
         return false;
+    }
+
+    public virtual void Clear()
+    {
+        for (int i = 0; i < inventorySlots.Capacity; i++)
+        {
+            inventorySlots[i].item = null;
+        }
     }
 }

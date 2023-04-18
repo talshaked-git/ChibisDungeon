@@ -43,8 +43,15 @@ public interface IItemContainer
     bool AddItem(Item item);
 
     /// <summary>
-    /// Checks if the container is full.
+    /// Checks if the specified item and amount can be added to the container.
     /// </summary>
-    /// <returns>Returns true if the container is full, otherwise false.</returns>
-    bool IsFull();
+    /// <param name="item">The Item object to be added to the container.</param>
+    /// <param name="amount">The optional int amount of the item to be added (default is 1).</param>
+    /// <returns>Returns true if the item and specified amount can be added to the container, otherwise false.</returns>
+    bool CanAddItem(Item item, int amount = 1);
+
+    /// <summary>
+    /// Removes all items from the container.
+    /// </summary>
+    void Clear();
 }
