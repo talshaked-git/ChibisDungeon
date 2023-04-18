@@ -72,6 +72,7 @@ public class PlayerUIManager : MonoBehaviour
         {
             PauseGame();
             statsMenu.SetActive(true);
+            PlayerManager.instance.UpdateStatusPanel();
             //settingsMenu.SetActive(true);
             //characterSwitchMenu.SetActive(true);
             //exitMenu.SetActive(true);

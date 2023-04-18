@@ -83,6 +83,4 @@ public class StatPanel : MonoBehaviour
         MPSlider.UpdateText(mpText);
         MPSlider.UpdateSlider(mp);
     }
-
-
 }
