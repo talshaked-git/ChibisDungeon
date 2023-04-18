@@ -14,7 +14,7 @@ public enum EquipmentType
 }
 
 
-[CreateAssetMenu(fileName = "EquippableItem", menuName = "Chibis and Dungeons/Item/EquippableItem")]
+[CreateAssetMenu(fileName = "EquippableItem", menuName = "Chibis and Dungeons/Item/Equippable Item")]
 public class EquippableItem : Item
 {
     public int STRBonus;
