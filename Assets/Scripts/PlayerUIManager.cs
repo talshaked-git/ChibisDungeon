@@ -71,6 +71,7 @@ public class PlayerUIManager : MonoBehaviour
         if (!gamePaused)
         {
             PauseGame();
+            DropItemAreaShow();
             statsMenu.SetActive(true);
             PlayerManager.instance.UpdateStatusPanel();
             //settingsMenu.SetActive(true);
@@ -88,6 +89,7 @@ public class PlayerUIManager : MonoBehaviour
         if (!gamePaused)
         {
             PauseGame();
+            DropItemAreaShow();
             inventoryPanel.SetActive(true);
             inventoryPanel.GetComponentInChildren<Scrollbar>().value = 1;
         }
@@ -137,6 +139,7 @@ public class PlayerUIManager : MonoBehaviour
         statsMenu.SetActive(false);
         inventoryPanel.SetActive(false);
         tooltip.HideTooltip();
+        DropItemAreaHide();
         PlayerManager.isTooltipActive = false;
         //shopMenu.SetActive(false);
     }
@@ -173,5 +176,15 @@ public class PlayerUIManager : MonoBehaviour
     public void ScrollDown()
     {
         inventoryPanel.GetComponentInChildren<Scrollbar>().value -= 0.1f;
+    }
+
+    public void DropItemAreaShow()
+    {
+        PlayerManager.instance.ShowDropItemArea();
+    }
+
+    public void DropItemAreaHide()
+    {
+        PlayerManager.instance.HideDropItemArea();
     }
 }

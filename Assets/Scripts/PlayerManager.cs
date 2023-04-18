@@ -14,6 +14,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] StatPanel statPanel;
     [SerializeField] ItemTooltip tooltip;
     [SerializeField] Image dragableItem;
+    [SerializeField] DropItemArea dropItemArea;
+    [SerializeField] QuestionDialog questionDialog;
 
     private InventorySlot draggedSlot;
 
@@ -65,6 +67,8 @@ public class PlayerManager : MonoBehaviour
         inventory.OnDropEvent += Drop;
         equipmentPanel.OnDropEvent += Drop;
     }
+
+
 
     private void Start()
     {
@@ -128,6 +132,22 @@ public class PlayerManager : MonoBehaviour
         {
             SwapItems(dropItemslot);
         }
+    }
+
+    private void DropItemOutsideUI()
+    {
+        if (draggedSlot == null) return;
+
+        questionDialog.Show();
+        InventorySlot slot = draggedSlot;
+        questionDialog.OnYesEvent += () => DestroyItemInSlot(slot);
+    }
+
+    private void DestroyItemInSlot(InventorySlot slot)
+    {
+        slot.item.Destroy();
+        slot.item = null;
+
     }
 
     private void SwapItems(InventorySlot dropItemslot)
@@ -341,6 +361,19 @@ public class PlayerManager : MonoBehaviour
         }
         return false;
     }
+
+    public void ShowDropItemArea()
+    {
+        dropItemArea.Show();
+        dropItemArea.OnDropEvent += DropItemOutsideUI;
+    }
+
+    public void HideDropItemArea()
+    {
+        dropItemArea.Hide();
+    }
+
+    //TO-DO: Mabey Add Open And close Item Container methods to change listner function for auction house
 
     // public void SaveInventory(){
     //     string json = JsonUtility.ToJson(inventory);
