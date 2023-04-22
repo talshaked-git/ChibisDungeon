@@ -52,6 +52,7 @@ public class PlayerUIManager : MonoBehaviour
         if (!gamePaused)
         {
             PauseGame();
+            DropItemAreaShow();
             MenuWindow.SetActive(true);
             //characterSwitchMenu.SetActive(true);
             //exitMenu.SetActive(true);

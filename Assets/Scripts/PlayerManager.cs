@@ -268,7 +268,7 @@ public class PlayerManager : MonoBehaviour
 
     public void Unequip(EquippableItem item)
     {
-        if (!inventory.CanAddItem(item) && equipmentPanel.RemoveItem(item))
+        if (inventory.CanAddItem(item) && equipmentPanel.RemoveItem(item))
         {
             item.Unequip(currentPlayer);
             UpdateStatusPanel();
@@ -301,7 +301,7 @@ public class PlayerManager : MonoBehaviour
                 inventorySlot.isTooltipActive = true;
                 inventory.ResetIsTooltipActive(inventorySlot);
                 equipmentPanel.ResetIsTooltipActive(inventorySlot);
-                tooltip.ShowTooltip(inventorySlot.item);
+                tooltip.ShowTooltip(inventorySlot.item, inventorySlot.transform as RectTransform);
             }
             else
             {

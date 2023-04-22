@@ -15,6 +15,16 @@ public class EquipmentPanel : MonoBehaviour
 
     private void Start()
     {
+        if (equipmentSlotsParent == null)
+        {
+            equipmentSlotsParent = GetComponent<Transform>();
+        }
+
+        if (equipmentSlotsParent == null)
+        {
+            equipmentSlots = equipmentSlotsParent.GetComponentsInChildren<EquipmentSlot>();
+        }
+
         for (int i = 0; i < equipmentSlots.Length; i++)
         {
             equipmentSlots[i].OnPressEvent += OnPressEvent;
