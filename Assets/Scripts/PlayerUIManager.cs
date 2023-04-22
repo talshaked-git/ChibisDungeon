@@ -188,4 +188,9 @@ public class PlayerUIManager : MonoBehaviour
     {
         PlayerManager.instance.HideDropItemArea();
     }
+
+    public void ShowAttributeAllocation()
+    {
+        PlayerManager.instance.ShowAttributeAllocationPanel();
+    }
 }

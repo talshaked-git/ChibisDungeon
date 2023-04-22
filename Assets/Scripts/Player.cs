@@ -50,6 +50,13 @@ public class Player
         get { return _requiredExpForNextLevel; }
         set { _requiredExpForNextLevel = value; }
     }
+    private int m_attributePoints;
+    public int AttributePoints
+    {
+        get { return m_attributePoints; }
+        private set { m_attributePoints = value; }
+    }
+
     public int gold { get; set; }
     public CharcterStat HP { get; set; }
     private int _currentHP;
@@ -86,6 +93,7 @@ public class Player
         level = 1;
         CurrentExp = 0;
         gold = 100;
+        AttributePoints = 0;
         _requiredExpForNextLevel = CalculateExpForLevel(level);
         LevelChanged += UpdateRequiredExpForNextLevel;
         // inventory = new List<int>();
@@ -103,6 +111,7 @@ public class Player
         level = Convert.ToInt32(_dictionary["level"]);
         CurrentExp = Convert.ToInt64(_dictionary["CurrentExp"]);
         gold = Convert.ToInt32(_dictionary["gold"]);
+        AttributePoints = Convert.ToInt32(_dictionary["AttributePoints"]);
         // inventory = (List<int>)_dictionary["inventory"]; //TODO: fix this
         // equipment = (List<int>)_dictionary["equipment"]; //TODO: fix this
         HP = new CharcterStat((Dictionary<string, Object>)_dictionary["HP"]);
@@ -229,6 +238,7 @@ public class Player
         result["level"] = level;
         result["CurrentExp"] = CurrentExp;
         result["gold"] = gold;
+        result["AttributePoints"] = AttributePoints;
         // result["inventory"] = inventory;
         // result["equipment"] = equipment;
         result["HP"] = HP.ToDictionary();
@@ -261,6 +271,36 @@ public class Player
     private void LevelUp()
     {
         _CurrentExp -= requiredExpForNextLevel;
+        AttributePoints += 3;
         level++;
+    }
+
+    public bool UseAttributePoints(int points, string stat)
+    {
+        if (AttributePoints < points)
+        {
+            return false;
+        }
+
+        switch (stat)
+        {
+            case "STR":
+                STR.BaseValue += points;
+                break;
+            case "INT":
+                INT.BaseValue += points;
+                break;
+            case "VIT":
+                VIT.BaseValue += points;
+                break;
+            case "AGI":
+                AGI.BaseValue += points;
+                break;
+            default:
+                break;
+        }
+        AttributePoints -= points;
+
+        return true;
     }
 }

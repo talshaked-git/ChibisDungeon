@@ -16,6 +16,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] Image dragableItem;
     [SerializeField] DropItemArea dropItemArea;
     [SerializeField] QuestionDialog questionDialog;
+    [SerializeField] AttributeAllocationPanel attributeAllocationPanel;
+    [SerializeField] EmptyScreen emptyScreen;
 
     private InventorySlot draggedSlot;
 
@@ -26,6 +28,12 @@ public class PlayerManager : MonoBehaviour
     private DateTime _lastClickTime;
 
     private Player currentPlayer;
+
+    public Player CurrentPlayer
+    {
+        get { return currentPlayer; }
+        private set { currentPlayer = value; }
+    }
 
     private void OnValidate()
     {
@@ -371,6 +379,19 @@ public class PlayerManager : MonoBehaviour
     public void HideDropItemArea()
     {
         dropItemArea.Hide();
+    }
+
+    public void ShowAttributeAllocationPanel()
+    {
+        emptyScreen.gameObject.SetActive(true);
+        attributeAllocationPanel.gameObject.SetActive(true);
+        attributeAllocationPanel.InitAllocationPanel();
+    }
+
+    public void HideAttributeAllocationPanel()
+    {
+        emptyScreen.gameObject.SetActive(false);
+        attributeAllocationPanel.gameObject.SetActive(false);
     }
 
     //TO-DO: Mabey Add Open And close Item Container methods to change listner function for auction house
