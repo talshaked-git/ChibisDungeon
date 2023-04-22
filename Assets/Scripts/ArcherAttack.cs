@@ -53,7 +53,7 @@ public class ArcherAttack : MonoBehaviour
     {
         yield return new WaitForSeconds(arrowSpawnDelay);
         GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, Quaternion.identity);
-        arrow.transform.localScale  = new Vector3(0.4f, 0.4f, 1);
+        arrow.transform.localScale = new Vector3(0.4f, 0.4f, 1);
         // Flip the arrow sprite horizontally if the character is facing left
         if (transform.localScale.x < 0)
         {
