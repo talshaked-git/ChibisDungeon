@@ -65,7 +65,8 @@ public class AttributeAllocateDisplayStat : MonoBehaviour
 
     public void Reset()
     {
-        m_statValue = 0;
+        m_statValue = m_statOriginalValue;
+        m_statsAdded = 0;
         statValueText.text = m_statValue.ToString();
     }
 

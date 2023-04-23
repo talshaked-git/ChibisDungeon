@@ -19,15 +19,6 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-
-    public void SelectCharcter(int index){
-
-    }
-
-    public void DeleteCharcter(int index){
-
-    }
-
     public void BeginScene()
     {
         GameManager.instance.ChangeScene("Scene_Forest_Town");

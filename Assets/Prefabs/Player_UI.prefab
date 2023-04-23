@@ -10369,7 +10369,7 @@ GameObject:
   - component: {fileID: 6654809428146884922}
   - component: {fileID: 7499537767242633111}
   m_Layer: 6
-  m_Name: STRText
+  m_Name: AttrValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10580,7 +10580,7 @@ GameObject:
   - component: {fileID: 7983665480878718668}
   - component: {fileID: 8015497327324833557}
   m_Layer: 6
-  m_Name: STRText
+  m_Name: AttrValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11781,7 +11781,7 @@ GameObject:
   - component: {fileID: 8532374168190645758}
   - component: {fileID: 3341094444219664893}
   m_Layer: 6
-  m_Name: STRText
+  m_Name: AttrValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12944,7 +12944,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statNameText: {fileID: 7861946650328286088}
-  statValueText: {fileID: 7861946650328286088}
+  statValueText: {fileID: 7499537767242633111}
   increaseStatButton: {fileID: 5171094238563388394}
   decreaseStatButton: {fileID: 8433640747044940881}
   attributeAllocationPanel: {fileID: 4925124162365667144}
@@ -15394,7 +15394,7 @@ GameObject:
   - component: {fileID: 2345160844079944439}
   - component: {fileID: 265930329531389063}
   m_Layer: 6
-  m_Name: STRText
+  m_Name: AttrValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15598,7 +15598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statNameText: {fileID: 236727354594705233}
-  statValueText: {fileID: 236727354594705233}
+  statValueText: {fileID: 8015497327324833557}
   increaseStatButton: {fileID: 5073443913315411020}
   decreaseStatButton: {fileID: 1392172040901222304}
   attributeAllocationPanel: {fileID: 4925124162365667144}
@@ -17502,7 +17502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statNameText: {fileID: 1947461211673227588}
-  statValueText: {fileID: 1947461211673227588}
+  statValueText: {fileID: 265930329531389063}
   increaseStatButton: {fileID: 7425131387427154842}
   decreaseStatButton: {fileID: 7991144757247943974}
   attributeAllocationPanel: {fileID: 4925124162365667144}
@@ -18195,7 +18195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statNameText: {fileID: 2729685086184965953}
-  statValueText: {fileID: 2729685086184965953}
+  statValueText: {fileID: 3341094444219664893}
   increaseStatButton: {fileID: 3091009097660287845}
   decreaseStatButton: {fileID: 1774337154778305449}
   attributeAllocationPanel: {fileID: 4925124162365667144}

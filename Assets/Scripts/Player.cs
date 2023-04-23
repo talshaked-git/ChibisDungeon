@@ -30,19 +30,11 @@ public class Player
             LevelChanged?.Invoke(this, EventArgs.Empty);
         }
     }
-    private long _CurrentExp;
+    private long m_currentExp;
     public long CurrentExp
     {
-        get { return _CurrentExp; }
-        set
-        {
-            _CurrentExp = value;
-            if (_CurrentExp >= requiredExpForNextLevel)
-            {
-                LevelUp();
-            }
-        }
-
+        get { return m_currentExp; }
+        private set { m_currentExp = value; }
     }
     private long _requiredExpForNextLevel;
     public long requiredExpForNextLevel
@@ -84,6 +76,8 @@ public class Player
 
     public event EventHandler LevelChanged;
 
+    public string LastLocation { get; set; }
+
 
     public Player(string _name, string _CID, CharClassType _class)
     {
@@ -95,12 +89,12 @@ public class Player
         gold = 100;
         AttributePoints = 0;
         _requiredExpForNextLevel = CalculateExpForLevel(level);
-        LevelChanged += UpdateRequiredExpForNextLevel;
         // inventory = new List<int>();
         // equipment = new List<int>();
         InitStatesByClassType();
         currentHP = (int)HP.Value;
         currentMP = (int)MP.Value;
+        LastLocation = "Scene_Forest_Town";
     }
 
     public Player(Dictionary<string, Object> _dictionary)
@@ -124,12 +118,12 @@ public class Player
         DEF = new CharcterStat(0);
 
         _requiredExpForNextLevel = CalculateExpForLevel(level);
-        LevelChanged += UpdateRequiredExpForNextLevel;
-
         ListenAndUpdateDerivedStats();
 
         currentHP = (int)HP.Value;
         currentMP = (int)MP.Value;
+
+        LastLocation = _dictionary["LastLocation"].ToString();
     }
 
     private void InitStatesByClassType()
@@ -247,6 +241,7 @@ public class Player
         result["VIT"] = VIT.ToDictionary();
         result["INT"] = INT.ToDictionary();
         result["AGI"] = AGI.ToDictionary();
+        result["LastLocation"] = LastLocation;
 
         return result;
     }
@@ -263,16 +258,21 @@ public class Player
         return (long)((Math.Pow(level, 2.1) * LevelFactor1) + (level * LevelFactor2));
     }
 
-    private void UpdateRequiredExpForNextLevel(object sender, EventArgs e)
+    public void AddExp(long exp)
     {
-        _requiredExpForNextLevel = CalculateExpForLevel(level);
+        CurrentExp += exp;
+        if (CurrentExp >= _requiredExpForNextLevel)
+        {
+            LevelUp();
+        }
     }
 
     private void LevelUp()
     {
-        _CurrentExp -= requiredExpForNextLevel;
+        CurrentExp -= _requiredExpForNextLevel;
         AttributePoints += 3;
         level++;
+        _requiredExpForNextLevel = CalculateExpForLevel(level);
     }
 
     public bool UseAttributePoints(int points, string stat)

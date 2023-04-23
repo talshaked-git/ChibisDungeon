@@ -101,5 +101,6 @@ public class AttributeAllocationPanel : MonoBehaviour
     {
         SetPointsAmount();
         SetStatText();
+        Reset();
     }
 }

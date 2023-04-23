@@ -103,9 +103,18 @@ public class MainMenuUIManager : MonoBehaviour
     private void startGame(Player player)
     {
         GameManager.instance.currentPlayer = player;
-        //add move to diffrent scene here
-        GameManager.instance.ChangeScene("Scene_Forest_Town");
 
+        switch (player.LastLocation)
+        {
+            case "Scene_Forest_Town":
+                GameManager.instance.ChangeScene("Scene_Forest_Town");
+                break;
+
+
+            default:
+                GameManager.instance.ChangeScene("Scene_Forest_Town");
+                break;
+        }
     }
 
     private void InstantiateCharPrefab(int i, Player player)
@@ -141,7 +150,7 @@ public class MainMenuUIManager : MonoBehaviour
         charcterPrefab.transform.localScale = scale;
         charcterPrefab.transform.localPosition = new Vector3(0f, -225f, 0f);
         charcterPrefab.GetComponentInChildren<PlayerMovement>().enabled = false;
-        
+
     }
 
     private void UpdateCharTextFields(int i, Player player)
@@ -267,10 +276,11 @@ public class MainMenuUIManager : MonoBehaviour
         _charcterStatsINT.text = CharcterStatsINT;
         _charcterStatsAGI.text = CharcterStatsAGI;
         Destroy(currentCharcterPrefab);
-        
+
 
         currentCharcterPrefab = (GameObject)Instantiate(_charcterPrefab[currentCharcter], _charcterPrefabParent.transform.position, Quaternion.identity, _charcterPrefabParent.transform);
-        if (currentCharcter == 0){
+        if (currentCharcter == 0)
+        {
             currentCharcterPrefab.transform.localScale = new Vector3(100f, 100f, 1f);
             currentCharcterPrefab.GetComponentInChildren<ArcherAttack>().enabled = false;
         }
@@ -330,7 +340,7 @@ public class MainMenuUIManager : MonoBehaviour
         switch (currentCharcter)
         {
             case 0:
-                return new Player(nickname, _CID,CharClassType.Archer);
+                return new Player(nickname, _CID, CharClassType.Archer);
 
             case 1:
                 return new Player(nickname, _CID, CharClassType.Wizard);

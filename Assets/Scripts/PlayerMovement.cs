@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float playerJump = 1500f;
     private Rigidbody2D rb;
     private Animator myAnimator;
-    public bool isGrounded;
+    public bool isGrounded = false;
     CapsuleCollider2D myCapsuleCollider;
     private bool jumpPressed = false;
     public string jumpButtonName = "Jump";
@@ -28,15 +28,15 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Update()
-{
-    if (isGrounded && Mathf.Abs(rb.velocity.y) < 0.01f)
     {
-        if (Input.GetButtonDown(jumpButtonName))
+        if (isGrounded && Mathf.Abs(rb.velocity.y) < 0.01f)
         {
-            jumpPressed = true;
+            if (Input.GetButtonDown(jumpButtonName))
+            {
+                jumpPressed = true;
+            }
         }
     }
-}
 
 
     // FixedUpdate is called once per physics frame

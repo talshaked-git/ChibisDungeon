@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     public GameObject[] playerPrefabs;
     public Player currentPlayer { get; set; }
 
+    public string PrevScene { get; set; }
+    public string CurrentScene { get; set; }
+
 
     private void Awake()
     {
@@ -26,6 +29,8 @@ public class GameManager : MonoBehaviour
 
     public void ChangeScene(string _sceneName)
     {
+        PrevScene = CurrentScene;
+        CurrentScene = _sceneName;
         SceneManager.LoadSceneAsync(_sceneName);
     }
 
@@ -42,7 +47,7 @@ public class GameManager : MonoBehaviour
     private void OnAccountLoaded(Account _account)
     {
         account = _account;
-   
+
         Debug.Log("Account loaded\n");
     }
 

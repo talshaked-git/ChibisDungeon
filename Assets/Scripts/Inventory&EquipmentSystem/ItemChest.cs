@@ -10,7 +10,6 @@ public class ItemChest : MonoBehaviour
     public bool isLooted = false;
     public bool isInRange = false;
     private PlayerManager playerManager;
-    private ArcherAttack attackButton;
     private Button openChestButton; // Add a reference to the button
 
 
