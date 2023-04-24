@@ -19,6 +19,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] AttributeAllocationPanel attributeAllocationPanel;
     [SerializeField] EmptyScreen emptyScreen;
 
+
     private InventorySlot draggedSlot;
 
     public static bool isTooltipActive = false;
@@ -55,8 +56,9 @@ public class PlayerManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        currentPlayer = GameManager.instance.currentPlayer; //uncomment after tesing
-        // currentPlayer = new Player("TestPlayer", "1" ,CharClassType.Archer); //for testing delete later
+        currentPlayer = GameManager.instance.currentPlayer;
+        currentPlayer.LoadeInventoryAndERquipment();
+
 
         //Setup events:
         //click(Tooltip) and double click(equip) on inventory item
@@ -81,6 +83,7 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         statPanel.SetStats(currentPlayer.STR, currentPlayer.INT, currentPlayer.VIT, currentPlayer.AGI);
+        LoadPlayerData();
 
         UpdateStatusPanel();
         // currentPlayer.LevelChanged += OnLevelChanged; // might be a problem
@@ -394,12 +397,75 @@ public class PlayerManager : MonoBehaviour
         attributeAllocationPanel.gameObject.SetActive(false);
     }
 
-    //TO-DO: Mabey Add Open And close Item Container methods to change listner function for auction house
+    public void SaveInventory()
+    {
+        currentPlayer.InventorySaveData = ItemSaveManager.Instance.SaveInventory(inventory);
+        currentPlayer.InventoryMaxSlots = inventory.MaxSlots;
+    }
 
-    // public void SaveInventory(){
-    //     string json = JsonUtility.ToJson(inventory);
-    //     PlayerPrefs.SetString("Inventory", json);
-    //     json = JsonUtility.ToJson(equipmentPanel);
-    //     PlayerPrefs.SetString("Equipment", json);
-    // }
+    public void SaveEquipment()
+    {
+        currentPlayer.EquipmentSaveData = ItemSaveManager.Instance.SaveEquipment(equipmentPanel);
+    }
+
+    public void LoadInventory()
+    {
+        inventory.MaxSlots = currentPlayer.InventoryMaxSlots;
+        inventory.InitInventory();
+
+        inventory.LoadInventory(currentPlayer.InventorySaveData);
+    }
+
+    public void LoadEquipment()
+    {
+        if (currentPlayer.EquipmentSaveData == null)
+            return;
+        Debug.Log("Load Equipment");
+        foreach (InventorySlotSaveData slot in currentPlayer.EquipmentSaveData.SavedSlots)
+        {
+            if (slot == null) continue;
+            if (slot.item != null)
+            {
+                EquippableItem equippableItem = slot.item as EquippableItem;
+                if (equippableItem != null)
+                {
+                    Debug.Log("Load Equipment: " + equippableItem);
+                    equipmentPanel.AddItem(equippableItem, out EquippableItem previousItem);
+                    equippableItem.Equip(currentPlayer);
+                    equippableItem.isEquipped = true;
+                    // if (previousItem != null)
+                    //     previousItem.isEquipped = false;
+                }
+            }
+        }
+    }
+
+    public void SavePlayerData()
+    {
+        SaveInventory();
+        SaveEquipment();
+    }
+
+    public void LoadPlayerData()
+    {
+        LoadInventory();
+        LoadEquipment();
+    }
+
+    public void SaveGame()
+    {
+        if (currentPlayer != null)
+        {
+            SavePlayerData();
+            GameManager.instance.SaveAccount();
+        }
+    }
+
+    public void QuitGame()
+    {
+        SaveGame();
+        Application.Quit();
+    }
+
+    //TO-DO: Mabey Add Open And close Item Container methods to change listner function for auction house
 }

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b4064f918e1a14d85caa28d6c47b3c, type: 3}
   m_Name: ChainMail
   m_EditorClassIdentifier: 
-  ItemID: 2
+  id: 10000
   ItemName: Chain Mail
+  MaxStack: 0
   Icon: {fileID: 21300000, guid: eebc963af3523214ea64e748dda4e9a6, type: 3}
   EquipableLV: 1
   EquipableClass: 1000
@@ -30,3 +31,4 @@ MonoBehaviour:
   AGIPercentMullBonus: 0
   VITPercentMullBonus: 0
   equipmentType: 1
+  isEquipped: 0

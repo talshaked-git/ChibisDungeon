@@ -56,4 +56,10 @@ public class GameManager : MonoBehaviour
         account.AddPlayer(_player);
         FireBaseManager.instance.SaveAccount(account);
     }
+
+    public void SaveAccount()
+    {
+        FireBaseManager.instance.SaveAccount(account);
+    }
+
 }

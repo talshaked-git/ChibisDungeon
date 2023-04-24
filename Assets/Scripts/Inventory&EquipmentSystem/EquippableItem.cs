@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum EquipmentType
@@ -36,7 +38,25 @@ public class EquippableItem : Item
 
     public bool isEquipped = false;
 
+    public EquippableItem(Dictionary<string, System.Object> dict)
+    {
+        STRBonus = Convert.ToInt32(dict["STRBonus"]);
+        INTBonus = Convert.ToInt32(dict["INTBonus"]);
+        AGIBonus = Convert.ToInt32(dict["AGIBonus"]);
+        VITBonus = Convert.ToInt32(dict["VITBonus"]);
 
+        STRPercentAddBonus = Convert.ToSingle(dict["STRPercentAddBonus"]);
+        INTPercentAddBonus = Convert.ToSingle(dict["INTPercentAddBonus"]);
+        AGIPercentAddBonus = Convert.ToSingle(dict["AGIPercentAddBonus"]);
+        VITPercentAddBonus = Convert.ToSingle(dict["VITPercentAddBonus"]);
+
+        STRPercentMullBonus = Convert.ToSingle(dict["STRPercentMullBonus"]);
+        INTPercentMullBonus = Convert.ToSingle(dict["INTPercentMullBonus"]);
+        AGIPercentMullBonus = Convert.ToSingle(dict["AGIPercentMullBonus"]);
+        VITPercentMullBonus = Convert.ToSingle(dict["VITPercentMullBonus"]);
+
+        equipmentType = (EquipmentType)Convert.ToInt32(dict["equipmentType"]);
+    }
     public void Equip(Player player)
     {
         if (STRBonus != 0)
@@ -139,6 +159,27 @@ public class EquippableItem : Item
 
             sb.Append(statName);
         }
+    }
+
+    public override Dictionary<string, object> ToDictionary()
+    {
+        Dictionary<string, object> baseDict = base.ToDictionary();
+        baseDict["STRBonus"] = STRBonus;
+        baseDict["INTBonus"] = INTBonus;
+        baseDict["AGIBonus"] = AGIBonus;
+        baseDict["VITBonus"] = VITBonus;
+        baseDict["STRPercentAddBonus"] = STRPercentAddBonus;
+        baseDict["INTPercentAddBonus"] = INTPercentAddBonus;
+        baseDict["AGIPercentAddBonus"] = AGIPercentAddBonus;
+        baseDict["VITPercentAddBonus"] = VITPercentAddBonus;
+        baseDict["STRPercentMullBonus"] = STRPercentMullBonus;
+        baseDict["INTPercentMullBonus"] = INTPercentMullBonus;
+        baseDict["AGIPercentMullBonus"] = AGIPercentMullBonus;
+        baseDict["VITPercentMullBonus"] = VITPercentMullBonus;
+        baseDict["equipmentType"] = equipmentType.ToString();
+        baseDict["isEquipped"] = false;
+
+        return baseDict;
     }
 
 }

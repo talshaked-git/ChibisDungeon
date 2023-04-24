@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,4 +42,13 @@ public class UsableItem : Item
         return sb.ToString();
     }
 
+    public override Dictionary<string, System.Object> ToDictionary()
+    {
+        return base.ToDictionary();
+    }
+
+    public override void FromDictionary(Dictionary<string, System.Object> dict)
+    {
+        base.FromDictionary(dict);
+    }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac147f259136a8240913b46dd0041408, type: 3}
   m_Name: Elixer I
   m_EditorClassIdentifier: 
-  id: 7420b8ba1b47e014ba0e5bcbf81a45c5
+  id: 1000
   ItemName: Elixer I
   MaxStack: 99
   Icon: {fileID: 21300000, guid: cf38501a8e055f44b8a87216da3ad95f, type: 3}

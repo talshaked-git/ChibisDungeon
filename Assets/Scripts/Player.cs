@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public enum CharClassType
 {
@@ -24,11 +25,7 @@ public class Player
     public int level
     {
         get { return _level; }
-        set
-        {
-            _level = value;
-            LevelChanged?.Invoke(this, EventArgs.Empty);
-        }
+        set { _level = value; }
     }
     private long m_currentExp;
     public long CurrentExp
@@ -73,8 +70,15 @@ public class Player
     public CharcterStat DMG { get; set; }
     public CharcterStat DEF { get; set; }
 
+    public InventorySaveData InventorySaveData { get; set; }
+    public InventorySaveData EquipmentSaveData { get; set; }
 
-    public event EventHandler LevelChanged;
+    private Dictionary<string, System.Object> InventorySaveDataDictionary;
+    private Dictionary<string, System.Object> EquipmentSaveDataDictionary;
+
+
+    public int InventoryMaxSlots { get; set; }
+
 
     public string LastLocation { get; set; }
 
@@ -89,15 +93,16 @@ public class Player
         gold = 100;
         AttributePoints = 0;
         _requiredExpForNextLevel = CalculateExpForLevel(level);
-        // inventory = new List<int>();
-        // equipment = new List<int>();
+        InventoryMaxSlots = 20;
+        InventorySaveData = new InventorySaveData(InventoryMaxSlots);
+        EquipmentSaveData = new InventorySaveData(9);
         InitStatesByClassType();
         currentHP = (int)HP.Value;
         currentMP = (int)MP.Value;
         LastLocation = "Scene_Forest_Town";
     }
 
-    public Player(Dictionary<string, Object> _dictionary)
+    public Player(Dictionary<string, System.Object> _dictionary)
     {
         CID = _dictionary["CID"].ToString();
         name = _dictionary["name"].ToString();
@@ -106,14 +111,15 @@ public class Player
         CurrentExp = Convert.ToInt64(_dictionary["CurrentExp"]);
         gold = Convert.ToInt32(_dictionary["gold"]);
         AttributePoints = Convert.ToInt32(_dictionary["AttributePoints"]);
-        // inventory = (List<int>)_dictionary["inventory"]; //TODO: fix this
-        // equipment = (List<int>)_dictionary["equipment"]; //TODO: fix this
-        HP = new CharcterStat((Dictionary<string, Object>)_dictionary["HP"]);
-        MP = new CharcterStat((Dictionary<string, Object>)_dictionary["MP"]);
-        STR = new CharcterStat((Dictionary<string, Object>)_dictionary["STR"]);
-        VIT = new CharcterStat((Dictionary<string, Object>)_dictionary["VIT"]);
-        INT = new CharcterStat((Dictionary<string, Object>)_dictionary["INT"]);
-        AGI = new CharcterStat((Dictionary<string, Object>)_dictionary["AGI"]);
+        InventorySaveDataDictionary = (Dictionary<string, System.Object>)_dictionary["InventorySaveData"];
+        EquipmentSaveDataDictionary = (Dictionary<string, System.Object>)_dictionary["EquipmentSaveData"];
+        InventoryMaxSlots = Convert.ToInt32(_dictionary["InventoryMaxSlots"]);
+        HP = new CharcterStat((Dictionary<string, System.Object>)_dictionary["HP"]);
+        MP = new CharcterStat((Dictionary<string, System.Object>)_dictionary["MP"]);
+        STR = new CharcterStat((Dictionary<string, System.Object>)_dictionary["STR"]);
+        VIT = new CharcterStat((Dictionary<string, System.Object>)_dictionary["VIT"]);
+        INT = new CharcterStat((Dictionary<string, System.Object>)_dictionary["INT"]);
+        AGI = new CharcterStat((Dictionary<string, System.Object>)_dictionary["AGI"]);
         DMG = new CharcterStat(0);
         DEF = new CharcterStat(0);
 
@@ -124,6 +130,37 @@ public class Player
         currentMP = (int)MP.Value;
 
         LastLocation = _dictionary["LastLocation"].ToString();
+
+    }
+
+    public void LoadeInventoryAndERquipment()
+    {
+        InventorySaveData = ItemSaveManager.Instance.LoadInventory(InventorySaveDataDictionary);
+        EquipmentSaveData = ItemSaveManager.Instance.LoadEquipment(EquipmentSaveDataDictionary);
+    }
+
+    public virtual Dictionary<string, System.Object> ToDictionary()
+    {
+        Dictionary<string, System.Object> result = new Dictionary<string, System.Object>();
+        result["CID"] = CID;
+        result["name"] = name;
+        result["classType"] = ((int)classType);
+        result["level"] = level;
+        result["CurrentExp"] = CurrentExp;
+        result["gold"] = gold;
+        result["AttributePoints"] = AttributePoints;
+        result["InventorySaveData"] = InventorySaveData.ToDictionary();
+        result["EquipmentSaveData"] = EquipmentSaveData.ToDictionary();
+        result["InventoryMaxSlots"] = InventoryMaxSlots;
+        result["HP"] = HP.ToDictionary();
+        result["MP"] = MP.ToDictionary();
+        result["STR"] = STR.ToDictionary();
+        result["VIT"] = VIT.ToDictionary();
+        result["INT"] = INT.ToDictionary();
+        result["AGI"] = AGI.ToDictionary();
+        result["LastLocation"] = LastLocation;
+
+        return result;
     }
 
     private void InitStatesByClassType()
@@ -223,29 +260,6 @@ public class Player
         }
     }
 
-    public virtual Dictionary<string, Object> ToDictionary()
-    {
-        Dictionary<string, Object> result = new Dictionary<string, Object>();
-        result["CID"] = CID;
-        result["name"] = name;
-        result["classType"] = ((int)classType);
-        result["level"] = level;
-        result["CurrentExp"] = CurrentExp;
-        result["gold"] = gold;
-        result["AttributePoints"] = AttributePoints;
-        // result["inventory"] = inventory;
-        // result["equipment"] = equipment;
-        result["HP"] = HP.ToDictionary();
-        result["MP"] = MP.ToDictionary();
-        result["STR"] = STR.ToDictionary();
-        result["VIT"] = VIT.ToDictionary();
-        result["INT"] = INT.ToDictionary();
-        result["AGI"] = AGI.ToDictionary();
-        result["LastLocation"] = LastLocation;
-
-        return result;
-    }
-
     //toString
     public override string ToString()
     {
@@ -303,4 +317,10 @@ public class Player
 
         return true;
     }
+
+    public void AddGold(int amount)
+    {
+        gold += amount;
+    }
+
 }

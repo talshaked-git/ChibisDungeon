@@ -10,14 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9b4064f918e1a14d85caa28d6c47b3c, type: 3}
-  m_Name: BaisicBow
+  m_Name: ExpertBow
   m_EditorClassIdentifier: 
-  ItemID: 0
-  ItemName: Baisic Bow
-  Icon: {fileID: 21300000, guid: 7f254c5c3936951489347f2af5f05236, type: 3}
-  STRBonus: 3
+  id: 3000
+  ItemName: Expert Bow
+  MaxStack: 1
+  Icon: {fileID: 21300000, guid: bbb872ae597c2074f91a7fcbbf2f6524, type: 3}
+  EquipableLV: 1
+  EquipableClass: 1000
+  STRBonus: 100
   INTBonus: 0
-  AGIBonus: 15
+  AGIBonus: 0
   VITBonus: 0
   STRPercentAddBonus: 0
   INTPercentAddBonus: 0
@@ -27,6 +30,5 @@ MonoBehaviour:
   INTPercentMullBonus: 0
   AGIPercentMullBonus: 0
   VITPercentMullBonus: 0
-  EquipableLV: 1
-  EquipableClass: 1000
   equipmentType: 4
+  isEquipped: 0

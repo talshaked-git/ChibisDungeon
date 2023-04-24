@@ -7,11 +7,10 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour, IItemContainer
 {
-    [SerializeField] List<Item> startingItems;
     [SerializeField] Transform itemsParent;
     [SerializeField] List<InventorySlot> inventorySlots;
     [SerializeField] InventorySlot invSlotPrefab;
-    int MaxSlots = 25;
+    public int MaxSlots { get; set; }
 
     public event Action<InventorySlot> OnPressEvent;
     public event Action<InventorySlot> OnBeginDragEvent;
@@ -19,7 +18,7 @@ public class Inventory : MonoBehaviour, IItemContainer
     public event Action<InventorySlot> OnDragEvent;
     public event Action<InventorySlot> OnDropEvent;
 
-    private void Start()
+    public void InitInventory()
     {
         inventorySlots = new List<InventorySlot>(new InventorySlot[MaxSlots]);
 
@@ -36,21 +35,7 @@ public class Inventory : MonoBehaviour, IItemContainer
             inventorySlots[i].OnDragEvent += OnDragEvent;
             inventorySlots[i].OnDropEvent += OnDropEvent;
         }
-
-
-        SetStartingItems();
-    }
-
-
-    private void SetStartingItems()
-    {
         Clear();
-
-        for (int i = 0; i < startingItems.Count && i < inventorySlots.Count; i++)
-        {
-            inventorySlots[i].item = startingItems[i].GetCopy();
-            inventorySlots[i].Amount = 1;
-        }
     }
 
     public virtual bool CanAddItem(Item item, int amount = 1)
@@ -88,6 +73,21 @@ public class Inventory : MonoBehaviour, IItemContainer
             }
         }
         return false;
+    }
+
+    public void LoadInventory(InventorySaveData saveData)
+    {
+        Debug.Log(saveData);
+        if (saveData == null) return;
+        int index = 0;
+        foreach (InventorySlotSaveData slot in saveData.SavedSlots)
+        {
+            if (slot == null) continue;
+            if (slot.item == null) continue;
+            inventorySlots[index].item = slot.item;
+            inventorySlots[index].Amount = slot.amount;
+            index++;
+        }
     }
 
     public List<InventorySlot> GetInventorySlots()

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac147f259136a8240913b46dd0041408, type: 3}
   m_Name: Small HP Potion
   m_EditorClassIdentifier: 
-  id: 86c1221d70e406a42831753a40baddeb
+  id: 1005
   ItemName: Small HP Potion
   MaxStack: 99
   Icon: {fileID: 21300000, guid: 53a3d932f3e33c84f8f48bd35167cb34, type: 3}

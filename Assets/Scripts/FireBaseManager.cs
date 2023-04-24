@@ -421,5 +421,4 @@ public class FireBaseManager : MonoBehaviour
     {
         return mDatabaseRef.Child("Users").Push().Key;
     }
-
 }
