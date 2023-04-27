@@ -1,11 +1,13 @@
+using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-[Serializable]
+[FirestoreData]
 public class CharcterStat
 {
-    public float BaseValue;
+    [FirestoreProperty]
+    public float BaseValue { get; set; }
     protected readonly List<StatModifier> statModifiers;
     public readonly ReadOnlyCollection<StatModifier> StatModifiers;
     public delegate void OnStatChanged();

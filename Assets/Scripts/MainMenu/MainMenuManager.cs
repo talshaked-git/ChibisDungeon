@@ -26,7 +26,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void SignOut()
     {
-        FireBaseManager.instance.SignOut();
+        FireBaseManager.instance.firebaseAuthManager.SignOut();
     }
 
     public void ExitGame()

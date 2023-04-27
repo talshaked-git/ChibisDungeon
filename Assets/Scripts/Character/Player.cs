@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using Firebase.Firestore;
 using UnityEngine;
 
 public enum CharClassType
@@ -12,41 +13,53 @@ public enum CharClassType
     Any = 0
 }
 
-
-[System.Serializable]
+[FirestoreData]
 public class Player
 {
     public static int LevelFactor1 = 50;
     public static int LevelFactor2 = 100;
+
+
+    [FirestoreProperty]
+    public DocumentReference AccountRef { get; set; }
+
+    [FirestoreDocumentId]
     public string CID { get; set; }
+
+    [FirestoreProperty]
     public string name { get; set; }
+
+    [FirestoreProperty]
     public CharClassType classType { get; set; }
-    private int _level;
-    public int level
-    {
-        get { return _level; }
-        set { _level = value; }
-    }
-    private long m_currentExp;
-    public long CurrentExp
-    {
-        get { return m_currentExp; }
-        private set { m_currentExp = value; }
-    }
+
+
+    [FirestoreProperty]
+    public int Level { get ; set; }
+
+    [FirestoreProperty]
+    public long CurrentExp { get; set; }
+
     private long _requiredExpForNextLevel;
+
+    [FirestoreProperty]
     public long requiredExpForNextLevel
     {
         get { return _requiredExpForNextLevel; }
         set { _requiredExpForNextLevel = value; }
     }
     private int m_attributePoints;
+    
+    [FirestoreProperty]
     public int AttributePoints
     {
         get { return m_attributePoints; }
-        private set { m_attributePoints = value; }
+        set { m_attributePoints = value; }
     }
 
+    [FirestoreProperty]
     public int gold { get; set; }
+
+    [FirestoreProperty]
     public CharcterStat HP { get; set; }
     private int _currentHP;
     public int currentHP
@@ -61,25 +74,38 @@ public class Player
             }
         }
     }
+    [FirestoreProperty]
     public CharcterStat MP { get; set; }
     public int currentMP { get; set; }
+
+    [FirestoreProperty]
     public CharcterStat STR { get; set; }
+
+    [FirestoreProperty]
     public CharcterStat VIT { get; set; }
+
+    [FirestoreProperty]
     public CharcterStat INT { get; set; }
+
+    [FirestoreProperty]
     public CharcterStat AGI { get; set; }
+
+    [FirestoreProperty]
     public CharcterStat DMG { get; set; }
+
+    [FirestoreProperty]
     public CharcterStat DEF { get; set; }
 
-    public InventorySaveData InventorySaveData { get; set; }
-    public InventorySaveData EquipmentSaveData { get; set; }
+    public InventorySaveData InventorySaveData { get; set; } //TODO: Check To See how i save this
+    public InventorySaveData EquipmentSaveData { get; set; }//TODO: Check To See how i save this
 
     private Dictionary<string, System.Object> InventorySaveDataDictionary;
     private Dictionary<string, System.Object> EquipmentSaveDataDictionary;
 
-
+    [FirestoreProperty]
     public int InventoryMaxSlots { get; set; }
 
-
+    [FirestoreProperty]
     public string LastLocation { get; set; }
 
 
@@ -88,11 +114,11 @@ public class Player
         CID = _CID;
         name = _name;
         classType = _class;
-        level = 1;
+        Level = 1;
         CurrentExp = 0;
         gold = 100;
         AttributePoints = 0;
-        _requiredExpForNextLevel = CalculateExpForLevel(level);
+        _requiredExpForNextLevel = CalculateExpForLevel(Level);
         InventoryMaxSlots = 20;
         InventorySaveData = new InventorySaveData(InventoryMaxSlots);
         EquipmentSaveData = new InventorySaveData(9);
@@ -102,36 +128,6 @@ public class Player
         LastLocation = "Scene_Forest_Town";
     }
 
-    public Player(Dictionary<string, System.Object> _dictionary)
-    {
-        CID = _dictionary["CID"].ToString();
-        name = _dictionary["name"].ToString();
-        classType = (CharClassType)Convert.ToInt32(_dictionary["classType"]);
-        level = Convert.ToInt32(_dictionary["level"]);
-        CurrentExp = Convert.ToInt64(_dictionary["CurrentExp"]);
-        gold = Convert.ToInt32(_dictionary["gold"]);
-        AttributePoints = Convert.ToInt32(_dictionary["AttributePoints"]);
-        InventorySaveDataDictionary = (Dictionary<string, System.Object>)_dictionary["InventorySaveData"];
-        EquipmentSaveDataDictionary = (Dictionary<string, System.Object>)_dictionary["EquipmentSaveData"];
-        InventoryMaxSlots = Convert.ToInt32(_dictionary["InventoryMaxSlots"]);
-        HP = new CharcterStat((Dictionary<string, System.Object>)_dictionary["HP"]);
-        MP = new CharcterStat((Dictionary<string, System.Object>)_dictionary["MP"]);
-        STR = new CharcterStat((Dictionary<string, System.Object>)_dictionary["STR"]);
-        VIT = new CharcterStat((Dictionary<string, System.Object>)_dictionary["VIT"]);
-        INT = new CharcterStat((Dictionary<string, System.Object>)_dictionary["INT"]);
-        AGI = new CharcterStat((Dictionary<string, System.Object>)_dictionary["AGI"]);
-        DMG = new CharcterStat(0);
-        DEF = new CharcterStat(0);
-
-        _requiredExpForNextLevel = CalculateExpForLevel(level);
-        ListenAndUpdateDerivedStats();
-
-        currentHP = (int)HP.Value;
-        currentMP = (int)MP.Value;
-
-        LastLocation = _dictionary["LastLocation"].ToString();
-
-    }
 
     public void LoadeInventoryAndERquipment()
     {
@@ -139,29 +135,6 @@ public class Player
         EquipmentSaveData = ItemSaveManager.Instance.LoadEquipment(EquipmentSaveDataDictionary);
     }
 
-    public virtual Dictionary<string, System.Object> ToDictionary()
-    {
-        Dictionary<string, System.Object> result = new Dictionary<string, System.Object>();
-        result["CID"] = CID;
-        result["name"] = name;
-        result["classType"] = ((int)classType);
-        result["level"] = level;
-        result["CurrentExp"] = CurrentExp;
-        result["gold"] = gold;
-        result["AttributePoints"] = AttributePoints;
-        result["InventorySaveData"] = InventorySaveData.ToDictionary();
-        result["EquipmentSaveData"] = EquipmentSaveData.ToDictionary();
-        result["InventoryMaxSlots"] = InventoryMaxSlots;
-        result["HP"] = HP.ToDictionary();
-        result["MP"] = MP.ToDictionary();
-        result["STR"] = STR.ToDictionary();
-        result["VIT"] = VIT.ToDictionary();
-        result["INT"] = INT.ToDictionary();
-        result["AGI"] = AGI.ToDictionary();
-        result["LastLocation"] = LastLocation;
-
-        return result;
-    }
 
     private void InitStatesByClassType()
     {
@@ -263,7 +236,7 @@ public class Player
     //toString
     public override string ToString()
     {
-        return "Player [name=" + name + ", classType=" + classType + ", level=" + level + ", exp=" + CurrentExp + ", gold=" + gold + ", HP=" + HP + ", MP=" + MP + ", STR=" + STR + ", VIT=" + VIT + ", INT=" + INT + ", AGI=" + AGI + "]";
+        return "Player [name=" + name + ", classType=" + classType + ", level=" + Level + ", exp=" + CurrentExp + ", gold=" + gold + ", HP=" + HP + ", MP=" + MP + ", STR=" + STR + ", VIT=" + VIT + ", INT=" + INT + ", AGI=" + AGI + "]";
     }
 
     private static long CalculateExpForLevel(int level)
@@ -285,8 +258,8 @@ public class Player
     {
         CurrentExp -= _requiredExpForNextLevel;
         AttributePoints += 3;
-        level++;
-        _requiredExpForNextLevel = CalculateExpForLevel(level);
+        Level++;
+        _requiredExpForNextLevel = CalculateExpForLevel(Level);
     }
 
     public bool UseAttributePoints(int points, string stat)
@@ -323,4 +296,57 @@ public class Player
         gold += amount;
     }
 
+    //public virtual Dictionary<string, System.Object> ToDictionary()
+    //{
+    //    Dictionary<string, System.Object> result = new Dictionary<string, System.Object>();
+    //    result["CID"] = CID;
+    //    result["name"] = name;
+    //    result["classType"] = ((int)classType);
+    //    result["level"] = Level;
+    //    result["CurrentExp"] = CurrentExp;
+    //    result["gold"] = gold;
+    //    result["AttributePoints"] = AttributePoints;
+    //    result["InventorySaveData"] = InventorySaveData.ToDictionary();
+    //    result["EquipmentSaveData"] = EquipmentSaveData.ToDictionary();
+    //    result["InventoryMaxSlots"] = InventoryMaxSlots;
+    //    result["HP"] = HP.ToDictionary();
+    //    result["MP"] = MP.ToDictionary();
+    //    result["STR"] = STR.ToDictionary();
+    //    result["VIT"] = VIT.ToDictionary();
+    //    result["INT"] = INT.ToDictionary();
+    //    result["AGI"] = AGI.ToDictionary();
+    //    result["LastLocation"] = LastLocation;
+
+    //    return result;
+    //}
+    //public Player(Dictionary<string, System.Object> _dictionary)
+    //{
+    //    CID = _dictionary["CID"].ToString();
+    //    name = _dictionary["name"].ToString();
+    //    classType = (CharClassType)Convert.ToInt32(_dictionary["classType"]);
+    //    Level = Convert.ToInt32(_dictionary["level"]);
+    //    CurrentExp = Convert.ToInt64(_dictionary["CurrentExp"]);
+    //    gold = Convert.ToInt32(_dictionary["gold"]);
+    //    AttributePoints = Convert.ToInt32(_dictionary["AttributePoints"]);
+    //    InventorySaveDataDictionary = (Dictionary<string, System.Object>)_dictionary["InventorySaveData"];
+    //    EquipmentSaveDataDictionary = (Dictionary<string, System.Object>)_dictionary["EquipmentSaveData"];
+    //    InventoryMaxSlots = Convert.ToInt32(_dictionary["InventoryMaxSlots"]);
+    //    HP = new CharcterStat((Dictionary<string, System.Object>)_dictionary["HP"]);
+    //    MP = new CharcterStat((Dictionary<string, System.Object>)_dictionary["MP"]);
+    //    STR = new CharcterStat((Dictionary<string, System.Object>)_dictionary["STR"]);
+    //    VIT = new CharcterStat((Dictionary<string, System.Object>)_dictionary["VIT"]);
+    //    INT = new CharcterStat((Dictionary<string, System.Object>)_dictionary["INT"]);
+    //    AGI = new CharcterStat((Dictionary<string, System.Object>)_dictionary["AGI"]);
+    //    DMG = new CharcterStat(0);
+    //    DEF = new CharcterStat(0);
+
+    //    _requiredExpForNextLevel = CalculateExpForLevel(Level);
+    //    ListenAndUpdateDerivedStats();
+
+    //    currentHP = (int)HP.Value;
+    //    currentMP = (int)MP.Value;
+
+    //    LastLocation = _dictionary["LastLocation"].ToString();
+
+    //}
 }
