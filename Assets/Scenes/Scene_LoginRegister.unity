@@ -708,7 +708,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1650648870}
         m_TargetAssemblyTypeName: FireBaseManager, Assembly-CSharp
         m_MethodName: GoogleLoginButton
         m_Mode: 1
@@ -2101,7 +2101,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1650648870}
         m_TargetAssemblyTypeName: FireBaseManager, Assembly-CSharp
         m_MethodName: LoginButton
         m_Mode: 1
@@ -3047,8 +3047,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1650648869}
   - component: {fileID: 1650648870}
-  - component: {fileID: 1650648872}
-  - component: {fileID: 1650648871}
   m_Layer: 0
   m_Name: FireBaseManager
   m_TagString: Untagged
@@ -3080,21 +3078,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1650648868}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db5a68ca61a3fb64ca3db460dcdd5d25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firebaseAuthManager: {fileID: 1650648871}
-  firebaseFirestoreManager: {fileID: 1650648872}
---- !u!114 &1650648871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650648868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b2cc12df39efcd4194de1947b6951f9, type: 3}
+  m_Script: {fileID: 11500000, guid: d19ea1c00bb678b42ad65f006bb87e20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   GoogleWebAPI: 844846155287-7n7i8ehjeci2r4mfpjdk1us5ormjpeqj.apps.googleusercontent.com
@@ -3107,18 +3091,6 @@ MonoBehaviour:
   registerConfirmPasswordInput: {fileID: 1497677117}
   registerOutputUI: {fileID: 8067560741964359173}
   registerOutputText: {fileID: 1673051946}
---- !u!114 &1650648872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650648868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c637ee8fa2dd3924a860e1c7f46853b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1673051946 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8067560741467887918, guid: 08d10f06629c29d44889a669538e8d0d, type: 3}
@@ -3772,7 +3744,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1650648870}
         m_TargetAssemblyTypeName: FireBaseManager, Assembly-CSharp
         m_MethodName: RegisterButton
         m_Mode: 1

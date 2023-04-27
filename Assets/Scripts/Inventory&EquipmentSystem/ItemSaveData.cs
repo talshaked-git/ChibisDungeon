@@ -22,7 +22,7 @@ public class InventorySlotSaveData
     public Dictionary<string, System.Object> ToDictionary()
     {
         var data = new Dictionary<string, System.Object>();
-        //data.Add("item", item.ToDictionary());
+        data.Add("item", item.ToDictionary());
 
 
         Type itemType = item.GetType();

@@ -38,7 +38,7 @@ public class AuthUIManager : MonoBehaviour
     {
         loginUI.SetActive(false);
         registerUI.SetActive(false);
-        FireBaseManager.instance.firebaseAuthManager.ClearOutputs();
+        FireBaseManager.instance.ClearOutputs();
     }
 
     public void LoginScreen()
@@ -56,15 +56,15 @@ public class AuthUIManager : MonoBehaviour
     public void AwaitVerification(bool _emailSent, string _email, string _output)
     {
         LoginScreen();
-        FireBaseManager.instance.firebaseAuthManager.loginOutputUI.SetActive(true);
+        FireBaseManager.instance.loginOutputUI.SetActive(true);
 
         if (_emailSent)
         {
-            FireBaseManager.instance.firebaseAuthManager.loginOutputText.text = _output + _email;
+            FireBaseManager.instance.loginOutputText.text = _output + _email;
         }
         else
         {
-            FireBaseManager.instance.firebaseAuthManager.loginOutputText.text = _output;
+            FireBaseManager.instance.loginOutputText.text = _output;
         }
     }
 
@@ -72,7 +72,7 @@ public class AuthUIManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("email"))
         {
-            FireBaseManager.instance.firebaseAuthManager.emailInput.text = PlayerPrefs.GetString("email");
+            FireBaseManager.instance.emailInput.text = PlayerPrefs.GetString("email");
             rememberMe.isOn = true;
         }
     }

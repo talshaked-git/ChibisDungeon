@@ -1,24 +1,28 @@
+using UnityEngine;
+using System.Collections;
 using Firebase;
 using Firebase.Auth;
-using Firebase.Extensions;
-using Firebase.Firestore;
-using Google;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using TMPro;
-using UnityEngine;
+using System;
+using Google;
+using System.Threading.Tasks;
+using Firebase.Database;
+using System.Collections.Generic;
 
-public class FirebaseAuthenticationManager : MonoBehaviour
+public class FireBaseManager : MonoBehaviour
 {
-    public FirebaseAuth auth;
-    public FirebaseUser user;
+    public static FireBaseManager instance;
 
     public string GoogleWebAPI = "844846155287-7n7i8ehjeci2r4mfpjdk1us5ormjpeqj.apps.googleusercontent.com";
 
     private GoogleSignInConfiguration configuration;
 
-    // Your UI components and other variables can be added here
+    [Header("FireBase")]
+    public FirebaseAuth auth;
+    public FirebaseUser user;
+    private DatabaseReference mDatabaseRef;
+    [Space(5f)]
+
     [Header("Login Refrences")]
     [SerializeField]
     public TMP_InputField emailInput;
@@ -42,84 +46,34 @@ public class FirebaseAuthenticationManager : MonoBehaviour
     [SerializeField]
     private TMP_Text registerOutputText;
 
-    public void Initialize()
+
+    private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+        }
         StartCoroutine(CheckAndFixDependencies());
     }
 
     private IEnumerator CheckAndFixDependencies()
     {
-        var checkAndFixDependenciesTask = FirebaseApp.CheckAndFixDependenciesAsync();
-        yield return new WaitUntil(predicate: () => checkAndFixDependenciesTask.IsCompleted);
-
-        if (checkAndFixDependenciesTask.Result == DependencyStatus.Available)
+        var CheckAndFixDependenciesTask = FirebaseApp.CheckAndFixDependenciesAsync();
+        yield return new WaitUntil(predicate: () => CheckAndFixDependenciesTask.IsCompleted);
+        var dependancyResult = CheckAndFixDependenciesTask.Result;
+        if (dependancyResult == DependencyStatus.Available)
         {
-            auth = FirebaseAuth.DefaultInstance;
-            InitConfiguration();
-            StartCoroutine(CheckAutoLogin());
-            auth.StateChanged += AuthStateChanged;
-            AuthStateChanged(this, null);
+            InitializeFirebase();
         }
         else
         {
-            Debug.LogError("Could not resolve all Firebase dependencies: " + checkAndFixDependenciesTask.Result);
-        }
-    }
-
-    private void AuthStateChanged(object sender, System.EventArgs eventArgs)
-    {
-        if (auth.CurrentUser != user)
-        {
-            bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null;
-            if (!signedIn && user != null)
-            {
-                Debug.Log("Signed out " + user.UserId);
-            }
-            user = auth.CurrentUser;
-            if (signedIn)
-            {
-                Debug.Log("Signed in " + user.UserId);
-                if (user.IsEmailVerified)
-                {
-                    StartCoroutine(CreateNewAccountDocument());
-                }
-            }
-        }
-    }
-
-    private IEnumerator CreateNewAccountDocument()
-    {
-        string userId = user.UserId;
-        DocumentReference docRef = FireBaseManager.instance.firebaseFirestoreManager.db.Collection("users").Document(userId);
-
-        var getDocTask = docRef.GetSnapshotAsync();
-        yield return new WaitUntil(predicate: () => getDocTask.IsCompleted);
-
-        if (getDocTask.Result.Exists)
-        {
-            Debug.Log("User document already exists.");
-        }
-        else
-        {
-            Debug.Log("Creating new user document.");
-
-            Dictionary<string, object> userData = new Dictionary<string, object>
-        {
-            { "username", "" },
-            // Add any other default values for the account
-        };
-
-            var createAccountTask = docRef.SetAsync(userData);
-            yield return new WaitUntil(predicate: () => createAccountTask.IsCompleted);
-
-            if (createAccountTask.Exception == null)
-            {
-                Debug.Log("New user document created successfully.");
-            }
-            else
-            {
-                Debug.LogError("Error creating account document: " + createAccountTask.Exception.Message);
-            }
+            Debug.LogError("Could not resolve all Firebase dependencies: " + dependancyResult);
         }
     }
 
@@ -138,7 +92,6 @@ public class FirebaseAuthenticationManager : MonoBehaviour
         }
     }
 
-
     private void AutoLogin()
     {
         if (user != null)
@@ -150,6 +103,86 @@ public class FirebaseAuthenticationManager : MonoBehaviour
         {
             AuthUIManager.instance.LoginScreen();
         }
+    }
+
+    private void InitializeFirebase()
+    {
+        InitConfiguration();
+        auth = FirebaseAuth.DefaultInstance;
+        mDatabaseRef = FirebaseDatabase.GetInstance("https://chibis-and-dungeons-default-rtdb.europe-west1.firebasedatabase.app/").RootReference;
+        StartCoroutine(CheckAutoLogin());
+        auth.StateChanged += AuthStateChanged;
+        AuthStateChanged(this, null);
+    }
+
+    private void AuthStateChanged(object sender, System.EventArgs eventArgs)
+    {
+        if (auth.CurrentUser != user)
+        {
+            bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null;
+            if (!signedIn && user != null)
+            {
+                Debug.Log("Signed out " + user.UserId);
+            }
+            user = auth.CurrentUser;
+            if (signedIn)
+            {
+                Debug.Log("Signed in " + user.UserId);
+            }
+        }
+    }
+
+    public void ClearOutputs()
+    {
+        loginOutputUI.SetActive(false);
+        registerOutputUI.SetActive(false);
+        loginOutputText.text = "";
+        registerOutputText.text = "";
+    }
+
+    public void GoogleLoginButton()
+    {
+        GoogleSignIn.Configuration = configuration;
+        GoogleSignIn.Configuration.UseGameSignIn = false;
+        GoogleSignIn.Configuration.RequestIdToken = true;
+        GoogleSignIn.Configuration.RequestEmail = true;
+
+        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(
+            OnAuthenticationFinished);
+    }
+
+    private void OnAuthenticationFinished(Task<GoogleSignInUser> task)
+    {
+        if (task.IsCanceled)
+        {
+            Debug.LogError("SignInWithGoogle canceled");
+            return;
+        }
+        if (task.IsFaulted)
+        {
+            Debug.LogError("SignInWithGoogle encountered an error: " + task.Exception);
+            return;
+        }
+
+        Credential credential = GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
+        auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInWithCredentialAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            user = auth.CurrentUser;
+            GameManager.instance.ChangeScene("Scene_MainMenu");
+        });
+
+
     }
 
     public void LoginButton()
@@ -286,14 +319,6 @@ public class FirebaseAuthenticationManager : MonoBehaviour
         loginOutputText.text = _output;
     }
 
-    public void ClearOutputs()
-    {
-        loginOutputUI.SetActive(false);
-        registerOutputUI.SetActive(false);
-        loginOutputText.text = "";
-        registerOutputText.text = "";
-    }
-
     private IEnumerator SendVerificationEmail()
     {
         if (user == null)
@@ -349,48 +374,51 @@ public class FirebaseAuthenticationManager : MonoBehaviour
         GameManager.instance.ChangeScene("Scene_LoginRegister");
     }
 
-    public void GoogleLoginButton()
+    public void LoadAccount(Action<Account> callback)
     {
-        GoogleSignIn.Configuration = configuration;
-        GoogleSignIn.Configuration.UseGameSignIn = false;
-        GoogleSignIn.Configuration.RequestIdToken = true;
-        GoogleSignIn.Configuration.RequestEmail = true;
-
-        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(
-            OnAuthenticationFinished);
-    }
-
-    private void OnAuthenticationFinished(Task<GoogleSignInUser> task)
-    {
-        if (task.IsCanceled)
+        //TODO: Get Account From Database
+        if (user == null)
         {
-            Debug.LogError("SignInWithGoogle canceled");
             return;
         }
-        if (task.IsFaulted)
+        mDatabaseRef.Child("Users").Child(user.UserId).Child("Account").GetValueAsync().ContinueWith(task =>
         {
-            Debug.LogError("SignInWithGoogle encountered an error: " + task.Exception);
-            return;
-        }
-
-        Credential credential = GoogleAuthProvider.GetCredential(task.Result.IdToken, null);
-        auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
-        {
-            if (task.IsCanceled)
-            {
-                Debug.LogError("SignInWithCredentialAsync was canceled.");
-                return;
-            }
             if (task.IsFaulted)
             {
-                Debug.LogError("SignInWithCredentialAsync encountered an error: " + task.Exception);
-                return;
+                Debug.Log("Error Retriving Account: " + task.Exception);
             }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
 
-            user = auth.CurrentUser;
-            GameManager.instance.ChangeScene("Scene_MainMenu");
+                if (snapshot.Value == null)
+                {
+                    Account account = new Account(user.UserId);
+                    SaveAccount(account);
+                    Debug.Log("Account Created And Saved");
+                    callback(account);
+                }
+                else
+                {
+                    Dictionary<string, object> load = snapshot.Value as Dictionary<string, object>;
+                    Debug.Log("Account Loaded");
+                    Account account = new Account(load);
+                    Debug.Log("Account:" + account);
+                    callback(account);
+                }
+            }
         });
 
+    }
 
+    public void SaveAccount(Account _account)
+    {
+        Dictionary<string, System.Object> save = _account.ToDictionary();
+        mDatabaseRef.Child("Users").Child(user.UserId).Child("Account").SetValueAsync(save);
+    }
+
+    public string GetCharacterId()
+    {
+        return mDatabaseRef.Child("Users").Push().Key;
     }
 }

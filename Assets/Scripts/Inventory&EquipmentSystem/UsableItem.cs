@@ -1,9 +1,9 @@
-using Firebase.Firestore;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Usable Item", menuName = "Chibis and Dungeons/Item/Usable Item")]
-[FirestoreData]
 public class UsableItem : Item
 {
     public bool IsConsumable;
@@ -40,5 +40,15 @@ public class UsableItem : Item
             sb.AppendLine(effect.GetDescription());
         }
         return sb.ToString();
+    }
+
+    public override Dictionary<string, System.Object> ToDictionary()
+    {
+        return base.ToDictionary();
+    }
+
+    public override void FromDictionary(Dictionary<string, System.Object> dict)
+    {
+        base.FromDictionary(dict);
     }
 }

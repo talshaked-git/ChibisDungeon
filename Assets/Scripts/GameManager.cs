@@ -39,9 +39,9 @@ public class GameManager : MonoBehaviour
         AudioManager.instance.PlayMusic(clip);
     }
 
-    public async void LoadAccount()
+    public void LoadAccount()
     {
-        await FireBaseManager.instance.firebaseFirestoreManager.LoadAccount(OnAccountLoaded);
+        FireBaseManager.instance.LoadAccount(OnAccountLoaded);
     }
 
     private void OnAccountLoaded(Account _account)
@@ -51,9 +51,15 @@ public class GameManager : MonoBehaviour
         Debug.Log("Account loaded\n");
     }
 
-    public async void SaveAccount()
+    public void SaveNewPlayer(Player _player)
     {
-        await FireBaseManager.instance.firebaseFirestoreManager.SaveAccount(account);
+        account.AddPlayer(_player);
+        FireBaseManager.instance.SaveAccount(account);
+    }
+
+    public void SaveAccount()
+    {
+        FireBaseManager.instance.SaveAccount(account);
     }
 
 }
