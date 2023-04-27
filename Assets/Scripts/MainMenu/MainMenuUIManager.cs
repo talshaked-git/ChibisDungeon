@@ -1,3 +1,5 @@
+using Firebase.Extensions;
+using Firebase.Firestore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -80,23 +82,37 @@ public class MainMenuUIManager : MonoBehaviour
 
     public void UpdateCharcterScreen()
     {
-        int i = 0;
-        if (GameManager.instance.account == null)
+        //change to update with PlayerRefs
+        if(GameManager.instance.account == null)
+        {
             return;
-        foreach (Player player in GameManager.instance.account.players)
+        }
+
+        int i = 0;
+        
+        foreach(DocumentReference playerRef in GameManager.instance.account.PlayerRefs)
         {
             charcterSelectObjects[i].SetActive(true);
             charcterAddButtons[i].SetActive(false);
-            UpdateCharTextFields(i, player);
-            InstantiateCharPrefab(i, player);
-            charcterSelectObjects[i].GetComponentInChildren<Button>().onClick.AddListener(() => startGame(player));
-
+            playerRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted || task.IsCanceled)
+                {
+                    Debug.LogError("Failed to load player data");
+                    return;
+                }
+                Player player = task.Result.ConvertTo<Player>();
+                UpdateCharTextFields(i, player);
+                InstantiateCharPrefab(i, player);
+                charcterSelectObjects[i].GetComponentInChildren<Button>().onClick.AddListener(() => startGame(player));
+            });
             i++;
         }
+
         for (int j = i; j < 4; j++)
         {
-            charcterSelectObjects[j].SetActive(false);
-            charcterAddButtons[j].SetActive(true);
+            charcterSelectObjects[i].SetActive(false);
+            charcterAddButtons[i].SetActive(true);
         }
     }
 
@@ -164,7 +180,7 @@ public class MainMenuUIManager : MonoBehaviour
             }
             else if (field.name == "currentLevel")
             {
-                field.text = player.level.ToString();
+                field.text = player.Level.ToString();
             }
         }
     }
@@ -325,18 +341,21 @@ public class MainMenuUIManager : MonoBehaviour
             Debug.LogWarning("Player Not Created");
             return;
         }
+        DocumentReference accountRef = GameManager.instance.account.GetAccountRef();
+        newPlayer.AccountRef = accountRef;
+        GameManager.instance.account.AddPlayerRef(FireBaseManager.instance.SaveNewPlayer(newPlayer));
 
         Debug.Log("New Player Created");
         Debug.Log(newPlayer);
 
-        GameManager.instance.SaveNewPlayer(newPlayer);
         CharcterAddScreen();
         UpdateCharcterScreen();
     }
 
     public Player CreatePlayer(string nickname)
     {
-        string _CID = FireBaseManager.instance.GetCharacterId();
+        //generate a unique CID
+        string _CID = Guid.NewGuid().ToString();
         switch (currentCharcter)
         {
             case 0:

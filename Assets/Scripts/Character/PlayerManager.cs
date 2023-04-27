@@ -96,7 +96,7 @@ public class PlayerManager : MonoBehaviour
 
         statPanel.UpdateStatValues();
 
-        statPanel.UpdateLevel(currentPlayer.level);
+        statPanel.UpdateLevel(currentPlayer.Level);
 
         UpdateEXPStat(out text, out ratio);
 
@@ -359,7 +359,7 @@ public class PlayerManager : MonoBehaviour
 
     private bool isEquipabble(EquippableItem item)
     {
-        if (item != null && item.EquipableClass == currentPlayer.classType && item.EquipableLV <= currentPlayer.level)
+        if (item != null && item.EquipableClass == currentPlayer.classType && item.EquipableLV <= currentPlayer.Level)
             return true;
         return false;
     }
