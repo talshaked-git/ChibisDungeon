@@ -1,3 +1,4 @@
+using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +11,7 @@ public enum EquipmentType
     Boots,
     MainHand,
     OffHand,
-    Ring1,
-    Ring2,
+    Ring,
     Neckless,
 }
 
@@ -19,44 +19,75 @@ public enum EquipmentType
 [CreateAssetMenu(fileName = "EquippableItem", menuName = "Chibis and Dungeons/Item/Equippable Item")]
 public class EquippableItem : Item
 {
-    public int STRBonus;
-    public int INTBonus;
-    public int AGIBonus;
-    public int VITBonus;
-    [Space]
-    public float STRPercentAddBonus;
-    public float INTPercentAddBonus;
-    public float AGIPercentAddBonus;
-    public float VITPercentAddBonus;
-    [Space]
-    public float STRPercentMullBonus;
-    public float INTPercentMullBonus;
-    public float AGIPercentMullBonus;
-    public float VITPercentMullBonus;
+    [SerializeField]
+    private int _strBonus;
+    public int STRBonus
+    {
+        get { return _strBonus; }
+        set { _strBonus = value; }
+    }
+
+    [SerializeField]
+    private int _intBonus;
+    public int INTBonus
+    {
+        get { return _intBonus; }
+        set { _intBonus = value; }
+    }
+
+    [SerializeField]
+    private int _agiBonus;
+    public int AGIBonus
+    {
+        get { return _agiBonus; }
+        set { _agiBonus = value; }
+    }
+
+    [SerializeField]
+    private int _vitBonus;
+    public int VITBonus
+    {
+        get { return _vitBonus; }
+        set { _vitBonus = value; }
+    }
+
+    [SerializeField]
+    private float _strPercentAddBonus;
+    public float STRPercentAddBonus
+    {
+        get { return _strPercentAddBonus; }
+        set { _strPercentAddBonus = value; }
+    }
+
+    [SerializeField]
+    private float _intPercentAddBonus;
+    public float INTPercentAddBonus
+    {
+        get { return _intPercentAddBonus; }
+        set { _intPercentAddBonus = value; }
+    }
+
+    [SerializeField]
+    private float _vitPercentAddBonus;
+    public float VITPercentAddBonus
+    {
+        get { return _vitPercentAddBonus; }
+        set { _vitPercentAddBonus = value; }
+    }
+
+    [SerializeField]
+    private float _agiPercentAddBonus;
+    public float AGIPercentAddBonus
+    {
+        get { return _agiPercentAddBonus; }
+        set { _agiPercentAddBonus = value; }
+    }
+
     [Space]
     public EquipmentType equipmentType;
 
     public bool isEquipped = false;
 
-    public EquippableItem(Dictionary<string, System.Object> dict)
-    {
-        STRBonus = Convert.ToInt32(dict["STRBonus"]);
-        INTBonus = Convert.ToInt32(dict["INTBonus"]);
-        AGIBonus = Convert.ToInt32(dict["AGIBonus"]);
-        VITBonus = Convert.ToInt32(dict["VITBonus"]);
-
-        STRPercentAddBonus = Convert.ToSingle(dict["STRPercentAddBonus"]);
-        INTPercentAddBonus = Convert.ToSingle(dict["INTPercentAddBonus"]);
-        AGIPercentAddBonus = Convert.ToSingle(dict["AGIPercentAddBonus"]);
-        VITPercentAddBonus = Convert.ToSingle(dict["VITPercentAddBonus"]);
-
-        STRPercentMullBonus = Convert.ToSingle(dict["STRPercentMullBonus"]);
-        INTPercentMullBonus = Convert.ToSingle(dict["INTPercentMullBonus"]);
-        AGIPercentMullBonus = Convert.ToSingle(dict["AGIPercentMullBonus"]);
-        VITPercentMullBonus = Convert.ToSingle(dict["VITPercentMullBonus"]);
-
-        equipmentType = (EquipmentType)Convert.ToInt32(dict["equipmentType"]);
-    }
     public void Equip(Player player)
     {
         if (STRBonus != 0)
@@ -161,25 +192,8 @@ public class EquippableItem : Item
         }
     }
 
-    public override Dictionary<string, object> ToDictionary()
+    public void UpdateStatValues()
     {
-        Dictionary<string, object> baseDict = base.ToDictionary();
-        baseDict["STRBonus"] = STRBonus;
-        baseDict["INTBonus"] = INTBonus;
-        baseDict["AGIBonus"] = AGIBonus;
-        baseDict["VITBonus"] = VITBonus;
-        baseDict["STRPercentAddBonus"] = STRPercentAddBonus;
-        baseDict["INTPercentAddBonus"] = INTPercentAddBonus;
-        baseDict["AGIPercentAddBonus"] = AGIPercentAddBonus;
-        baseDict["VITPercentAddBonus"] = VITPercentAddBonus;
-        baseDict["STRPercentMullBonus"] = STRPercentMullBonus;
-        baseDict["INTPercentMullBonus"] = INTPercentMullBonus;
-        baseDict["AGIPercentMullBonus"] = AGIPercentMullBonus;
-        baseDict["VITPercentMullBonus"] = VITPercentMullBonus;
-        baseDict["equipmentType"] = equipmentType.ToString();
-        baseDict["isEquipped"] = false;
 
-        return baseDict;
     }
-
 }

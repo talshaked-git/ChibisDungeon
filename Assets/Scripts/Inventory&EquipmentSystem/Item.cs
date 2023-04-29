@@ -3,28 +3,30 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Firebase.Firestore;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Chibis and Dungeons/Item/Item")]
-[System.Serializable]
+
 public class Item : ScriptableObject
 {
-    protected List<string> foldersToSearch = new List<string>
-    {
-        "Items/Consumables",
-        "Items/Equipment/Bows",
-        "Items/Equipment/Chest",
-        "Items/Equipment/Staves",
-        "Items/Equipment/Swords"
-    };
 
-    [SerializeField] string id;
+    [SerializeField] private string _id;
+
     public string ID
     {
-        get { return id; }
-        set { id = value; }
+        get { return _id; }
+        set { _id = value; }
     }
-    protected string uniqueID;
-    public string ItemName;
+
+    public string uniqueID { get; set; }
+
+
+    [SerializeField] private string _itemName;
+    public string ItemName { 
+        get { return _itemName; } 
+        set { _itemName = value; } 
+    }
+
     [Range(1, 999)]
     public int MaxStack = 1;
     public Sprite Icon;
@@ -51,23 +53,5 @@ public class Item : ScriptableObject
     {
         return string.Empty;
     }
-
-    public virtual Dictionary<string, System.Object> ToDictionary()
-    {
-        Dictionary<string, System.Object> result = new Dictionary<string, System.Object>();
-        result["ID"] = ID;
-        result["ItemName"] = ItemName;
-        if (uniqueID == null)
-            uniqueID = Guid.NewGuid().ToString();
-        result["UniqueID"] = uniqueID;
-
-        return result;
-    }
-
-    public virtual void FromDictionary(Dictionary<string, System.Object> dict)
-    {
-        uniqueID = (string)dict["UniqueID"];
-    }
-
 }
 

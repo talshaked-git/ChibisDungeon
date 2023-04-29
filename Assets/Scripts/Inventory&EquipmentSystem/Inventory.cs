@@ -20,14 +20,14 @@ public class Inventory : MonoBehaviour, IItemContainer
 
     public void InitInventory()
     {
-        inventorySlots = new List<InventorySlot>(new InventorySlot[MaxSlots]);
+        inventorySlots = new List<InventorySlot>();
 
         for (int i = 0; i < MaxSlots; i++)
         {
-            inventorySlots[i] = Instantiate(invSlotPrefab, itemsParent);
+            inventorySlots.Add( Instantiate(invSlotPrefab, itemsParent));
         }
 
-        for (int i = 0; i < inventorySlots.Capacity; i++)
+        for (int i = 0; i < MaxSlots; i++)
         {
             inventorySlots[i].OnPressEvent += OnPressEvent;
             inventorySlots[i].OnBeginDragEvent += OnBeginDragEvent;
@@ -55,7 +55,7 @@ public class Inventory : MonoBehaviour, IItemContainer
 
     public bool AddItem(Item item)
     {
-        for (int i = 0; i < inventorySlots.Capacity; i++)
+        for (int i = 0; i < MaxSlots; i++)
         {
             if (inventorySlots[i].CanAddStack(item))
             {
@@ -63,7 +63,7 @@ public class Inventory : MonoBehaviour, IItemContainer
                 return true;
             }
         }
-        for (int i = 0; i < inventorySlots.Capacity; i++)
+        for (int i = 0; i < MaxSlots; i++)
         {
             if (inventorySlots[i].item == null)
             {
@@ -82,9 +82,11 @@ public class Inventory : MonoBehaviour, IItemContainer
         int index = 0;
         foreach (InventorySlotSaveData slot in saveData.SavedSlots)
         {
+            
             if (slot == null) continue;
-            if (slot.item == null) continue;
-            inventorySlots[index].item = slot.item;
+            if (slot.itemSaveData == null) continue;
+            Item item = slot.itemSaveData.ToItem();
+            inventorySlots[index].item = item;
             inventorySlots[index].Amount = slot.amount;
             index++;
         }
@@ -106,7 +108,7 @@ public class Inventory : MonoBehaviour, IItemContainer
 
     public bool ContainsItem(Item item)
     {
-        for (int i = 0; i < inventorySlots.Capacity; i++)
+        for (int i = 0; i < MaxSlots; i++)
         {
             if (inventorySlots[i].item == item)
             {
@@ -119,7 +121,7 @@ public class Inventory : MonoBehaviour, IItemContainer
     public int ItemCount(string itemID)
     {
         int count = 0;
-        for (int i = 0; i < inventorySlots.Capacity; i++)
+        for (int i = 0; i < MaxSlots; i++)
         {
             if (inventorySlots[i].item.ID == itemID)
             {
@@ -131,7 +133,7 @@ public class Inventory : MonoBehaviour, IItemContainer
 
     public Item RemoveItem(string itemID)
     {
-        for (int i = 0; i < inventorySlots.Capacity; i++)
+        for (int i = 0; i < MaxSlots; i++)
         {
             Item item = inventorySlots[i].item;
             if (item != null && item.ID == itemID)
@@ -145,7 +147,7 @@ public class Inventory : MonoBehaviour, IItemContainer
 
     public bool RemoveItem(Item item)
     {
-        for (int i = 0; i < inventorySlots.Capacity; i++)
+        for (int i = 0; i < MaxSlots; i++)
         {
             if (inventorySlots[i].item == item)
             {
@@ -158,7 +160,7 @@ public class Inventory : MonoBehaviour, IItemContainer
 
     public virtual void Clear()
     {
-        for (int i = 0; i < inventorySlots.Capacity; i++)
+        for (int i = 0; i < MaxSlots; i++)
         {
             inventorySlots[i].item = null;
             inventorySlots[i].Amount = 0;

@@ -1,54 +1,19 @@
+using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventorySlotSaveData
-{
-    public Item item;
-    public int amount;
 
-    public InventorySlotSaveData(InventorySlot slot)
-    {
-        item = slot.item;
-        amount = slot.Amount;
-    }
-
-    public InventorySlotSaveData(Item item, int amount)
-    {
-        this.item = item;
-        this.amount = amount;
-    }
-
-    public Dictionary<string, System.Object> ToDictionary()
-    {
-        var data = new Dictionary<string, System.Object>();
-        data.Add("item", item.ToDictionary());
-
-
-        Type itemType = item.GetType();
-        switch (itemType.Name)
-        {
-            case "EquippableItem":
-                data.Add("ItemClass", "EquipableItem");
-                break;
-            case "UsableItem":
-                data.Add("ItemClass", "UsableItem");
-                break;
-            default:
-                data.Add("ItemClass", "Item");
-                break;
-        }
-
-        data.Add("amount", amount);
-        return data;
-    }
-}
-
+[FirestoreData]
 public class InventorySaveData
 {
     public const string NullPlaceholder = "NULL_PLACEHOLDER";
-    public InventorySlotSaveData[] SavedSlots;
-    private int numItems;
+    [FirestoreProperty]
+    public InventorySlotSaveData[] SavedSlots { get; set; }
+    [FirestoreProperty]
+    public int numItems { get; set; }
+
+    public InventorySaveData() { }
 
     public InventorySaveData(int numItems)
     {
@@ -56,23 +21,124 @@ public class InventorySaveData
         SavedSlots = new InventorySlotSaveData[numItems];
     }
 
-    public Dictionary<string, System.Object> ToDictionary()
+}
+
+[FirestoreData]
+public class InventorySlotSaveData
+{
+    [FirestoreProperty]
+    public ItemSaveData itemSaveData { get; set; }
+    [FirestoreProperty]
+    public int amount { get; set; }
+
+    public InventorySlotSaveData() { }
+
+    public InventorySlotSaveData(InventorySlot slot)
     {
-        Dictionary<string, System.Object> data = new Dictionary<string, System.Object>();
-        data.Add("numItems", numItems);
-        List<System.Object> savedSlots = new List<System.Object>();
-        for (int i = 0; i < SavedSlots.Length; i++)
+        if(slot.item.uniqueID == null)
         {
-            if (SavedSlots[i] == null)
-            {
-                savedSlots.Add(NullPlaceholder);
-            }
-            else
-            {
-                savedSlots.Add(SavedSlots[i].ToDictionary());
-            }
+            slot.item.uniqueID = Guid.NewGuid().ToString();
         }
-        data.Add("savedSlots", savedSlots);
-        return data;
+        itemSaveData = new ItemSaveData(slot.item);
+        amount = slot.Amount;
+    }
+
+    public InventorySlotSaveData(Item item, int amount)
+    {
+        this.itemSaveData = new ItemSaveData(item);
+        this.amount = amount;
+    }
+}
+
+[FirestoreData]
+public class ItemSaveData {
+    [FirestoreProperty]
+    public string ID { get; set; }
+
+    [FirestoreProperty]
+    protected string uniqueID { get; set; }
+
+    [FirestoreProperty]
+    public string ItemName { get; set; }
+
+    public ItemSaveData() { }
+
+
+    public ItemSaveData(Item item)
+    {
+        ID = item.ID;
+        uniqueID = item.uniqueID;
+        ItemName = item.ItemName;
+    }
+
+    public virtual Item ToItem()
+    {
+        Item item = ItemSaveManager.Instance.ItemDatabase.GetItemCopy(ID);
+        item.uniqueID = uniqueID;
+        item.ItemName = ItemName;
+        // Assign values from this class to the item for any other properties you want to store in Firestore
+
+        return item;
+    }
+}
+
+[FirestoreData]
+public class EquippableItemSaveData : ItemSaveData
+{
+    [FirestoreProperty]
+    public int STRBonus { get; set; }
+    [FirestoreProperty]
+    public int AGIBonus { get; set; }
+    [FirestoreProperty]
+    public int INTBonus { get; set; }
+    [FirestoreProperty]
+    public int VITBonus { get; set; }
+
+
+    [FirestoreProperty]
+    public float STRPercentAddBonus { get; set; }
+    [FirestoreProperty]
+    public float AGIPercentAddBonus { get; set; }
+    [FirestoreProperty]
+    public float INTPercentAddBonus { get; set; }
+    [FirestoreProperty]
+    public float VITPercentAddBonus { get; set; }
+
+    public EquippableItemSaveData() : base() { }
+
+    public EquippableItemSaveData(EquippableItem item) : base(item)
+    {
+        STRBonus = item.STRBonus;
+        AGIBonus = item.AGIBonus;
+        INTBonus = item.INTBonus;
+        VITBonus = item.VITBonus;
+        STRPercentAddBonus = item.STRPercentAddBonus;
+        AGIPercentAddBonus = item.AGIPercentAddBonus;
+        INTPercentAddBonus = item.INTPercentAddBonus;
+        VITPercentAddBonus = item.VITPercentAddBonus;
+    }
+
+
+
+    public override Item ToItem()
+    {
+        EquippableItem item = ItemSaveManager.Instance.ItemDatabase.GetItemCopy(ID) as EquippableItem;
+        if (item == null)
+        {
+            Debug.LogError("ItemSaveData.ToItem(): EquippableItem " + ID + " could not be found in the ItemDatabase.");
+            return null;
+        }
+        item.uniqueID = uniqueID;
+        item.ItemName = ItemName;
+        item.STRBonus = STRBonus;
+        item.AGIBonus = AGIBonus;
+        item.INTBonus = INTBonus;
+        item.VITBonus = VITBonus;
+        item.STRPercentAddBonus = STRPercentAddBonus;
+        item.AGIPercentAddBonus = AGIPercentAddBonus;
+        item.INTPercentAddBonus = INTPercentAddBonus;
+        item.VITPercentAddBonus = VITPercentAddBonus;
+
+        return item;
     }
 }

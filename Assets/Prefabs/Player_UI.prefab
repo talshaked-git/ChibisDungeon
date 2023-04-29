@@ -661,7 +661,7 @@ GameObject:
   - component: {fileID: 197057307}
   - component: {fileID: 197057306}
   m_Layer: 6
-  m_Name: Ring2 Slot
+  m_Name: Ring Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -705,7 +705,7 @@ MonoBehaviour:
   background: {fileID: 197057306}
   amountText: {fileID: 3391343435815376536}
   isTooltipActive: 0
-  equipmentType: 7
+  equipmentType: 6
   defualtIcon: {fileID: 21300000, guid: 219a890d420a09f45abd155681d7d7aa, type: 3}
 --- !u!222 &197057307
 CanvasRenderer:
@@ -5269,7 +5269,7 @@ GameObject:
   - component: {fileID: 1272174627}
   - component: {fileID: 1272174626}
   m_Layer: 6
-  m_Name: Ring1 Slot
+  m_Name: Ring Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8760,7 +8760,7 @@ MonoBehaviour:
   background: {fileID: 1825702241}
   amountText: {fileID: 1932465661063585734}
   isTooltipActive: 0
-  equipmentType: 8
+  equipmentType: 7
   defualtIcon: {fileID: 21300000, guid: 5fd0fddebbe758a46b43785b7c5e211c, type: 3}
 --- !u!222 &1825702242
 CanvasRenderer:
