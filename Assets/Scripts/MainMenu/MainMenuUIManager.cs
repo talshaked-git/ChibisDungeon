@@ -1,5 +1,6 @@
 using Firebase.Extensions;
 using Firebase.Firestore;
+using Spriter2UnityDX;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,9 +20,13 @@ public class MainMenuUIManager : MonoBehaviour
     [SerializeField]
     private GameObject AboutUI;
     [SerializeField]
-    private GameObject[] charcterSelectObjects = new GameObject[4];
+    private Transform CharcterSelectUI;
     [SerializeField]
-    private GameObject[] charcterAddButtons = new GameObject[4];
+    private GameObject CharcterSelectPrefab;
+    [SerializeField]
+    private GameObject CharcterAddButtonPrefab;
+    private List<GameObject> charcterSelectObjects = new List<GameObject>();
+    private List<GameObject> charcterAddButtons = new List<GameObject>();
 
     [Space(5f)]
     [Header("Charcter Add UI Refrences")]
@@ -55,6 +60,8 @@ public class MainMenuUIManager : MonoBehaviour
     public int currentCharcter = 0;
     private GameObject currentCharcterPrefab;
 
+    [SerializeField] private PlayerUIManager playerUIManagerPrefab;
+
     private void Awake()
     {
         if (instance == null)
@@ -70,70 +77,63 @@ public class MainMenuUIManager : MonoBehaviour
 
     private IEnumerator Start()
     {
-        for (int h = 0; h < 4; h++)
-        {
-            charcterSelectObjects[h].SetActive(false);
-            charcterAddButtons[h].SetActive(false);
-        }
 
         yield return new WaitUntil(() => GameManager.instance.account != null);
         UpdateCharcterScreen();
     }
 
-    public void UpdateCharcterScreen()
+    private void CleanCharacterScreen()
     {
-        //change to update with PlayerRefs
-        if(GameManager.instance.account == null)
+        foreach (GameObject charcterSelectObject in charcterSelectObjects)
         {
-            return;
+            Destroy(charcterSelectObject);
         }
 
-        int i = 0;
-        
-        foreach(DocumentReference playerRef in GameManager.instance.account.PlayerRefs)
+        foreach (GameObject charcterAddButton in charcterAddButtons)
         {
-            charcterSelectObjects[i].SetActive(true);
-            charcterAddButtons[i].SetActive(false);
-            playerRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+            Destroy(charcterAddButton);
+        }
+    }
+
+    public void UpdateCharcterScreen()
+    {
+        CleanCharacterScreen();
+
+        int i = 0;
+
+        foreach (DocumentReference playerRef in GameManager.instance.account.PlayerRefs)
+        {
+            GameObject characterShow = Instantiate(CharcterSelectPrefab, CharcterSelectUI);
+            charcterSelectObjects.Add(characterShow);
+            int index = i; // Capture the current index to use inside the callback
+            FireBaseManager.instance.LoadPlayer(playerRef.Id, player =>
             {
-                if (task.IsFaulted || task.IsCanceled)
-                {
-                    Debug.LogError("Failed to load player data");
-                    return;
-                }
-                Player player = task.Result.ConvertTo<Player>();
-                UpdateCharTextFields(i, player);
-                InstantiateCharPrefab(i, player);
-                charcterSelectObjects[i].GetComponentInChildren<Button>().onClick.AddListener(() => startGame(player));
+                UpdateCharTextFields(characterShow, player);
+                InstantiateCharPrefab(characterShow, player);
+                characterShow.GetComponentInChildren<Button>().onClick.AddListener(() => startGame(player));
             });
+
             i++;
         }
 
         for (int j = i; j < 4; j++)
         {
-            charcterSelectObjects[i].SetActive(false);
-            charcterAddButtons[i].SetActive(true);
+            GameObject addButtons = Instantiate(CharcterAddButtonPrefab, CharcterSelectUI);
+            addButtons.GetComponentInChildren<Button>().onClick.AddListener(() => CharcterAddScreen());
+            charcterAddButtons.Add(addButtons);
+
         }
     }
 
     private void startGame(Player player)
     {
+        player.ListenAndUpdateDerivedStats();
         GameManager.instance.currentPlayer = player;
-
-        switch (player.LastLocation)
-        {
-            case "Scene_Forest_Town":
-                GameManager.instance.ChangeScene("Scene_Forest_Town");
-                break;
-
-
-            default:
-                GameManager.instance.ChangeScene("Scene_Forest_Town");
-                break;
-        }
+        GameManager.instance.ChangeScene(player.LastLocation);
+        Instantiate(playerUIManagerPrefab);
     }
 
-    private void InstantiateCharPrefab(int i, Player player)
+    private void InstantiateCharPrefab(GameObject gameObject, Player player)
     {
         int prefabIndex = 0;
         switch (player.classType)
@@ -155,23 +155,24 @@ public class MainMenuUIManager : MonoBehaviour
                 break;
         }
         //instantiate charcter prefab in charcterSelectObjects[i]
-        GameObject charcterPrefab = Instantiate(_charcterPrefab[prefabIndex], charcterSelectObjects[i].transform);
-        Vector3 scale = charcterPrefab.transform.localScale;
+        GameObject charcterPrefab = Instantiate(_charcterPrefab[prefabIndex], gameObject.transform);
         if (player.classType == CharClassType.Archer)
         {
             // scale = new Vector3(75f, 75f, 1f);
             charcterPrefab.GetComponentInChildren<ArcherAttack>().enabled = false;
         }
-        scale = new Vector3(60f, 60f, 1f);
+
+        Vector3 scale = new Vector3(60f, 60f, 1f);
         charcterPrefab.transform.localScale = scale;
-        charcterPrefab.transform.localPosition = new Vector3(0f, -225f, 0f);
+        charcterPrefab.transform.localPosition = new Vector3(0f, -225f, 1f);
         charcterPrefab.GetComponentInChildren<PlayerMovement>().enabled = false;
+        charcterPrefab.GetComponentInChildren<EntityRenderer>().SortingLayerName = "Player";
 
     }
 
-    private void UpdateCharTextFields(int i, Player player)
+    private void UpdateCharTextFields(GameObject gameObject, Player player)
     {
-        TMP_Text[] fieldsToUpdate = charcterSelectObjects[i].GetComponentsInChildren<TMP_Text>();
+        TMP_Text[] fieldsToUpdate = gameObject.GetComponentsInChildren<TMP_Text>();
         foreach (TMP_Text field in fieldsToUpdate)
         {
             if (field.name == "NicknameText")

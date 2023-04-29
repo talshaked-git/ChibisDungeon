@@ -1,4 +1,6 @@
 using Firebase.Firestore;
+using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class FireBaseManager : MonoBehaviour
@@ -34,6 +36,19 @@ public class FireBaseManager : MonoBehaviour
     {
         await firebaseFirestoreManager.SaveAccount(account);
     }
-    
 
+    public async Task LoadAccount(Action<Account> callback)
+    {
+        await firebaseFirestoreManager.LoadAccount(callback);
+    }
+
+    public async void LoadPlayer(string playerId, Action<Player> callback)
+    {
+        await firebaseFirestoreManager.LoadPlayer(playerId, callback);
+    }
+
+    public void SavePlayer (Player player)
+    {
+        firebaseFirestoreManager.SavePlayer(player);
+    }
 }

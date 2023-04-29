@@ -62,6 +62,7 @@ public class Player
     [FirestoreProperty]
     public CharcterStat HP { get; set; }
     private int _currentHP;
+    [FirestoreProperty]
     public int currentHP
     {
         get { return _currentHP; }
@@ -76,6 +77,7 @@ public class Player
     }
     [FirestoreProperty]
     public CharcterStat MP { get; set; }
+    [FirestoreProperty]
     public int currentMP { get; set; }
 
     [FirestoreProperty]
@@ -96,11 +98,10 @@ public class Player
     [FirestoreProperty]
     public CharcterStat DEF { get; set; }
 
-    public InventorySaveData InventorySaveData { get; set; } //TODO: Check To See how i save this
-    public InventorySaveData EquipmentSaveData { get; set; }//TODO: Check To See how i save this
-
-    private Dictionary<string, System.Object> InventorySaveDataDictionary;
-    private Dictionary<string, System.Object> EquipmentSaveDataDictionary;
+    [FirestoreProperty("Inventory")]
+    public InventorySaveData InventorySaveData { get; set; } 
+    [FirestoreProperty("Equipment")]
+    public InventorySaveData EquipmentSaveData { get; set; }
 
     [FirestoreProperty]
     public int InventoryMaxSlots { get; set; }
@@ -108,6 +109,7 @@ public class Player
     [FirestoreProperty]
     public string LastLocation { get; set; }
 
+    public Player() { }
 
     public Player(string _name, string _CID, CharClassType _class)
     {
@@ -127,14 +129,6 @@ public class Player
         currentMP = (int)MP.Value;
         LastLocation = "Scene_Forest_Town";
     }
-
-
-    public void LoadeInventoryAndERquipment()
-    {
-        InventorySaveData = ItemSaveManager.Instance.LoadInventory(InventorySaveDataDictionary);
-        EquipmentSaveData = ItemSaveManager.Instance.LoadEquipment(EquipmentSaveDataDictionary);
-    }
-
 
     private void InitStatesByClassType()
     {
@@ -181,7 +175,7 @@ public class Player
         ListenAndUpdateDerivedStats();
     }
 
-    private void ListenAndUpdateDerivedStats()
+    public void ListenAndUpdateDerivedStats()
     {
         STR.StatChanged += UpdateDerivedStats;
         VIT.StatChanged += UpdateDerivedStats;
@@ -295,58 +289,4 @@ public class Player
     {
         gold += amount;
     }
-
-    //public virtual Dictionary<string, System.Object> ToDictionary()
-    //{
-    //    Dictionary<string, System.Object> result = new Dictionary<string, System.Object>();
-    //    result["CID"] = CID;
-    //    result["name"] = name;
-    //    result["classType"] = ((int)classType);
-    //    result["level"] = Level;
-    //    result["CurrentExp"] = CurrentExp;
-    //    result["gold"] = gold;
-    //    result["AttributePoints"] = AttributePoints;
-    //    result["InventorySaveData"] = InventorySaveData.ToDictionary();
-    //    result["EquipmentSaveData"] = EquipmentSaveData.ToDictionary();
-    //    result["InventoryMaxSlots"] = InventoryMaxSlots;
-    //    result["HP"] = HP.ToDictionary();
-    //    result["MP"] = MP.ToDictionary();
-    //    result["STR"] = STR.ToDictionary();
-    //    result["VIT"] = VIT.ToDictionary();
-    //    result["INT"] = INT.ToDictionary();
-    //    result["AGI"] = AGI.ToDictionary();
-    //    result["LastLocation"] = LastLocation;
-
-    //    return result;
-    //}
-    //public Player(Dictionary<string, System.Object> _dictionary)
-    //{
-    //    CID = _dictionary["CID"].ToString();
-    //    name = _dictionary["name"].ToString();
-    //    classType = (CharClassType)Convert.ToInt32(_dictionary["classType"]);
-    //    Level = Convert.ToInt32(_dictionary["level"]);
-    //    CurrentExp = Convert.ToInt64(_dictionary["CurrentExp"]);
-    //    gold = Convert.ToInt32(_dictionary["gold"]);
-    //    AttributePoints = Convert.ToInt32(_dictionary["AttributePoints"]);
-    //    InventorySaveDataDictionary = (Dictionary<string, System.Object>)_dictionary["InventorySaveData"];
-    //    EquipmentSaveDataDictionary = (Dictionary<string, System.Object>)_dictionary["EquipmentSaveData"];
-    //    InventoryMaxSlots = Convert.ToInt32(_dictionary["InventoryMaxSlots"]);
-    //    HP = new CharcterStat((Dictionary<string, System.Object>)_dictionary["HP"]);
-    //    MP = new CharcterStat((Dictionary<string, System.Object>)_dictionary["MP"]);
-    //    STR = new CharcterStat((Dictionary<string, System.Object>)_dictionary["STR"]);
-    //    VIT = new CharcterStat((Dictionary<string, System.Object>)_dictionary["VIT"]);
-    //    INT = new CharcterStat((Dictionary<string, System.Object>)_dictionary["INT"]);
-    //    AGI = new CharcterStat((Dictionary<string, System.Object>)_dictionary["AGI"]);
-    //    DMG = new CharcterStat(0);
-    //    DEF = new CharcterStat(0);
-
-    //    _requiredExpForNextLevel = CalculateExpForLevel(Level);
-    //    ListenAndUpdateDerivedStats();
-
-    //    currentHP = (int)HP.Value;
-    //    currentMP = (int)MP.Value;
-
-    //    LastLocation = _dictionary["LastLocation"].ToString();
-
-    //}
 }

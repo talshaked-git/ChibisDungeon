@@ -11,19 +11,16 @@ public enum EquipmentType
     Boots,
     MainHand,
     OffHand,
-    Ring1,
-    Ring2,
+    Ring,
     Neckless,
 }
 
 
 [CreateAssetMenu(fileName = "EquippableItem", menuName = "Chibis and Dungeons/Item/Equippable Item")]
-[FirestoreData]
 public class EquippableItem : Item
 {
     [SerializeField]
     private int _strBonus;
-    [FirestoreProperty]
     public int STRBonus
     {
         get { return _strBonus; }
@@ -32,7 +29,6 @@ public class EquippableItem : Item
 
     [SerializeField]
     private int _intBonus;
-    [FirestoreProperty]
     public int INTBonus
     {
         get { return _intBonus; }
@@ -41,7 +37,6 @@ public class EquippableItem : Item
 
     [SerializeField]
     private int _agiBonus;
-    [FirestoreProperty]
     public int AGIBonus
     {
         get { return _agiBonus; }
@@ -50,7 +45,6 @@ public class EquippableItem : Item
 
     [SerializeField]
     private int _vitBonus;
-    [FirestoreProperty]
     public int VITBonus
     {
         get { return _vitBonus; }
@@ -59,7 +53,6 @@ public class EquippableItem : Item
 
     [SerializeField]
     private float _strPercentAddBonus;
-    [FirestoreProperty]
     public float STRPercentAddBonus
     {
         get { return _strPercentAddBonus; }
@@ -68,7 +61,6 @@ public class EquippableItem : Item
 
     [SerializeField]
     private float _intPercentAddBonus;
-    [FirestoreProperty]
     public float INTPercentAddBonus
     {
         get { return _intPercentAddBonus; }
@@ -77,7 +69,6 @@ public class EquippableItem : Item
 
     [SerializeField]
     private float _vitPercentAddBonus;
-    [FirestoreProperty]
     public float VITPercentAddBonus
     {
         get { return _vitPercentAddBonus; }
@@ -86,47 +77,10 @@ public class EquippableItem : Item
 
     [SerializeField]
     private float _agiPercentAddBonus;
-    [FirestoreProperty]
     public float AGIPercentAddBonus
     {
         get { return _agiPercentAddBonus; }
         set { _agiPercentAddBonus = value; }
-    }
-
-    [SerializeField]
-    private float _strPercentMullBonus;
-    [FirestoreProperty]
-    public float STRPercentMullBonus
-    {
-        get { return _strPercentMullBonus; }
-        set { _strPercentMullBonus = value; }
-    }
-
-    [SerializeField]
-    private float _intPercentMullBonus;
-    [FirestoreProperty]
-    public float INTPercentMullBonus
-    {
-        get { return _intPercentMullBonus; }
-        set { _intPercentMullBonus = value; }
-    }
-
-    [SerializeField]
-    private float _agiPercentMullBonus;
-    [FirestoreProperty]
-    public float AGIPercentMullBonus
-    {
-        get { return _agiPercentMullBonus; }
-        set { _agiPercentMullBonus = value; }
-    }
-
-    [SerializeField]
-    private float _vitPercentMullBonus;
-    [FirestoreProperty]
-    public float VITPercentMullBonus
-    {
-        get { return _vitPercentMullBonus; }
-        set { _vitPercentMullBonus = value; }
     }
 
     [Space]

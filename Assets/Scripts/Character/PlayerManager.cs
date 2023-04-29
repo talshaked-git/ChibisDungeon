@@ -57,8 +57,6 @@ public class PlayerManager : MonoBehaviour
         }
 
         currentPlayer = GameManager.instance.currentPlayer;
-        currentPlayer.LoadeInventoryAndERquipment();
-
 
         //Setup events:
         //click(Tooltip) and double click(equip) on inventory item
@@ -83,10 +81,11 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         statPanel.SetStats(currentPlayer.STR, currentPlayer.INT, currentPlayer.VIT, currentPlayer.AGI);
+        
         LoadPlayerData();
-
         UpdateStatusPanel();
-        // currentPlayer.LevelChanged += OnLevelChanged; // might be a problem
+        currentPlayer.currentHP = (int)currentPlayer.HP.Value;
+        currentPlayer.currentMP = (int)currentPlayer.MP.Value;
     }
 
     public void UpdateStatusPanel()
@@ -124,11 +123,6 @@ public class PlayerManager : MonoBehaviour
         ratio = (float)currentPlayer.CurrentExp / (float)currentPlayer.requiredExpForNextLevel;
         text = currentPlayer.CurrentExp + " / " + currentPlayer.requiredExpForNextLevel;
         statPanel.UpdateExp(ratio, text);
-    }
-
-    private void OnLevelChanged(object sender, EventArgs e)
-    {
-        UpdateStatusPanel();
     }
 
     private void Drop(InventorySlot dropItemslot)
@@ -264,6 +258,7 @@ public class PlayerManager : MonoBehaviour
                     previousItem.Unequip(currentPlayer);
                 }
                 item.Equip(currentPlayer);
+                UpdateStatusPanel();
             }
             else
             {
@@ -274,7 +269,6 @@ public class PlayerManager : MonoBehaviour
         {
             previousItem = null;
         }
-        UpdateStatusPanel();
     }
 
     public void Unequip(EquippableItem item)
@@ -420,24 +414,23 @@ public class PlayerManager : MonoBehaviour
     {
         if (currentPlayer.EquipmentSaveData == null)
             return;
-        Debug.Log("Load Equipment");
+        Debug.Log("Loading Equipment");
         foreach (InventorySlotSaveData slot in currentPlayer.EquipmentSaveData.SavedSlots)
         {
             if (slot == null) continue;
-            if (slot.item != null)
+            if (slot.itemSaveData != null)
             {
-                EquippableItem equippableItem = slot.item as EquippableItem;
+                EquippableItem equippableItem = slot.itemSaveData.ToItem() as EquippableItem;
                 if (equippableItem != null)
                 {
                     Debug.Log("Load Equipment: " + equippableItem);
                     equipmentPanel.AddItem(equippableItem, out EquippableItem previousItem);
                     equippableItem.Equip(currentPlayer);
                     equippableItem.isEquipped = true;
-                    // if (previousItem != null)
-                    //     previousItem.isEquipped = false;
                 }
             }
         }
+        UpdateStatusPanel();
     }
 
     public void SavePlayerData()
@@ -457,7 +450,7 @@ public class PlayerManager : MonoBehaviour
         if (currentPlayer != null)
         {
             SavePlayerData();
-            GameManager.instance.SaveAccount();
+            FireBaseManager.instance.SavePlayer(currentPlayer);
         }
     }
 

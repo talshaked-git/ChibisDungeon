@@ -7,33 +7,21 @@ using Firebase.Firestore;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Chibis and Dungeons/Item/Item")]
 
-[FirestoreData]
 public class Item : ScriptableObject
 {
-    protected List<string> foldersToSearch = new List<string>
-    {
-        "Items/Consumables",
-        "Items/Equipment/Bows",
-        "Items/Equipment/Chest",
-        "Items/Equipment/Staves",
-        "Items/Equipment/Swords"
-    };
 
     [SerializeField] private string _id;
 
-    [FirestoreProperty]
     public string ID
     {
         get { return _id; }
         set { _id = value; }
     }
 
-    [FirestoreProperty]
-    protected string uniqueID { get; set; }
+    public string uniqueID { get; set; }
 
 
     [SerializeField] private string _itemName;
-    [FirestoreProperty]
     public string ItemName { 
         get { return _itemName; } 
         set { _itemName = value; } 

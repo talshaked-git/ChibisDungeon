@@ -103,13 +103,9 @@ public class FirebaseAuthenticationManager : MonoBehaviour
         {
             Debug.Log("Creating new user document.");
 
-            Dictionary<string, object> userData = new Dictionary<string, object>
-        {
-            { "username", "" },
-            // Add any other default values for the account
-        };
+            Account newAccount = new Account(userId);
 
-            var createAccountTask = docRef.SetAsync(userData);
+            var createAccountTask = docRef.SetAsync(newAccount);
             yield return new WaitUntil(predicate: () => createAccountTask.IsCompleted);
 
             if (createAccountTask.Exception == null)

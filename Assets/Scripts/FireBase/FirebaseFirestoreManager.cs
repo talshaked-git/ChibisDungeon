@@ -80,5 +80,24 @@ public class FirebaseFirestoreManager : MonoBehaviour
         return docRef;
     }
 
-    
+    public async Task LoadPlayer(string cid, Action<Player> callback)
+    {
+        DocumentReference docRef = db.Collection("players").Document(cid);
+        DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+        if (snapshot.Exists)
+        {
+            Player player = snapshot.ConvertTo<Player>();
+            callback(player);
+        }
+        else
+        {
+            Debug.LogError("Player document does not exist!");
+        }
+    }
+
+    public void SavePlayer(Player player)
+    {
+        DocumentReference docRef = db.Collection("players").Document(player.CID);
+        docRef.SetAsync(player, SetOptions.MergeAll);
+    }
 }

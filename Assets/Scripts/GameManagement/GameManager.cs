@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     public async void LoadAccount()
     {
-        await FireBaseManager.instance.firebaseFirestoreManager.LoadAccount(OnAccountLoaded);
+        await FireBaseManager.instance.LoadAccount(OnAccountLoaded);
     }
 
     private void OnAccountLoaded(Account _account)
