@@ -12,6 +12,7 @@ public class PlayerUIManager : MonoBehaviour
     public Button statsButton;
     public Button inventoryButton;
     public Button shopButton;
+    public Button auctionButton;
 
     [Header("Menu Panels")]
     [SerializeField]
@@ -24,6 +25,7 @@ public class PlayerUIManager : MonoBehaviour
     public GameObject statsMenu;
     public GameObject inventoryPanel;
     public GameObject shopMenu;
+    public GameObject auctionMenu;
     [SerializeField] ItemTooltip tooltip;
 
     private bool gamePaused = false;
