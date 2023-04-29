@@ -1,72 +1,79 @@
 using UnityEngine;
 using TMPro;
-using System.Text;
 
 public class ItemTooltip : MonoBehaviour
 {
     [SerializeField] TMP_Text ItemNameText;
-    [SerializeField] TMP_Text ItemSlotsText;
-    [SerializeField] TMP_Text ItemStatsText;
+    [SerializeField] TMP_Text ItemTypeText;
+    [SerializeField] TMP_Text ItemDescriptionText;
     [SerializeField] TMP_Text ItemLevelText;
     [SerializeField] TMP_Text ItemClassText;
+    [SerializeField] RectTransform rectTransform;
+    [SerializeField] Canvas canvas;
+    private RectTransform canvasRectTransform;
+    private Vector2 tooltipSize;
+    private Vector2 padding = new Vector2(40, 40); // Adjust the padding between the tooltip and the slot
 
-    private StringBuilder sb = new StringBuilder();
+    private void Awake()
+    {
 
-    public void ShowTooltip(Item item) {
+    }
+
+    public void ShowTooltip(Item item, RectTransform slotRectTransform)
+    {
+        if (rectTransform == null)
+        {
+            rectTransform = GetComponent<RectTransform>();
+            tooltipSize = new Vector2(rectTransform.rect.width, rectTransform.rect.height);
+        }
+        if (canvas == null)
+        {
+            canvas = transform.parent.GetComponent<Canvas>();
+            canvasRectTransform = canvas.transform as RectTransform;
+        }
+
+
         ItemNameText.text = item.ItemName;
-        sb.Length = 0;
-
-        if(item is EquippableItem) {
-            EquippableItem equippableItem = (EquippableItem)item;
-            ItemSlotsText.text = equippableItem.equipmentType.ToString();
-            ItemLevelText.text = equippableItem.EquipableLV.ToString();
-            ItemClassText.text = equippableItem.EquipableClass.ToString();
-
-            AddStat(equippableItem.STRBonus,"STR");
-            AddStat(equippableItem.INTBonus,"INT");
-            AddStat(equippableItem.VITBonus,"VIT");
-            AddStat(equippableItem.AGIBonus,"AGI");
-
-            AddStat(equippableItem.STRPercentAddBonus,"STR",true);
-            AddStat(equippableItem.INTPercentAddBonus,"INT",true);
-            AddStat(equippableItem.VITPercentAddBonus,"VIT",true);
-            AddStat(equippableItem.AGIPercentAddBonus,"AGI",true);
-
-        }
-        else {
-            ItemSlotsText.text = "Consumable";
-            ItemLevelText.text = item.EquipableLV.ToString();
-            ItemClassText.text = item.EquipableClass.ToString();
-        }
-
-        ItemStatsText.text = sb.ToString();
+        ItemTypeText.text = item.GetItemType();
+        ItemLevelText.text = item.EquipableLV.ToString();
+        ItemClassText.text = item.EquipableClass.ToString();
+        ItemDescriptionText.text = item.GetDescription();
+        SetTooltipPosition(slotRectTransform);
         gameObject.SetActive(true);
     }
 
-    public void HideTooltip() {
+    public void HideTooltip()
+    {
         gameObject.SetActive(false);
     }
 
-    private void AddStat(float value, string statName, bool isPercentage = false) {
-        if(value != 0) {
-            if(sb.Length > 0) {
-                sb.AppendLine();
-            }
-
-            if(value > 0) {
-                sb.Append("+");
-            }
-
-            if(isPercentage) {
-                sb.Append(value*100);
-                sb.Append("% ");
-            }
-            else {
-                sb.Append(value);
-                sb.Append(" ");
-            }
-
-            sb.Append(statName);
+    private void SetTooltipPosition(RectTransform slotRectTransform)
+    {
+        Vector2 newPosition = slotRectTransform.transform.position;
+        Vector2 slotSize = new Vector2(slotRectTransform.rect.width, slotRectTransform.rect.height);
+        if (newPosition.x + tooltipSize.x + padding.x / 2 > canvasRectTransform.rect.width)
+        {   // If the tooltip goes off the right side of the screen, move it to the left
+            newPosition.x = newPosition.x - tooltipSize.x - slotSize.x - padding.x * 2;
         }
+
+        if (newPosition.y + tooltipSize.y + padding.y / 2 > canvasRectTransform.rect.height)
+        {   // If the tooltip goes off the top side of the screen, move it to the bottom
+            newPosition.y = newPosition.y - tooltipSize.y - slotSize.y - padding.y * 2;
+        }
+
+        if (newPosition.x - padding.x / 2 < 0)
+        {   // If the tooltip goes off the left side of the screen, move it to the right
+            newPosition.x = padding.x / 2;
+        }
+
+        if (newPosition.y - padding.y / 2 < 0)
+        {   // If the tooltip goes off the bottom side of the screen, move it to the top
+            newPosition.y = padding.y / 2;
+        }
+
+
+
+
+        rectTransform.position = newPosition;
     }
 }

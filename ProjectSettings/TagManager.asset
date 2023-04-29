@@ -8,6 +8,10 @@ TagManager:
   - GameMusic
   - SFXMusic
   - BackgroundMusic
+  - UI
+  - Interactables
+  - Inventory
+  - Portal
   layers:
   - Default
   - TransparentFX
