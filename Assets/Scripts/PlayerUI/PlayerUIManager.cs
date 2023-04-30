@@ -26,6 +26,8 @@ public class PlayerUIManager : MonoBehaviour
     public GameObject inventoryPanel;
     public GameObject shopMenu;
     public GameObject auctionMenu;
+    [SerializeField] 
+    public GameObject RegisterItemPanel;
     [SerializeField] ItemTooltip tooltip;
 
     private bool gamePaused = false;
@@ -122,7 +124,7 @@ public class PlayerUIManager : MonoBehaviour
         if (!gamePaused)
         {
             PauseGame();
-            statsMenu.SetActive(true);
+            auctionMenu.SetActive(true);
             //settingsMenu.SetActive(true);
             //characterSwitchMenu.SetActive(true);
             //exitMenu.SetActive(true);
@@ -131,6 +133,14 @@ public class PlayerUIManager : MonoBehaviour
         {
             ResumeGame();
         }
+    }
+
+    public void ShowAuctionAddItemPanel()
+    {
+            RegisterItemPanel.SetActive(true);
+            //settingsMenu.SetActive(true);
+            //characterSwitchMenu.SetActive(true);
+            //exitMenu.SetActive(true);
     }
 
     void CloseAllMenus()
