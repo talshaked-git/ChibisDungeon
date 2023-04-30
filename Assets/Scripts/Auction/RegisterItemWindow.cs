@@ -4,25 +4,67 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Threading.Tasks;
 
-public class RegisterItemWindow : MonoBehaviour
+public class RegisterItemWindow : ItemContainer
 {
     [SerializeField] public InventorySlot inventorySlot;
     [SerializeField] public TMP_Dropdown timeLeft;
     [SerializeField] public TMP_InputField startingBid;
     [SerializeField] public TMP_InputField buyoutPrice;
 
-    public event Action<InventorySlot> OnBeginDragEvent;
-    public event Action<InventorySlot> OnEndDragEvent;
-    public event Action<InventorySlot> OnDragEvent;
-    public event Action<InventorySlot> OnDropEvent;
-
-    public void Start()
+    public void InitRegisterItemWindow()
     {
-        inventorySlot.OnBeginDragEvent += OnBeginDragEvent;
-        inventorySlot.OnEndDragEvent += OnEndDragEvent;
-        inventorySlot.OnDragEvent += OnDragEvent;
-        inventorySlot.OnDropEvent += OnDropEvent;
+        inventorySlot.item = null;
+        inventorySlot.Amount = 0;
+
+        inventorySlots.Add(inventorySlot);
+        Clear();
+        InitContainer();
+    }
+
+    public async void RegisterNewItemLogic(Action<AuctionListingItem> callback)
+    {
+        if (inventorySlot.item == null)
+        {
+            Debug.Log("No item selected");
+            return;
+        }
+        if (startingBid.text == "")
+        {
+            Debug.Log("No starting bid entered");
+            return;
+        }
+        if (buyoutPrice.text == "")
+        {
+            Debug.Log("No buyout price entered");
+            return;
+        }
+        string expirationTime = GetExpirationTime();
+        Debug.Log("Registering new item");
+        Debug.Log("Item: " + inventorySlot.item);
+        Debug.Log("Amount: " + inventorySlot.Amount);
+        Debug.Log("Starting Bid: " + startingBid.text);
+        Debug.Log("Buyout Price: " + buyoutPrice.text);
+        Debug.Log("Expiration Time: " + expirationTime);
+        Debug.Log("Seller ID: " + PlayerManager.instance.CurrentPlayer.CID);
+
+
+        PlayerManager.instance.SavePlayerData();
+        string cid = PlayerManager.instance.CurrentPlayer.CID;
+        string playerName = PlayerManager.instance.CurrentPlayer.name;
+        AuctionListingItem auctionListingItem = new AuctionListingItem(cid,playerName,inventorySlot.item, inventorySlot.Amount, expirationTime,cid, startingBid.text, buyoutPrice.text);
+        Task registerItemTask = FireBaseManager.instance.RegisterItemToAuction(auctionListingItem, PlayerManager.instance.CurrentPlayer);
+        await registerItemTask;
+        if( registerItemTask.IsCompletedSuccessfully)
+        {
+            Debug.Log("Item registered");
+            ClearUI();
+        }
+        else
+        {
+            Debug.Log("Item not registered");
+        }
     }
     
     private TimeSpan ParseTimeLeft(string timeLeftOption)
@@ -47,7 +89,7 @@ public class RegisterItemWindow : MonoBehaviour
         TimeSpan timeLeftSpan = ParseTimeLeft(selectedTimeLeft);
 
         // Add the TimeSpan to the current time
-        DateTime expirationTime = DateTime.Now.Add(timeLeftSpan);
+        DateTime expirationTime = DateTime.UtcNow.Add(timeLeftSpan);
 
         // Convert the resulting DateTime object to a string
         string expirationTimeString = expirationTime.ToString("yyyy-MM-dd HH:mm");
@@ -56,4 +98,12 @@ public class RegisterItemWindow : MonoBehaviour
 
         return expirationTimeString;
     }
+
+    public void ClearUI()
+    {
+        inventorySlot.item = null;
+        inventorySlot.Amount = 0;
+        startingBid.text = "";
+        buyoutPrice.text = "";
+    }   
 }

@@ -135,12 +135,26 @@ public class PlayerUIManager : MonoBehaviour
         }
     }
 
+    public void HideAuction()
+    {
+        if (gamePaused)
+        {
+            ResumeGame();
+            auctionMenu.SetActive(false);
+        }
+    }
+
     public void ShowAuctionAddItemPanel()
     {
-            RegisterItemPanel.SetActive(true);
-            //settingsMenu.SetActive(true);
-            //characterSwitchMenu.SetActive(true);
-            //exitMenu.SetActive(true);
+        RegisterItemPanel.SetActive(true);
+        inventoryPanel.SetActive(true);
+
+    }
+
+    public void HideAuctionAddItemPanel()
+    {
+        RegisterItemPanel.SetActive(false);
+        inventoryPanel.SetActive(false);
     }
 
     void CloseAllMenus()
@@ -151,6 +165,7 @@ public class PlayerUIManager : MonoBehaviour
         //exitMenu.SetActive(false);
         statsMenu.SetActive(false);
         inventoryPanel.SetActive(false);
+        auctionMenu.SetActive(false);
         tooltip.HideTooltip();
         DropItemAreaHide();
         PlayerManager.isTooltipActive = false;

@@ -1,25 +1,58 @@
+using Firebase.Firestore;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[FirestoreData]
 public class AuctionListingItem
 {
-    public Item item;
-    public string itemName;
-    public string timeLeft;
-    public string sellerName;
-    public string currentBid;
-    public string buyoutPrice;
+    [FirestoreDocumentId]
+    public string ListingId { get; set; }
 
-    public AuctionListingItem(Item item, string timeLeft, string sellerName, string currentBid, string buyoutPrice)
+    [FirestoreProperty]
+    public string SellerId { get; set; }
+
+    [FirestoreProperty]
+    public string SellerName { get; set; }
+
+    [FirestoreProperty]
+    public ItemSaveData Item { get; set; }
+
+    [FirestoreProperty]
+    public int ItemAmount { get; set; }
+
+    [FirestoreProperty]
+    public string ItemName { get; set; }
+
+    [FirestoreProperty]
+    public string ExpirationTime { get; set; }
+
+    [FirestoreProperty]
+    public string BidderId { get; set; }
+
+    [FirestoreProperty]
+    public string TopBid { get; set; }
+
+    [FirestoreProperty]
+    public string BuyoutPrice { get; set; }
+
+    [FirestoreProperty]
+    public Dictionary<string,string> Lastbider { get; set; }
+
+
+    public AuctionListingItem() { }
+
+    public AuctionListingItem( string sellerId, string sellerName, Item item,int itemAmount, string expirationTime, string bidderId, string topBid, string buyoutPrice, Dictionary<string, string> lastbider = null)
     {
-        this.item = item;
-        this.itemName = item.ItemName;
-        this.timeLeft = timeLeft;
-        this.sellerName = sellerName;
-        this.currentBid = currentBid;
-        this.buyoutPrice = buyoutPrice;
+        SellerId = sellerId;
+        SellerName = sellerName;
+        Item = new ItemSaveData(item);
+        ItemAmount = itemAmount;
+        ItemName = item.ItemName;
+        ExpirationTime = expirationTime;
+        BidderId = bidderId;
+        TopBid = topBid;
+        BuyoutPrice = buyoutPrice;
+        Lastbider = lastbider;
     }
-
-
 }

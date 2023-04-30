@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4eda33ee831c8c44a297697978dfcbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InventorySlot: {fileID: -3917003563591424789, guid: 9af0cf82c05fb454c88c39a1dbca58a8, type: 3}
   itemName: {fileID: 8564522806582231830}
   timeLeft: {fileID: 4091040764191188025}
   sellerName: {fileID: 4537975634130963201}

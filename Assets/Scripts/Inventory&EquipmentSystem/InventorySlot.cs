@@ -136,4 +136,9 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
             OnDropEvent(this);
         }
     }
+
+    public void AddToSlot(Item item, int amount)
+    {
+        _item = item; _amount = amount;
+    }
 }

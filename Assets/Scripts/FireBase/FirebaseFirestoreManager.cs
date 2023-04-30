@@ -9,6 +9,7 @@ using System;
 public class FirebaseFirestoreManager : MonoBehaviour
 {
     public FirebaseFirestore db;
+    WriteBatch batch;
 
     public void Initialize()
     {
@@ -100,4 +101,53 @@ public class FirebaseFirestoreManager : MonoBehaviour
         DocumentReference docRef = db.Collection("players").Document(player.CID);
         docRef.SetAsync(player, SetOptions.MergeAll);
     }
+
+    public Task RegisterItemToAuction(AuctionListingItem auctionListingItem,Player player)
+    {
+        FirebaseUser user = FireBaseManager.instance.firebaseAuthManager.user;
+        if (user == null)
+        {
+            Debug.LogError("User is not logged in!");
+            return null;
+        }
+        DocumentReference docRef = db.Collection("auctions").Document();
+        batch = db.StartBatch();
+        batch.Set(docRef, auctionListingItem);
+
+        DocumentReference playerRef = db.Collection("players").Document(player.CID);
+        batch.Set(playerRef, player,SetOptions.MergeAll);
+        
+        return batch.CommitAsync();
+    }
+
+    public async Task<List<DocumentReference>> GetAuctionListingItemsRef()
+    {
+        List<DocumentReference > items = new List<DocumentReference>();
+        QuerySnapshot querySnapshot = await db.Collection("auctions").GetSnapshotAsync();
+
+        List<DocumentReference> documentReferences = new List<DocumentReference>();
+
+        foreach (DocumentSnapshot documentSnapshot in querySnapshot.Documents)
+        {
+            documentReferences.Add(documentSnapshot.Reference);
+        }
+
+        return documentReferences;
+    }
+
+    public async void LoadAuctionListingItem(DocumentReference documentReference, Action<AuctionListingItem> callback)
+    {
+        DocumentSnapshot snapshot = await documentReference.GetSnapshotAsync();
+        if (snapshot.Exists)
+        {
+            AuctionListingItem auctionListingItem = snapshot.ConvertTo<AuctionListingItem>();
+            callback(auctionListingItem);
+        }
+        else
+        {
+            Debug.LogError("AuctionListingItem document does not exist!");
+        }
+    }
+
+
 }

@@ -1,5 +1,6 @@
 using Firebase.Firestore;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -50,5 +51,20 @@ public class FireBaseManager : MonoBehaviour
     public void SavePlayer (Player player)
     {
         firebaseFirestoreManager.SavePlayer(player);
+    }
+
+    public Task RegisterItemToAuction(AuctionListingItem auctionListingItem, Player player)
+    {
+         return firebaseFirestoreManager.RegisterItemToAuction(auctionListingItem, player);
+    }
+
+    public Task<List<DocumentReference>> GetAuctionListingItemsRef()
+    {
+        return firebaseFirestoreManager.GetAuctionListingItemsRef();
+    }
+
+    internal void LoadAuctionListingItem(DocumentReference document, Action<AuctionListingItem> newListing)
+    {
+        firebaseFirestoreManager.LoadAuctionListingItem(document, newListing);
     }
 }

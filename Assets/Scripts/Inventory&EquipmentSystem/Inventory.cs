@@ -5,74 +5,23 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour, IItemContainer
+public class Inventory : ItemContainer, IItemContainer
 {
     [SerializeField] Transform itemsParent;
-    [SerializeField] List<InventorySlot> inventorySlots;
     [SerializeField] InventorySlot invSlotPrefab;
     public int MaxSlots { get; set; }
 
-    public event Action<InventorySlot> OnPressEvent;
-    public event Action<InventorySlot> OnBeginDragEvent;
-    public event Action<InventorySlot> OnEndDragEvent;
-    public event Action<InventorySlot> OnDragEvent;
-    public event Action<InventorySlot> OnDropEvent;
 
     public void InitInventory()
     {
-        inventorySlots = new List<InventorySlot>();
+        this.inventorySlots = new List<InventorySlot>();
 
         for (int i = 0; i < MaxSlots; i++)
         {
-            inventorySlots.Add( Instantiate(invSlotPrefab, itemsParent));
-        }
-
-        for (int i = 0; i < MaxSlots; i++)
-        {
-            inventorySlots[i].OnPressEvent += OnPressEvent;
-            inventorySlots[i].OnBeginDragEvent += OnBeginDragEvent;
-            inventorySlots[i].OnEndDragEvent += OnEndDragEvent;
-            inventorySlots[i].OnDragEvent += OnDragEvent;
-            inventorySlots[i].OnDropEvent += OnDropEvent;
+            inventorySlots.Add(Instantiate(invSlotPrefab, itemsParent));
         }
         Clear();
-    }
-
-    public virtual bool CanAddItem(Item item, int amount = 1)
-    {
-        int freeSpaces = 0;
-
-        foreach (InventorySlot slot in inventorySlots)
-        {
-            if (slot.item == null || slot.item.ID == item.ID)
-            {
-                freeSpaces += item.MaxStack - slot.Amount;
-            }
-        }
-
-        return freeSpaces >= amount;
-    }
-
-    public bool AddItem(Item item)
-    {
-        for (int i = 0; i < MaxSlots; i++)
-        {
-            if (inventorySlots[i].CanAddStack(item))
-            {
-                inventorySlots[i].Amount++;
-                return true;
-            }
-        }
-        for (int i = 0; i < MaxSlots; i++)
-        {
-            if (inventorySlots[i].item == null)
-            {
-                inventorySlots[i].item = item;
-                inventorySlots[i].Amount++;
-                return true;
-            }
-        }
-        return false;
+        InitContainer();
     }
 
     public void LoadInventory(InventorySaveData saveData)
@@ -97,73 +46,4 @@ public class Inventory : MonoBehaviour, IItemContainer
         return inventorySlots;
     }
 
-    public void ResetIsTooltipActive(InventorySlot inventorySlot)
-    {
-        foreach (InventorySlot slot in inventorySlots)
-        {
-            if (slot != inventorySlot)
-                slot.isTooltipActive = false;
-        }
-    }
-
-    public bool ContainsItem(Item item)
-    {
-        for (int i = 0; i < MaxSlots; i++)
-        {
-            if (inventorySlots[i].item == item)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public int ItemCount(string itemID)
-    {
-        int count = 0;
-        for (int i = 0; i < MaxSlots; i++)
-        {
-            if (inventorySlots[i].item.ID == itemID)
-            {
-                count += inventorySlots[i].Amount;
-            }
-        }
-        return count;
-    }
-
-    public Item RemoveItem(string itemID)
-    {
-        for (int i = 0; i < MaxSlots; i++)
-        {
-            Item item = inventorySlots[i].item;
-            if (item != null && item.ID == itemID)
-            {
-                inventorySlots[i].Amount--;
-                return item;
-            }
-        }
-        return null;
-    }
-
-    public bool RemoveItem(Item item)
-    {
-        for (int i = 0; i < MaxSlots; i++)
-        {
-            if (inventorySlots[i].item == item)
-            {
-                inventorySlots[i].Amount--;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public virtual void Clear()
-    {
-        for (int i = 0; i < MaxSlots; i++)
-        {
-            inventorySlots[i].item = null;
-            inventorySlots[i].Amount = 0;
-        }
-    }
 }

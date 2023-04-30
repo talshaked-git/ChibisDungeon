@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] QuestionDialog questionDialog;
     [SerializeField] AttributeAllocationPanel attributeAllocationPanel;
     [SerializeField] EmptyScreen emptyScreen;
+    [SerializeField] Auction auction;
 
 
     private InventorySlot draggedSlot;
@@ -460,5 +461,135 @@ public class PlayerManager : MonoBehaviour
         Application.Quit();
     }
 
-    //TO-DO: Mabey Add Open And close Item Container methods to change listner function for auction house
+    private ItemContainer _openItemContainer;
+
+    public void OpenItemContainer(ItemContainer container)
+    {
+        _openItemContainer = container;
+        inventory.OnPressEvent -= HandlePressEvent;
+        inventory.OnPressEvent += TransferToItemContainer;
+
+        container.OnPressEvent += TransferToInventory;
+        container.OnBeginDragEvent += BeginDrag;
+        container.OnEndDragEvent += EndDrag;
+        container.OnDragEvent += Drag;
+        container.OnDropEvent += Drop;
+        
+    }
+
+
+    public void CloseItemContainer(ItemContainer container)
+    {
+        _openItemContainer = null;
+        inventory.OnPressEvent += HandlePressEvent;
+        inventory.OnPressEvent -= TransferToItemContainer;
+
+        container.OnPressEvent -= TransferToInventory;
+        container.OnBeginDragEvent -= BeginDrag;
+        container.OnEndDragEvent -= EndDrag;
+        container.OnDragEvent -= Drag;
+        container.OnDropEvent -= Drop;
+    }
+
+    private void TransferToInventory(InventorySlot inventorySlot)
+    {
+        Item item = inventorySlot.item;
+        if (item == null)
+            return;
+        if (_lastClickedSlot != null && _lastClickedSlot != inventorySlot)
+        {
+            _lastClickTime = DateTime.MinValue;
+        }
+
+        _lastClickedSlot = inventorySlot;
+        DateTime currentTime = DateTime.UtcNow;
+
+        if (currentTime - _lastClickTime > _maxDoubleClickTime)
+        {
+            // Single-click detected
+            Debug.Log(name + " Game Object Clicked!");
+            if (item != null && (isTooltipActive == false || inventorySlot.isTooltipActive == false))
+            {
+                isTooltipActive = true;
+                inventorySlot.isTooltipActive = true;
+                inventory.ResetIsTooltipActive(inventorySlot);
+                _openItemContainer.ResetIsTooltipActive(inventorySlot);
+                tooltip.ShowTooltip(item, inventorySlot.transform as RectTransform);
+            }
+            else
+            {
+                isTooltipActive = false;
+                inventory.ResetIsTooltipActive(null);
+                _openItemContainer.ResetIsTooltipActive(null);
+                tooltip.HideTooltip();
+            }
+        }
+        else
+        {
+            // Double-click detected
+            Debug.Log("Double Click");
+            if (inventory.CanAddItem(item))
+            {
+                _openItemContainer.RemoveItem(item);
+                inventory.AddItem(item);
+                isTooltipActive = false;
+                tooltip.HideTooltip();
+                _lastClickTime = DateTime.MinValue;
+                return;
+            }
+        }
+
+        _lastClickTime = currentTime;
+    }
+
+    private void TransferToItemContainer(InventorySlot inventorySlot)
+    {
+        Item item = inventorySlot.item;
+        if (item == null)
+            return;
+        if (_lastClickedSlot != null && _lastClickedSlot != inventorySlot)
+        {
+            _lastClickTime = DateTime.MinValue;
+        }
+
+        _lastClickedSlot = inventorySlot;
+        DateTime currentTime = DateTime.UtcNow;
+
+        if (currentTime - _lastClickTime > _maxDoubleClickTime)
+        {
+            // Single-click detected
+            Debug.Log(name + " Game Object Clicked!");
+            if (item != null && (isTooltipActive == false || inventorySlot.isTooltipActive == false))
+            {
+                isTooltipActive = true;
+                inventorySlot.isTooltipActive = true;
+                inventory.ResetIsTooltipActive(inventorySlot);
+                _openItemContainer.ResetIsTooltipActive(inventorySlot);
+                tooltip.ShowTooltip(item, inventorySlot.transform as RectTransform);
+            }
+            else
+            {
+                isTooltipActive = false;
+                inventory.ResetIsTooltipActive(null);
+                _openItemContainer.ResetIsTooltipActive(null);
+                tooltip.HideTooltip();
+            }
+        }
+        else
+        {
+            // Double-click detected
+            Debug.Log("Double Click");
+            if (_openItemContainer.CanAddItem(item))
+            {
+                inventory.RemoveItem(item);
+                _openItemContainer.AddItem(item);
+                isTooltipActive = false;
+                tooltip.HideTooltip();
+                _lastClickTime = DateTime.MinValue;
+                return;
+            }
+        }
+
+        _lastClickTime = currentTime;
+    }
 }
