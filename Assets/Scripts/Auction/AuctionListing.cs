@@ -5,8 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using UnityEngine.Windows;
+using UnityEngine.EventSystems;
 
-public class AuctionListing : MonoBehaviour
+public class AuctionListing : MonoBehaviour, IPointerClickHandler
 {
     public string ListingId;
     [SerializeField]
@@ -21,7 +22,6 @@ public class AuctionListing : MonoBehaviour
     TMP_Text currentBid;
     [SerializeField]
     TMP_Text buyoutPrice;
-
 
     public void SetListing(AuctionListingItem listing)
     {
@@ -38,7 +38,7 @@ public class AuctionListing : MonoBehaviour
     public void UpdateListing(AuctionListingItem listing)
     {
         timeLeft.text = CalculateTimeLeft(listing.ExpirationTime);
-        currentBid.text = listing.TopBid;
+        currentBid.text = listing.TopBid + "G";
     }
 
     public string CalculateTimeLeft(string expirationDate)
@@ -69,5 +69,12 @@ public class AuctionListing : MonoBehaviour
             Console.WriteLine("Invalid date format");
             return "";
         }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        GetComponentInParent<Auction>().UpdateSlectedListing(this);
+
+        Debug.Log("Selected listing: " + ListingId);
     }
 }

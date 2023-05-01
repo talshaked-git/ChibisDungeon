@@ -67,4 +67,19 @@ public class FireBaseManager : MonoBehaviour
     {
         firebaseFirestoreManager.LoadAuctionListingItem(document, newListing);
     }
+
+    public Task<AuctionListingItem> GetAuctionListingItem(string listingItemId)
+    {
+        return firebaseFirestoreManager.GetAuctionListingItem(listingItemId);
+    }
+
+    public Task UpdateAuctionListingBid(AuctionListingItem auctionListingItem, Player player)
+    {
+        return firebaseFirestoreManager.UpdateAuctionListingBid(auctionListingItem,player);
+    }
+
+    public Task RemoveAuctionListing(string listingId, Player player)
+    {
+        return firebaseFirestoreManager.RemoveAuctionListing(listingId, player);
+    }
 }

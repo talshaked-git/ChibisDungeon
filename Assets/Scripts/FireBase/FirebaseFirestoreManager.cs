@@ -149,5 +149,45 @@ public class FirebaseFirestoreManager : MonoBehaviour
         }
     }
 
+    public async Task<AuctionListingItem> GetAuctionListingItem(string listingId)
+    {
+        DocumentReference docRef = db.Collection("auctions").Document(listingId);
+        DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+        if (snapshot.Exists)
+        {
+            AuctionListingItem auctionListingItem = snapshot.ConvertTo<AuctionListingItem>();
+            Debug.Log(auctionListingItem);
+            return auctionListingItem;
+        }
+        else
+        {
+            Debug.LogError("AuctionListingItem document does not exist!");
+            return null;
+        }
+    }
+
+    public Task UpdateAuctionListingBid(AuctionListingItem auctionListingItem, Player player)
+    {
+        batch = db.StartBatch();
+        DocumentReference docRef = db.Collection("auctions").Document(auctionListingItem.ListingId);
+        DocumentReference docRef2 = db.Collection("players").Document(player.CID);
+
+
+        batch.Set(docRef2, player, SetOptions.MergeAll);
+        batch.Set(docRef,auctionListingItem, SetOptions.MergeAll);
+
+        return batch.CommitAsync();
+    }
+
+    public Task RemoveAuctionListing(string listingId,Player player)
+    {
+        batch = db.StartBatch();
+        DocumentReference docRef = db.Collection("auctions").Document(listingId);
+        DocumentReference docRef2 = db.Collection("players").Document(player.CID);
+        batch.Delete(docRef);
+        batch.Set(docRef2, player, SetOptions.MergeAll);
+        return batch.CommitAsync();
+    }
+
 
 }

@@ -3,9 +3,12 @@ using Mono.Cecil.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class Auction : MonoBehaviour
 {
@@ -17,9 +20,15 @@ public class Auction : MonoBehaviour
     AuctionListing auctionListingPrefab;
     [SerializeField]
     RegisterItemWindow registerItemWindow;
+    [SerializeField]
+    TMP_InputField myBid;
 
     private ListenerRegistration auctionListenerRegistration;
 
+    public AuctionListing selectedListing;
+
+    Color UnselectedColor = Color.white;
+    Color SelectedColor = new Color(0.5f, 0.5f, 0.5f, 1);
 
     public void Start()
     {
@@ -27,71 +36,64 @@ public class Auction : MonoBehaviour
         InitAuctionListings();
     }
 
-    public async void InitAuctionListings()
+    public void InitAuctionListings()
     {
-        List<DocumentReference> auctionListingItemsRef = await FireBaseManager.instance.GetAuctionListingItemsRef();
-
-        foreach (DocumentReference document in auctionListingItemsRef)
-        {
-            if (document == null)
-            {
-                continue;
-            }
-
-            FireBaseManager.instance.LoadAuctionListingItem(document, NewListing);
-        }
-        //StartAuctionListingsListener();
+        StartAuctionListingsListener();
     }
 
     //fix listner not working correctly
     public void StartAuctionListingsListener()
     {
         FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
-        CollectionReference auctionsRef = db.Collection("auctions");
-
-        auctionListenerRegistration = auctionsRef.Listen(snapshot =>
+        auctionListenerRegistration = db.Collection("auctions").OrderByDescending("ExpirationTime").Limit(30).Listen(snapshot =>
         {
-            if (snapshot.Metadata.HasPendingWrites)
-            {
-                // Local changes have not been committed to the server yet
-                return;
-            }
-
             foreach (DocumentChange change in snapshot.GetChanges())
             {
-                if (change.Document.Metadata.HasPendingWrites)
+                Debug.Log(change.ToString());
+                Debug.Log("Change Type: " + change.ChangeType);
+                if (change.ChangeType == DocumentChange.Type.Added)
                 {
-                    // Local changes have not been committed to the server yet
-                    continue;
+                    AuctionListingItem auctionListingItem = change.Document.ConvertTo<AuctionListingItem>();
+                    AuctionListing existingListing = auctionListings.Find(listing => listing.ListingId == auctionListingItem.ListingId);
+                    if (existingListing == null)
+                    {
+                        NewListing(auctionListingItem);
+                    }
+                    else
+                    {
+                        UpdateListing(existingListing, auctionListingItem);
+                    }
                 }
-                switch (change.ChangeType)
+                else if( change.ChangeType == DocumentChange.Type.Modified)
                 {
-                    case DocumentChange.Type.Added:
-                        FireBaseManager.instance.LoadAuctionListingItem(change.Document.Reference, NewListing);
-                        break;
-                    case DocumentChange.Type.Modified:
-                        AuctionListingItem modifiedItem = change.Document.ConvertTo<AuctionListingItem>();
-                        UpdateListing(modifiedItem);
-                        break;
-                    case DocumentChange.Type.Removed:
-                        AuctionListingItem removedItem = change.Document.ConvertTo<AuctionListingItem>();
-                        RemoveListing(removedItem);
-                        break;
+                    AuctionListingItem auctionListingItem = change.Document.ConvertTo<AuctionListingItem>();
+                    AuctionListing existingListing = auctionListings.Find(listing => listing.ListingId == auctionListingItem.ListingId);
+                    if (existingListing == null)
+                    {
+                        NewListing(auctionListingItem);
+                    }
+                    else
+                    {
+                        UpdateListing(existingListing, auctionListingItem);
+                    }
+                }
+                else if(change.ChangeType == DocumentChange.Type.Removed)
+                {
+                    AuctionListingItem auctionListingItem = change.Document.ConvertTo<AuctionListingItem>();
+                    RemoveListing(auctionListingItem);
+                }
+                else
+                {
+                    Debug.Log("Unknown Document Change Type");
                 }
             }
         });
     }
 
-    private void UpdateListing(AuctionListingItem modifiedItem)
+    private void UpdateListing(AuctionListing existingListing,AuctionListingItem modifiedItem)
     {
-        AuctionListing modifiedListing = auctionListings.Find(listing => listing.ListingId == modifiedItem.ListingId);
-        if(modifiedListing == null)
-        {
-            Debug.Log("An Item Listed In DataBase was not found in Auction Listings");
-            return;
-        }
 
-        modifiedListing.UpdateListing(modifiedItem);
+        existingListing.UpdateListing(modifiedItem);
     }
 
     public void NewListing(AuctionListingItem auctionListingItem)
@@ -140,5 +142,119 @@ public class Auction : MonoBehaviour
         {
             auctionListenerRegistration.Stop();
         }
+    }
+
+    public async void BuyOutItem()
+    {
+        if(selectedListing == null)
+        {
+            Debug.Log("No Listing Selected");
+            return;
+        }
+        //Add to logic to check if player has enough money
+
+
+        AuctionListingItem auctionListingItem = await FireBaseManager.instance.GetAuctionListingItem(selectedListing.ListingId);
+        if (auctionListingItem == null)
+        {
+            Debug.Log("AuctionListingItem is null");
+            return;
+        }
+
+        //Add login to Remove Money and add Item to player inventory
+
+        PlayerManager.instance.AddItem(auctionListingItem.Item.ToItem());
+        PlayerManager.instance.SavePlayerData();
+
+        //Remove Listing
+        Task buyOutTask =  FireBaseManager.instance.RemoveAuctionListing(auctionListingItem.ListingId,PlayerManager.instance.CurrentPlayer);
+        await buyOutTask;
+        if (buyOutTask.IsFaulted)
+        {
+            Debug.Log("Buy Out Failed");
+            PlayerManager.instance.RemoveItem(auctionListingItem.Item.ToItem());
+        }
+        else
+        {
+            Debug.Log("Buy Out Successful");
+
+        }
+    }
+
+    public async void BidOnItem()
+    {
+        if(selectedListing == null)
+        {
+            Debug.Log("No Listing Selected");
+            return;
+        }
+
+        //Add logic to check if player has enough money
+
+
+        //Add logic to check if bid is higher than current bid
+        AuctionListingItem auctionListingItem = await FireBaseManager.instance.GetAuctionListingItem(selectedListing.ListingId);
+        if(auctionListingItem == null)
+        {
+            Debug.Log("AuctionListingItem is null");
+            return;
+        }
+        
+        int bid = int.Parse(myBid.text);
+        int topBidder = int.Parse(auctionListingItem.TopBid);
+        if(bid  <= topBidder)
+        {
+            Debug.Log("Bid is not higher than current bid");
+            return;
+        }
+
+        //Add logic to check if bid is higher than buyout price
+        int buyoutPrice = int.Parse(auctionListingItem.BuyoutPrice);
+        if(bid >= buyoutPrice)
+        {
+            //Check if player has wants to buy out instead
+            Debug.Log("Bid is higher than buyout price");
+            return;
+        }
+
+        //Update Bid
+        string previousBidderId = auctionListingItem.BidderId;
+        string previousBid = auctionListingItem.TopBid;
+        Dictionary<string,string> lastBidder =new Dictionary<string, string>{ { "Id", previousBidderId },{"Bid", previousBid }};
+        string bidderId = PlayerManager.instance.CurrentPlayer.CID;
+
+        if(auctionListingItem.Lastbider == null)
+        {
+            //add login to return money to previous bidder here or DB trigger
+        }
+        auctionListingItem.BidderId = bidderId;
+        auctionListingItem.TopBid = bid.ToString();
+        auctionListingItem.Lastbider = lastBidder;
+
+       PlayerManager.instance.SavePlayerData();
+       Task updateBidTask = FireBaseManager.instance.UpdateAuctionListingBid(auctionListingItem, PlayerManager.instance.CurrentPlayer);
+       await updateBidTask;
+       if(updateBidTask.IsFaulted)
+       {
+            Debug.Log("Error updating bid");
+            //add return To Current Biddier and save
+            return;
+       }
+
+    }
+
+    public void UpdateSlectedListing(AuctionListing auctionListing)
+    {
+        if (auctionListing == null)
+        {
+            Debug.Log("AuctionListing is null");
+            return;
+        }
+        if(selectedListing != null)
+        {
+            selectedListing.GetComponent<Image>().color = UnselectedColor;
+        }
+        selectedListing = auctionListing;
+        selectedListing.GetComponent<Image>().color = SelectedColor;
     }
 }

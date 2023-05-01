@@ -368,6 +368,11 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
+    public void RemoveItem(Item item)
+    {
+        inventory.RemoveItem(item);
+    }
+
     public void ShowDropItemArea()
     {
         dropItemArea.Show();
