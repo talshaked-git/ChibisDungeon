@@ -19081,6 +19081,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6651249559388124968, guid: 43303d875063f0541adc17d7df22908b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8767407109256447981}
+    - target: {fileID: 6651249559388124968, guid: 43303d875063f0541adc17d7df22908b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RegisterNewItem
+      objectReference: {fileID: 0}
     - target: {fileID: 7028052546752698543, guid: 43303d875063f0541adc17d7df22908b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
