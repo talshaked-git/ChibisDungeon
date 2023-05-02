@@ -75,11 +75,9 @@ public class MainMenuUIManager : MonoBehaviour
 
     }
 
-    private IEnumerator Start()
+    private void Start()
     {
-
-        yield return new WaitUntil(() => GameManager.instance.account != null);
-        UpdateCharcterScreen();
+        StartCoroutine(UpdateCharcterScreen());
     }
 
     private void CleanCharacterScreen()
@@ -95,12 +93,11 @@ public class MainMenuUIManager : MonoBehaviour
         }
     }
 
-    public void UpdateCharcterScreen()
+    public IEnumerator UpdateCharcterScreen()
     {
         CleanCharacterScreen();
-
+        yield return new WaitUntil(() => GameManager.instance.account != null);
         int i = 0;
-
         foreach (DocumentReference playerRef in GameManager.instance.account.PlayerRefs)
         {
             GameObject characterShow = Instantiate(CharcterSelectPrefab, CharcterSelectUI);
@@ -115,6 +112,8 @@ public class MainMenuUIManager : MonoBehaviour
 
             i++;
         }
+        
+
 
         for (int j = i; j < 4; j++)
         {

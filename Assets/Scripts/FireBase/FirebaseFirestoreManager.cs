@@ -16,30 +16,41 @@ public class FirebaseFirestoreManager : MonoBehaviour
         db = FirebaseFirestore.DefaultInstance;
     }
 
-    public async Task LoadAccount(Action<Account> callback)
+    public Task<Account> LoadAccount()
     {
         FirebaseUser user = FireBaseManager.instance.firebaseAuthManager.user;
 
         if (user == null)
         {
             Debug.LogError("User is not logged in!");
-            return;
+            return null;
         }
 
         string userId = user.UserId;
 
         DocumentReference docRef = db.Collection("users").Document(userId);
-        DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+        if (docRef == null)
+        {
+            return null;
+        }
 
-        if (snapshot.Exists)
+        return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
-            Account account = snapshot.ConvertTo<Account>();
-            callback(account);
-        }
-        else
-        {
-            Debug.LogError("User document does not exist!");
-        }
+            DocumentSnapshot snapshot = task.Result;
+            if (snapshot.Exists)
+            {
+                Account account = snapshot.ConvertTo<Account>();
+                return account;
+            }
+            else
+            {
+                Debug.Log("Account document does not exist!");
+                Account account = new Account(userId);
+                db.Collection("users").Document(userId).SetAsync(account);
+                return account;
+            }
+        });
+
     }
 
     public async Task SaveAccount(Account account)

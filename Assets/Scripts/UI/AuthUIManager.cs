@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class AuthUIManager : MonoBehaviour
 {
-    public static AuthUIManager instance;
 
     [Header("Refrences")]
     [SerializeField]
@@ -14,31 +13,58 @@ public class AuthUIManager : MonoBehaviour
     [SerializeField]
     private Toggle rememberMe;
 
+    [Header("Login Refrences")]
+    [SerializeField]
+    public TMP_InputField emailInput;
+    [SerializeField]
+    public TMP_InputField passwordInput;
+    [SerializeField]
+    public GameObject loginOutputUI;
+    [SerializeField]
+    public TMP_Text loginOutputText;
+    [SerializeField]
+    private Button loginButton;
+    [SerializeField]
+    private Button registerUIButton;
+    [Space(5f)]
 
+    [Header("Register Refrences")]
+    [SerializeField]
+    public TMP_InputField registerEmailInput;
+    [SerializeField]
+    public TMP_InputField registerPasswordInput;
+    [SerializeField]
+    public TMP_InputField registerConfirmPasswordInput;
+    [SerializeField]
+    public GameObject registerOutputUI;
+    [SerializeField]
+    public TMP_Text registerOutputText;
+    [SerializeField]
+    private Button registerButton;
+    [SerializeField]
+    private Button loginUIButton;
 
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-    }
 
     private void Start()
     {
         LoadPrefs();
+        InitButtons();
+        FireBaseManager.instance.SetAuthUIManager(this);
+    }
+
+    private void InitButtons()
+    {
+        loginButton.onClick.AddListener(FireBaseManager.instance.LoginButton);
+        registerButton.onClick.AddListener(FireBaseManager.instance.RegisterButton);
+        loginUIButton.onClick.AddListener(LoginScreen);
+        registerUIButton.onClick.AddListener(RegisterScreen);
     }
 
     private void ClearUI()
     {
         loginUI.SetActive(false);
         registerUI.SetActive(false);
-        FireBaseManager.instance.firebaseAuthManager.ClearOutputs();
+        ClearOutputs();
     }
 
     public void LoginScreen()
@@ -56,15 +82,15 @@ public class AuthUIManager : MonoBehaviour
     public void AwaitVerification(bool _emailSent, string _email, string _output)
     {
         LoginScreen();
-        FireBaseManager.instance.firebaseAuthManager.loginOutputUI.SetActive(true);
+        loginOutputUI.SetActive(true);
 
         if (_emailSent)
         {
-            FireBaseManager.instance.firebaseAuthManager.loginOutputText.text = _output + _email;
+            loginOutputText.text = _output + _email;
         }
         else
         {
-            FireBaseManager.instance.firebaseAuthManager.loginOutputText.text = _output;
+            loginOutputText.text = _output;
         }
     }
 
@@ -72,16 +98,17 @@ public class AuthUIManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("email"))
         {
-            FireBaseManager.instance.firebaseAuthManager.emailInput.text = PlayerPrefs.GetString("email");
+            emailInput.text = PlayerPrefs.GetString("email");
             rememberMe.isOn = true;
         }
     }
 
-    public void SavePrefs(string _email)
+    public void SavePrefs()
     {
+        string email = emailInput.text;
         if (rememberMe.isOn)
         {
-            PlayerPrefs.SetString("email", _email);
+            PlayerPrefs.SetString("email", email);
             PlayerPrefs.Save();
         }
         else
@@ -89,6 +116,32 @@ public class AuthUIManager : MonoBehaviour
             PlayerPrefs.DeleteKey("email");
             PlayerPrefs.Save();
         }
+    }
+
+    public void LoginOutputUIShow(string text)
+    {
+        loginOutputUI.SetActive(true);
+        loginOutputText.text = text;
+    }
+
+    public void RegisterOutput(string _output)
+    {
+        registerOutputUI.SetActive(true);
+        registerOutputText.text = _output;
+    }
+
+    public void LoginOutput(string _output)
+    {
+        loginOutputUI.SetActive(true);
+        loginOutputText.text = _output;
+    }
+
+    public void ClearOutputs()
+    {
+        loginOutputUI.SetActive(false);
+        registerOutputUI.SetActive(false);
+        loginOutputText.text = "";
+        registerOutputText.text = "";
     }
 
 }

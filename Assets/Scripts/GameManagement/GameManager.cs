@@ -1,5 +1,6 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,22 +39,4 @@ public class GameManager : MonoBehaviour
     {
         AudioManager.instance.PlayMusic(clip);
     }
-
-    public async void LoadAccount()
-    {
-        await FireBaseManager.instance.LoadAccount(OnAccountLoaded);
-    }
-
-    private void OnAccountLoaded(Account _account)
-    {
-        account = _account;
-
-        Debug.Log("Account loaded\n");
-    }
-
-    public async void SaveAccount()
-    {
-        await FireBaseManager.instance.firebaseFirestoreManager.SaveAccount(account);
-    }
-
 }

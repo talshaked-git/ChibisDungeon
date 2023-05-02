@@ -3,10 +3,10 @@ using Firebase.Auth;
 using Firebase.Extensions;
 using Firebase.Firestore;
 using Google;
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
 
 public class FirebaseAuthenticationManager : MonoBehaviour
@@ -19,31 +19,18 @@ public class FirebaseAuthenticationManager : MonoBehaviour
     private GoogleSignInConfiguration configuration;
 
     // Your UI components and other variables can be added here
-    [Header("Login Refrences")]
-    [SerializeField]
-    public TMP_InputField emailInput;
-    [SerializeField]
-    private TMP_InputField passwordInput;
-    [SerializeField]
-    public GameObject loginOutputUI;
-    [SerializeField]
-    public TMP_Text loginOutputText;
-    [Space(5f)]
 
-    [Header("Register Refrences")]
-    [SerializeField]
-    private TMP_InputField registerEmailInput;
-    [SerializeField]
-    private TMP_InputField registerPasswordInput;
-    [SerializeField]
-    private TMP_InputField registerConfirmPasswordInput;
-    [SerializeField]
-    private GameObject registerOutputUI;
-    [SerializeField]
-    private TMP_Text registerOutputText;
+    AuthUIManager authUIManager;
+
+
+    public void SetAuthUIManager(AuthUIManager authUIManager)
+    {
+        this.authUIManager = authUIManager;
+    }
 
     public void Initialize()
     {
+        authUIManager = FindObjectOfType<AuthUIManager>();
         StartCoroutine(CheckAndFixDependencies());
     }
 
@@ -130,107 +117,132 @@ public class FirebaseAuthenticationManager : MonoBehaviour
         }
         else
         {
-            AuthUIManager.instance.LoginScreen();
+
+            authUIManager.LoginScreen();
         }
     }
 
 
-    private void AutoLogin()
+    private async void AutoLogin()
     {
         if (user != null)
         {
-            GameManager.instance.LoadAccount();
-            GameManager.instance.ChangeScene("Scene_MainMenu");
+            Task<Account> taskAccount = FireBaseManager.instance.LoadAccount();
+            await taskAccount;
+            if (taskAccount.IsCompletedSuccessfully)
+            {
+                Account account = taskAccount.Result;
+                GameManager.instance.account = account;
+                GameManager.instance.ChangeScene("Scene_MainMenu");
+            }
+            else
+            {
+                authUIManager.LoginOutputUIShow( "Error Loading Account During AutoLogin");
+            }
         }
         else
         {
-            AuthUIManager.instance.LoginScreen();
+            authUIManager.LoginScreen();
         }
     }
 
     public void LoginButton()
     {
-        AuthUIManager.instance.SavePrefs(emailInput.text);
-        StartCoroutine(LoginLogic(emailInput.text, passwordInput.text));
+        authUIManager.SavePrefs();
+        string email = authUIManager.emailInput.text;
+        string password = authUIManager.passwordInput.text;
+
+        LoginLogic(email,password);
     }
 
     public void RegisterButton()
     {
-        StartCoroutine(RegisterLogic(registerEmailInput.text, registerPasswordInput.text, registerConfirmPasswordInput.text));
+        string email = authUIManager.registerEmailInput.text;
+        string password = authUIManager.registerPasswordInput.text;
+        string confirmPassword = authUIManager.registerConfirmPasswordInput.text;
+        StartCoroutine(RegisterLogic(email,password,confirmPassword));
     }
 
-    private IEnumerator LoginLogic(string _email, string _password)
+    private async void LoginLogic(string _email, string _password)
     {
         Credential credential = EmailAuthProvider.GetCredential(_email, _password);
 
-        var loginTask = auth.SignInWithCredentialAsync(credential);
-
-        yield return new WaitUntil(predicate: () => loginTask.IsCompleted);
-
-        if (loginTask.Exception == null)
-        {
-            if (!user.IsEmailVerified)
+ 
+            var loginTask = auth.SignInWithCredentialAsync(credential);
+            await loginTask.ContinueWithOnMainThread(async task =>
             {
-                loginOutputUI.SetActive(true);
-                loginOutputText.text = "Please Verify Your Email";
-                yield break;
-            }
-            GameManager.instance.LoadAccount();
-            GameManager.instance.ChangeScene("Scene_MainMenu");
-            yield break;
-        }
+                if (task.IsFaulted)
+                {
+                    FirebaseException firebaseException = task.Exception.GetBaseException() as FirebaseException;
+                    if (firebaseException != null)
+                    {
+                        AuthError error = (AuthError)firebaseException.ErrorCode;
 
-        FirebaseException firebaseException = (FirebaseException)loginTask.Exception.GetBaseException();
-        AuthError error = (AuthError)firebaseException.ErrorCode;
+                        string output = "";
 
-        string output = "";
+                        switch (error)
+                        {
+                            case AuthError.MissingEmail:
+                                output = "Yoho You Forgot Your Mail";
+                                break;
+                            case AuthError.MissingPassword:
+                                output = "Yoho You Forgot Your Password";
+                                break;
+                            case AuthError.WrongPassword:
+                                output = "";
+                                break;
+                            case AuthError.InvalidEmail:
+                                output = "Invalid Email";
+                                break;
+                            case AuthError.UserNotFound:
+                                output = "Did You Register?";
+                                break;
+                            default:
+                                output = "Unknown Error";
+                                break;
+                        }
 
-        switch (error)
-        {
-            case AuthError.MissingEmail:
-                output = "Yoho You Forgot Your Mail";
-                break;
-            case AuthError.MissingPassword:
-                loginOutputText.text = "Yoho You Forgot Your Password";
-                break;
-            case AuthError.WrongPassword:
-                output = "";
-                break;
-            case AuthError.InvalidEmail:
-                output = "Invalid Email";
-                break;
-            case AuthError.UserNotFound:
-                output = "Did You Register?";
-                break;
-            default:
-                output = "Unknown Error";
-                break;
-        }
+                        if (output == "")
+                        {
+                            output = "LOL Did you even try?";
+                        }
+                        authUIManager.LoginOutputUIShow(output);
+                        return;
+                    }
+                }
 
-        loginOutputUI.SetActive(true);
+                if (!user.IsEmailVerified)
+                {
+                    authUIManager.LoginOutputUIShow("Please Verify Your Email");
+                }
 
-        if (output == "")
-        {
-            loginOutputText.text = "LOL Did you even try?";
-        }
-        else
-        {
-            loginOutputText.text = output;
-        }
-
+                Task<Account> taskAccount = FireBaseManager.instance.LoadAccount();
+                await taskAccount;
+                if (taskAccount.IsCompletedSuccessfully)
+                {
+                    Account account = taskAccount.Result;
+                    GameManager.instance.account = account;
+                    new WaitUntil(() => GameManager.instance.account != null);
+                    GameManager.instance.ChangeScene("Scene_MainMenu");
+                }
+                else
+                {
+                    authUIManager.LoginOutputUIShow("Error Loading Account");
+                }
+            });
     }
 
     private IEnumerator RegisterLogic(string _email, string _password, string _confirmPassword)
     {
         if (_email == "" || _password == "" || _confirmPassword == "")
         {
-            RegisterOutput("You Forgot To Fill Something");
+            authUIManager.RegisterOutput("You Forgot To Fill Something");
             yield break;
 
         }
         else if (_password != _confirmPassword)
         {
-            RegisterOutput("Passwords Don't Match");
+            authUIManager.RegisterOutput("Passwords Don't Match");
             yield break;
         }
 
@@ -239,7 +251,7 @@ public class FirebaseAuthenticationManager : MonoBehaviour
 
         if (registerTask.Exception == null)
         {
-            RegisterOutput("Registration Succesfull");
+            authUIManager.RegisterOutput("Registration Succesfull");
             yield return new WaitForSecondsRealtime(4);
             StartCoroutine(SendVerificationEmail());
             yield break;
@@ -266,28 +278,8 @@ public class FirebaseAuthenticationManager : MonoBehaviour
                 break;
         }
 
-        RegisterOutput(output);
+        authUIManager.RegisterOutput(output);
 
-    }
-
-    private void RegisterOutput(string _output)
-    {
-        registerOutputUI.SetActive(true);
-        registerOutputText.text = _output;
-    }
-
-    private void LoginOutput(string _output)
-    {
-        loginOutputUI.SetActive(true);
-        loginOutputText.text = _output;
-    }
-
-    public void ClearOutputs()
-    {
-        loginOutputUI.SetActive(false);
-        registerOutputUI.SetActive(false);
-        loginOutputText.text = "";
-        registerOutputText.text = "";
     }
 
     private IEnumerator SendVerificationEmail()
@@ -301,7 +293,7 @@ public class FirebaseAuthenticationManager : MonoBehaviour
 
         if (emailTask.Exception == null)
         {
-            AuthUIManager.instance.AwaitVerification(true, user.Email, "Verification Email Was Sent!");
+            authUIManager.AwaitVerification(true, user.Email, "Verification Email Was Sent!");
             yield break;
         }
 
@@ -317,7 +309,7 @@ public class FirebaseAuthenticationManager : MonoBehaviour
                 output = "Verification Task Cancelled";
                 break;
             case AuthError.InvalidRecipientEmail:
-                loginOutputText.text = "Invalid Email";
+                output = "Invalid Email";
                 break;
             case AuthError.TooManyRequests:
                 output = "Too Many Requests";
@@ -327,7 +319,7 @@ public class FirebaseAuthenticationManager : MonoBehaviour
                 break;
         }
 
-        AuthUIManager.instance.AwaitVerification(false, user.Email, output);
+        authUIManager.AwaitVerification(false, user.Email, output);
     }
 
     private void InitConfiguration()

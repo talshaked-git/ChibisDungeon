@@ -12,6 +12,7 @@ public class FireBaseManager : MonoBehaviour
     public FirebaseAuthenticationManager firebaseAuthManager;
     public FirebaseFirestoreManager firebaseFirestoreManager;
 
+
     private void Awake()
     {
         if (instance == null)
@@ -39,9 +40,9 @@ public class FireBaseManager : MonoBehaviour
         await firebaseFirestoreManager.SaveAccount(account);
     }
 
-    public async Task LoadAccount(Action<Account> callback)
+    public Task<Account> LoadAccount()
     {
-        await firebaseFirestoreManager.LoadAccount(callback);
+        return firebaseFirestoreManager.LoadAccount();
     }
 
     public async void LoadPlayer(string playerId, Action<Player> callback)
@@ -82,5 +83,20 @@ public class FireBaseManager : MonoBehaviour
     public Task RemoveAuctionListing(string listingId, Player player)
     {
         return firebaseFirestoreManager.RemoveAuctionListing(listingId, player);
+    }
+
+    public void LoginButton()
+    {
+        firebaseAuthManager.LoginButton();
+    }
+
+    public void RegisterButton()
+    {
+        firebaseAuthManager.RegisterButton();
+    }
+
+    public void SetAuthUIManager(AuthUIManager authUIManager)
+    {
+        firebaseAuthManager.SetAuthUIManager(authUIManager);
     }
 }
