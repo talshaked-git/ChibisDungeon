@@ -13,21 +13,24 @@ public abstract class ItemContainer : MonoBehaviour, IItemContainer
     public event Action<InventorySlot> OnDragEvent;
     public event Action<InventorySlot> OnDropEvent;
 
-    private void EventHelper(InventorySlot itemSlot, Action<InventorySlot> action)
-    {
-        if (action != null)
-            action(itemSlot);
-    }
 
     public void InitContainer()
     {
         for (int i = 0; i < inventorySlots.Count; i++)
         {
-            inventorySlots[i].OnPressEvent += slot => EventHelper(slot,OnPressEvent);
-            inventorySlots[i].OnBeginDragEvent += slot => EventHelper(slot,OnBeginDragEvent);
-            inventorySlots[i].OnEndDragEvent += slot => EventHelper(slot,OnEndDragEvent);
-            inventorySlots[i].OnDragEvent += slot => EventHelper(slot,OnDragEvent);
-            inventorySlots[i].OnDropEvent += slot => EventHelper(slot, OnDropEvent);
+            inventorySlots[i].OnPressEvent += slot =>EventHelper(slot,OnPressEvent);
+            inventorySlots[i].OnBeginDragEvent += slot => EventHelper(slot, OnBeginDragEvent);
+            inventorySlots[i].OnEndDragEvent += slot => EventHelper(slot, OnEndDragEvent);
+            inventorySlots[i].OnDragEvent += slot => EventHelper(slot, OnDragEvent);
+            inventorySlots[i].OnDropEvent +=  slot => EventHelper(slot, OnDropEvent);
+        }
+    }
+
+    public void EventHelper(InventorySlot slot,Action<InventorySlot> action)
+    {
+        if (action != null)
+        {
+            action(slot);
         }
     }
 
@@ -46,13 +49,13 @@ public abstract class ItemContainer : MonoBehaviour, IItemContainer
         return freeSpaces >= amount;
     }
 
-    public bool AddItem(Item item)
+    public bool AddItem(Item item,int amount=1)
     {
         for (int i = 0; i < inventorySlots.Count; i++)
         {
-            if (inventorySlots[i].CanAddStack(item))
+            if (inventorySlots[i].CanAddStack(item,amount))
             {
-                inventorySlots[i].Amount++;
+                inventorySlots[i].Amount+=amount;
                 return true;
             }
         }
@@ -62,12 +65,15 @@ public abstract class ItemContainer : MonoBehaviour, IItemContainer
             if (inventorySlots[i].item == null)
             {
                 inventorySlots[i].item = item;
-                inventorySlots[i].Amount++;
+                inventorySlots[i].Amount+=amount;
                 return true;
             }
         }
         return false;
     }
+
+
+
 
     public void ResetIsTooltipActive(InventorySlot inventorySlot)
     {
@@ -117,13 +123,13 @@ public abstract class ItemContainer : MonoBehaviour, IItemContainer
         return null;
     }
 
-    public bool RemoveItem(Item item)
+    public bool RemoveItem(Item item,int amount=1)
     {
         for (int i = 0; i < inventorySlots.Count; i++)
         {
-            if (inventorySlots[i].item == item)
+            if (inventorySlots[i].item == item && inventorySlots[i].Amount >= amount)
             {
-                inventorySlots[i].Amount--;
+                inventorySlots[i].Amount -= amount;
                 return true;
             }
         }

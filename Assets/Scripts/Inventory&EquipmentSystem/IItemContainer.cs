@@ -32,15 +32,17 @@ public interface IItemContainer
     /// Removes the specified item from the container.
     /// </summary>
     /// <param name="item">The Item object to remove from the container.</param>
+    /// <param name="amount">The item Amount to remove by default is 1</param>
     /// <returns>Returns true if the item was successfully removed from the container, otherwise false.</returns>
-    bool RemoveItem(Item item);
+    bool RemoveItem(Item item,int amount=1);
 
     /// <summary>
     /// Adds the specified item to the container.
     /// </summary>
     /// <param name="item">The Item object to add to the container.</param>
+    /// <param name="amount">The Item amount to add to the container by default 1</param>
     /// <returns>Returns true if the item was successfully added to the container, otherwise false.</returns>
-    bool AddItem(Item item);
+    bool AddItem(Item item,int amount=1);
 
     /// <summary>
     /// Checks if the specified item and amount can be added to the container.

@@ -354,7 +354,7 @@ public class PlayerManager : MonoBehaviour
 
     private bool isEquipabble(EquippableItem item)
     {
-        if (item != null && item.EquipableClass == currentPlayer.classType && item.EquipableLV <= currentPlayer.Level)
+        if (item != null && (item.EquipableClass == currentPlayer.classType || item.EquipableClass == CharClassType.Any) && item.EquipableLV <= currentPlayer.Level)
             return true;
         return false;
     }
@@ -470,6 +470,7 @@ public class PlayerManager : MonoBehaviour
 
     public void OpenItemContainer(ItemContainer container)
     {
+        Debug.Log("Open Item Container");
         _openItemContainer = container;
         inventory.OnPressEvent -= HandlePressEvent;
         inventory.OnPressEvent += TransferToItemContainer;
@@ -485,6 +486,7 @@ public class PlayerManager : MonoBehaviour
 
     public void CloseItemContainer(ItemContainer container)
     {
+        Debug.Log("Close Item Container");
         _openItemContainer = null;
         inventory.OnPressEvent += HandlePressEvent;
         inventory.OnPressEvent -= TransferToItemContainer;
@@ -592,6 +594,23 @@ public class PlayerManager : MonoBehaviour
                 tooltip.HideTooltip();
                 _lastClickTime = DateTime.MinValue;
                 return;
+            }
+            else
+            {
+                Item removedItem = _openItemContainer.inventorySlots[0].item;
+                int removedItemAmount = _openItemContainer.inventorySlots[0].Amount;
+                if(inventory.CanAddItem(removedItem, removedItemAmount))
+                {
+                    inventory.RemoveItem(item);
+                    _openItemContainer.RemoveItem(removedItem, removedItemAmount);
+                    _openItemContainer.AddItem(item);
+                    inventory.AddItem(removedItem, removedItemAmount);
+                    isTooltipActive = false;
+                    tooltip.HideTooltip();
+                    _lastClickTime = DateTime.MinValue;
+                    return;
+
+                }
             }
         }
 

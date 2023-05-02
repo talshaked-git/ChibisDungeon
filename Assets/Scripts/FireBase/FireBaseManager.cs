@@ -22,6 +22,7 @@ public class FireBaseManager : MonoBehaviour
         else if (instance != this)
         {
             Destroy(gameObject);
+            return;
         }
 
         firebaseAuthManager.Initialize();

@@ -191,9 +191,4 @@ public class EquippableItem : Item
             sb.Append(statName);
         }
     }
-
-    public void UpdateStatValues()
-    {
-
-    }
 }

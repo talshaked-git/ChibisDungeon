@@ -375,7 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0a8cdd2ab07d67499ec04f532f07503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowPrefab: {fileID: 8917598701659617394, guid: 1a5c54cf4b7f04147a25c8ddfeaa289a, type: 3}
+  arrowPrefab: {fileID: 2822083279040954853, guid: 4bac5e3c46f8ead49b6316e2c89b4278, type: 3}
   arrowSpawnPoint: {fileID: 4312529925952810536}
   arrowSpeed: 20
   attackButton: {fileID: 0}
