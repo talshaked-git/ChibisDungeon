@@ -2,7 +2,7 @@ fileFormatVersion: 2
 guid: bd4e8aefd05346a7aa154dfb02b0854f
 labels:
 - gvh
-- gvh_version-10.2.0
+- gvh_version-10.7.0
 - gvhp_exportpath-Plugins/iOS/Firebase/libFirebaseCppDynamicLinks.a
 timeCreated: 1480838400
 PluginImporter:
