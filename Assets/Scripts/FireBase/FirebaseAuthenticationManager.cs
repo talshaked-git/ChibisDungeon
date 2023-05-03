@@ -18,9 +18,9 @@ public class FirebaseAuthenticationManager : MonoBehaviour
 
     private GoogleSignInConfiguration configuration;
 
-    // Your UI components and other variables can be added here
-
     AuthUIManager authUIManager;
+
+    Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
 
 
     public void SetAuthUIManager(AuthUIManager authUIManager)
@@ -28,29 +28,34 @@ public class FirebaseAuthenticationManager : MonoBehaviour
         this.authUIManager = authUIManager;
     }
 
-    public void Initialize()
+    public void Start()
     {
         authUIManager = FindObjectOfType<AuthUIManager>();
-        StartCoroutine(CheckAndFixDependencies());
+
+        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
+            dependencyStatus = task.Result;
+            if (dependencyStatus == DependencyStatus.Available)
+            {
+                InitializeFirebase();
+            }
+            else
+            {
+                Debug.LogError(
+                  "Could not resolve all Firebase dependencies: " + dependencyStatus);
+            }
+        });
     }
 
-    private IEnumerator CheckAndFixDependencies()
+    private void InitializeFirebase()
     {
-        var checkAndFixDependenciesTask = FirebaseApp.CheckAndFixDependenciesAsync();
-        yield return new WaitUntil(predicate: () => checkAndFixDependenciesTask.IsCompleted);
+        Debug.Log("Setting up Firebase Auth");
 
-        if (checkAndFixDependenciesTask.Result == DependencyStatus.Available)
-        {
-            auth = FirebaseAuth.DefaultInstance;
-            InitConfiguration();
-            StartCoroutine(CheckAutoLogin());
-            auth.StateChanged += AuthStateChanged;
-            AuthStateChanged(this, null);
-        }
-        else
-        {
-            Debug.LogError("Could not resolve all Firebase dependencies: " + checkAndFixDependenciesTask.Result);
-        }
+        auth = FirebaseAuth.DefaultInstance;
+        auth.StateChanged += AuthStateChanged;
+        InitConfiguration();
+        StartCoroutine(CheckAutoLogin());
+        AuthStateChanged(this, null);
+ 
     }
 
     private void AuthStateChanged(object sender, System.EventArgs eventArgs)
@@ -74,41 +79,26 @@ public class FirebaseAuthenticationManager : MonoBehaviour
         }
     }
 
+    void OnDestroy()
+    {
+        if (auth != null)
+        {
+            auth.StateChanged -= AuthStateChanged;
+            auth = null;
+        }
+    }
+
     private IEnumerator CreateNewAccountDocument()
     {
         string userId = user.UserId;
-        DocumentReference docRef = FireBaseManager.instance.firebaseFirestoreManager.db.Collection("users").Document(userId);
-
-        var getDocTask = docRef.GetSnapshotAsync();
-        yield return new WaitUntil(predicate: () => getDocTask.IsCompleted);
-
-        if (getDocTask.Result.Exists)
-        {
-            Debug.Log("User document already exists.");
-        }
-        else
-        {
-            Debug.Log("Creating new user document.");
-
-            Account newAccount = new Account(userId);
-
-            var createAccountTask = docRef.SetAsync(newAccount);
-            yield return new WaitUntil(predicate: () => createAccountTask.IsCompleted);
-
-            if (createAccountTask.Exception == null)
-            {
-                Debug.Log("New user document created successfully.");
-            }
-            else
-            {
-                Debug.LogError("Error creating account document: " + createAccountTask.Exception.Message);
-            }
-        }
+        yield return new WaitUntil(predicate: () => FireBaseManager.instance.firebaseFirestoreManager.isInitialized);
+        FireBaseManager.instance.CreateNewAccountDocument(userId);
     }
 
     private IEnumerator CheckAutoLogin()
     {
         yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(predicate: () => FireBaseManager.instance.firebaseFirestoreManager.isInitialized);
         if (user != null)
         {
             var reloadTask = user.ReloadAsync();
@@ -129,8 +119,14 @@ public class FirebaseAuthenticationManager : MonoBehaviour
         {
             Task<Account> taskAccount = FireBaseManager.instance.LoadAccount();
             await taskAccount;
-            if (taskAccount.IsCompletedSuccessfully)
+            if (taskAccount == null || taskAccount.IsCompletedSuccessfully)
             {
+                if(taskAccount == null)
+                {
+                    authUIManager.LoginOutputUIShow("Error Loading Account During AutoLogin");
+                    Debug.Log("Error Loading Account During AutoLogin ACcount = NULL");
+                    return;
+                }
                 Account account = taskAccount.Result;
                 GameManager.instance.account = account;
                 GameManager.instance.ChangeScene("Scene_MainMenu");

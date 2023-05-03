@@ -5,15 +5,31 @@ using UnityEngine;
 using Firebase.Auth;
 using System.Collections.Generic;
 using System;
+using Firebase;
 
 public class FirebaseFirestoreManager : MonoBehaviour
 {
     public FirebaseFirestore db;
+    public bool isInitialized = false;
+    private DependencyStatus dependencyStatus = DependencyStatus.UnavailableOther;
     WriteBatch batch;
 
-    public void Initialize()
+    public void Start()
     {
-        db = FirebaseFirestore.DefaultInstance;
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
+            dependencyStatus = task.Result;
+            if (dependencyStatus == DependencyStatus.Available)
+            {
+                db = FirebaseFirestore.DefaultInstance;
+                isInitialized = true;
+                Debug.Log("FirebaseFirestoreManager: Connected to Firebase!");
+            }
+            else
+            {
+                Debug.LogError(
+                  "Could not resolve all Firebase dependencies: " + dependencyStatus);
+            }
+        });
     }
 
     public Task<Account> LoadAccount()
@@ -31,7 +47,7 @@ public class FirebaseFirestoreManager : MonoBehaviour
         DocumentReference docRef = db.Collection("users").Document(userId);
         if (docRef == null)
         {
-            return null;
+            CreateNewAccountDocument(userId);
         }
 
         return docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
@@ -200,5 +216,37 @@ public class FirebaseFirestoreManager : MonoBehaviour
         return batch.CommitAsync();
     }
 
+    public async void CreateNewAccountDocument(string userId)
+    {
+        if(db == null)
+        {
+            Debug.LogError("Database is null!");
+            return;
+        }
+        DocumentReference accounRef = db.Collection("users").Document(userId);
+        var accountSnapshot = accounRef.GetSnapshotAsync();
+        await accountSnapshot;
+        if (accountSnapshot.Result.Exists)
+        {
+            Debug.Log("Account document already exists!");
+            return;
+        }
+        else
+        {
+            Account account = new Account(userId);
+            Task createAccountTask = accounRef.SetAsync(account);
+            await createAccountTask;
+            if (createAccountTask.IsCompletedSuccessfully)
+            {
+                Debug.Log("Account document created successfully!");
+                GameManager.instance.account = account;
+            }
+            else
+            {
+                Debug.LogError("Account document creation failed!");
+            }
+        }
+        
+    }
 
 }

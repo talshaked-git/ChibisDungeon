@@ -25,9 +25,6 @@ public class FireBaseManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
-        firebaseAuthManager.Initialize();
-        firebaseFirestoreManager.Initialize();
     }
 
     public DocumentReference SaveNewPlayer(Player player)
@@ -98,5 +95,10 @@ public class FireBaseManager : MonoBehaviour
     public void SetAuthUIManager(AuthUIManager authUIManager)
     {
         firebaseAuthManager.SetAuthUIManager(authUIManager);
+    }
+
+    public void CreateNewAccountDocument(string userId)
+    {
+        firebaseFirestoreManager.CreateNewAccountDocument(userId);
     }
 }
