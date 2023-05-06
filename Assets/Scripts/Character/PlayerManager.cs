@@ -19,6 +19,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] AttributeAllocationPanel attributeAllocationPanel;
     [SerializeField] EmptyScreen emptyScreen;
     [SerializeField] Auction auction;
+    [SerializeField] InformationPanel informationPanel;
 
 
     private InventorySlot draggedSlot;
@@ -615,5 +616,20 @@ public class PlayerManager : MonoBehaviour
         }
 
         _lastClickTime = currentTime;
+    }
+
+    public bool RemoveGold(int goldToRemove)
+    {
+        return currentPlayer.RemoveGold(goldToRemove);
+    }
+
+    public void HideInformationPanel()
+    {
+        informationPanel.gameObject.SetActive(false);
+    }
+
+    public void ShowInformationPanel()
+    {
+        informationPanel.gameObject.SetActive(true);
     }
 }

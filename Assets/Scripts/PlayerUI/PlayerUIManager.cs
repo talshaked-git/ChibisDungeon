@@ -220,4 +220,6 @@ public class PlayerUIManager : MonoBehaviour
     {
         PlayerManager.instance.ShowAttributeAllocationPanel();
     }
+
+
 }

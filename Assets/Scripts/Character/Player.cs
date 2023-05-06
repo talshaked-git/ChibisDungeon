@@ -285,6 +285,16 @@ public class Player
         return true;
     }
 
+    public bool RemoveGold(int amount)
+    {
+        if (gold < amount)
+        {
+            return false;
+        }
+        gold -= amount;
+        return true;
+    }
+
     public void AddGold(int amount)
     {
         gold += amount;

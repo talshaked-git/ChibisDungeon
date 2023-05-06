@@ -22,6 +22,8 @@ public class Auction : MonoBehaviour
     RegisterItemWindow registerItemWindow;
     [SerializeField]
     TMP_InputField myBid;
+    [SerializeField]
+    InformationPanel informationPanel;
 
     private ListenerRegistration auctionListenerRegistration;
 
@@ -149,6 +151,7 @@ public class Auction : MonoBehaviour
         if(selectedListing == null)
         {
             Debug.Log("No Listing Selected");
+            ShowInfoPanel("No Listing Selected");
             return;
         }
         //Add to logic to check if player has enough money
@@ -161,7 +164,12 @@ public class Auction : MonoBehaviour
             return;
         }
 
-        //Add login to Remove Money and add Item to player inventory
+
+        if (!PlayerManager.instance.RemoveGold(auctionListingItem.GetBuyoutPrice()))
+        {
+            ShowInfoPanel("Not Enough Gold\n To Buy Out Item");
+            return;
+        }
 
         PlayerManager.instance.AddItem(auctionListingItem.Item.ToItem());
         PlayerManager.instance.SavePlayerData();
@@ -173,11 +181,12 @@ public class Auction : MonoBehaviour
         {
             Debug.Log("Buy Out Failed");
             PlayerManager.instance.RemoveItem(auctionListingItem.Item.ToItem());
+            PlayerManager.instance.SavePlayerData();
+            ShowInfoPanel("Buy Out Failed");
         }
         else
         {
             Debug.Log("Buy Out Successful");
-
         }
     }
 
@@ -186,11 +195,9 @@ public class Auction : MonoBehaviour
         if(selectedListing == null)
         {
             Debug.Log("No Listing Selected");
+            ShowInfoPanel("No Listing Selected");
             return;
         }
-
-        //Add logic to check if player has enough money
-
 
         //Add logic to check if bid is higher than current bid
         AuctionListingItem auctionListingItem = await FireBaseManager.instance.GetAuctionListingItem(selectedListing.ListingId);
@@ -205,6 +212,7 @@ public class Auction : MonoBehaviour
         if(bid  <= topBidder)
         {
             Debug.Log("Bid is not higher than current bid");
+            ShowInfoPanel("Bid is not higher than current bid");
             return;
         }
 
@@ -214,6 +222,13 @@ public class Auction : MonoBehaviour
         {
             //Check if player has wants to buy out instead
             Debug.Log("Bid is higher than buyout price");
+            ShowInfoPanel("Bid is higher than buyout price.\n Consider Buyout");
+            return;
+        }
+
+        if (!PlayerManager.instance.RemoveGold(int.Parse(myBid.text)))
+        {
+            ShowInfoPanel("Not Enough Gold To Bid");
             return;
         }
 
@@ -256,5 +271,11 @@ public class Auction : MonoBehaviour
         }
         selectedListing = auctionListing;
         selectedListing.GetComponent<Image>().color = SelectedColor;
+    }
+
+    private void ShowInfoPanel(string text)
+    {
+        informationPanel.SetInfoText(text);
+        PlayerManager.instance.ShowInformationPanel();
     }
 }

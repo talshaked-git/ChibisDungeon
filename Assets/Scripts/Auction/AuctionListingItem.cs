@@ -55,4 +55,9 @@ public class AuctionListingItem
         BuyoutPrice = buyoutPrice;
         Lastbider = lastbider;
     }
+
+    public int GetBuyoutPrice()
+    {
+        return int.Parse(BuyoutPrice);
+    }
 }
