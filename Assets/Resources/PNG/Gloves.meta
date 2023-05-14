@@ -1,8 +1,15 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/Items/Consumables/Big MP Potion.asset.meta
+guid: a75b065e17e57814199b903dd155bfbe
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+========
 guid: 496db1e24cf4395499cd7a791ffe58c7
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
+>>>>>>>> main:Assets/Resources/PNG/Gloves.meta
   userData: 
   assetBundleName: 
   assetBundleVariant: 

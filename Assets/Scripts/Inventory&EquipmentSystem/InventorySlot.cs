@@ -28,7 +28,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         set
         {
             _item = value;
-            if (item == null && Amount != 0) Amount = 0;
+            if (_item == null && Amount != 0) Amount = 0;
             if (_item == null)
             {
                 EquipmentSlot equipmentSlot = this as EquipmentSlot;
@@ -135,5 +135,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         {
             OnDropEvent(this);
         }
+    }
+
+    public void AddToSlot(Item item, int amount)
+    {
+        this.item = item; this.Amount = amount;
     }
 }

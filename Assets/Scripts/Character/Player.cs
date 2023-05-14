@@ -58,6 +58,8 @@ public class Player
 
     [FirestoreProperty]
     public int gold { get; set; }
+    [FirestoreProperty]
+    public int chibiCoins { get; set; }
 
     [FirestoreProperty]
     public CharcterStat HP { get; set; }
@@ -119,6 +121,7 @@ public class Player
         Level = 1;
         CurrentExp = 0;
         gold = 100;
+        chibiCoins = 50;
         AttributePoints = 0;
         _requiredExpForNextLevel = CalculateExpForLevel(Level);
         InventoryMaxSlots = 20;
@@ -282,6 +285,16 @@ public class Player
         }
         AttributePoints -= points;
 
+        return true;
+    }
+
+    public bool RemoveGold(int amount)
+    {
+        if (gold < amount)
+        {
+            return false;
+        }
+        gold -= amount;
         return true;
     }
 

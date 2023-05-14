@@ -708,8 +708,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: FireBaseManager, Assembly-CSharp
+      - m_Target: {fileID: 1650648871}
+        m_TargetAssemblyTypeName: FirebaseAuthenticationManager, Assembly-CSharp
         m_MethodName: GoogleLoginButton
         m_Mode: 1
         m_Arguments:
@@ -2100,19 +2100,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1040116024}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: FireBaseManager, Assembly-CSharp
-        m_MethodName: LoginButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1040116024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3037,6 +3025,19 @@ MonoBehaviour:
   loginUI: {fileID: 232942658}
   registerUI: {fileID: 2090105864}
   rememberMe: {fileID: 1417095430}
+  emailInput: {fileID: 1701845339}
+  passwordInput: {fileID: 1710514560}
+  loginOutputUI: {fileID: 1482027130}
+  loginOutputText: {fileID: 1482027129}
+  loginButton: {fileID: 1040116023}
+  registerUIButton: {fileID: 2141537554}
+  registerEmailInput: {fileID: 951993397}
+  registerPasswordInput: {fileID: 2070520686}
+  registerConfirmPasswordInput: {fileID: 1497677117}
+  registerOutputUI: {fileID: 8067560741964359173}
+  registerOutputText: {fileID: 1673051946}
+  registerButton: {fileID: 1856001003}
+  loginUIButton: {fileID: 1700731443}
 --- !u!1 &1650648868
 GameObject:
   m_ObjectHideFlags: 0
@@ -3098,15 +3099,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GoogleWebAPI: 844846155287-7n7i8ehjeci2r4mfpjdk1us5ormjpeqj.apps.googleusercontent.com
-  emailInput: {fileID: 1701845339}
-  passwordInput: {fileID: 1710514560}
-  loginOutputUI: {fileID: 1482027130}
-  loginOutputText: {fileID: 1482027129}
-  registerEmailInput: {fileID: 951993397}
-  registerPasswordInput: {fileID: 2070520686}
-  registerConfirmPasswordInput: {fileID: 1497677117}
-  registerOutputUI: {fileID: 8067560741964359173}
-  registerOutputText: {fileID: 1673051946}
 --- !u!114 &1650648872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3288,19 +3280,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1700731444}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1599833111}
-        m_TargetAssemblyTypeName: AuthUIManager, Assembly-CSharp
-        m_MethodName: LoginScreen
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1700731444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3771,19 +3751,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1856001004}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: FireBaseManager, Assembly-CSharp
-        m_MethodName: RegisterButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1856001004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4816,19 +4784,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2141537555}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1599833111}
-        m_TargetAssemblyTypeName: AuthUIManager, Assembly-CSharp
-        m_MethodName: RegisterScreen
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2141537555
 MonoBehaviour:
   m_ObjectHideFlags: 0

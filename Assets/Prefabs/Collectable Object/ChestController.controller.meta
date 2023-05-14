@@ -1,8 +1,15 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/Items/Consumables/Small HP Potion.asset.meta
+guid: 4e03723f2ecb1f8429db0d8988c5e914
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+========
 guid: 30d093a0f1d55cb42ba8e0d6c9e9cbc6
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 9100000
+>>>>>>>> main:Assets/Prefabs/Collectable Object/ChestController.controller.meta
   userData: 
   assetBundleName: 
   assetBundleVariant: 

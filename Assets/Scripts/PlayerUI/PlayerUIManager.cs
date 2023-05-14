@@ -12,6 +12,7 @@ public class PlayerUIManager : MonoBehaviour
     public Button statsButton;
     public Button inventoryButton;
     public Button shopButton;
+    public Button auctionButton;
 
     [Header("Menu Panels")]
     [SerializeField]
@@ -24,6 +25,9 @@ public class PlayerUIManager : MonoBehaviour
     public GameObject statsMenu;
     public GameObject inventoryPanel;
     public GameObject shopMenu;
+    public GameObject auctionMenu;
+    [SerializeField] 
+    public GameObject RegisterItemPanel;
     [SerializeField] ItemTooltip tooltip;
 
     private bool gamePaused = false;
@@ -120,7 +124,7 @@ public class PlayerUIManager : MonoBehaviour
         if (!gamePaused)
         {
             PauseGame();
-            statsMenu.SetActive(true);
+            auctionMenu.SetActive(true);
             //settingsMenu.SetActive(true);
             //characterSwitchMenu.SetActive(true);
             //exitMenu.SetActive(true);
@@ -131,6 +135,28 @@ public class PlayerUIManager : MonoBehaviour
         }
     }
 
+    public void HideAuction()
+    {
+        if (gamePaused)
+        {
+            ResumeGame();
+            auctionMenu.SetActive(false);
+        }
+    }
+
+    public void ShowAuctionAddItemPanel()
+    {
+        RegisterItemPanel.SetActive(true);
+        inventoryPanel.SetActive(true);
+
+    }
+
+    public void HideAuctionAddItemPanel()
+    {
+        RegisterItemPanel.SetActive(false);
+        inventoryPanel.SetActive(false);
+    }
+
     void CloseAllMenus()
     {
         MenuWindow.SetActive(false);
@@ -139,6 +165,7 @@ public class PlayerUIManager : MonoBehaviour
         //exitMenu.SetActive(false);
         statsMenu.SetActive(false);
         inventoryPanel.SetActive(false);
+        auctionMenu.SetActive(false);
         tooltip.HideTooltip();
         DropItemAreaHide();
         PlayerManager.isTooltipActive = false;
@@ -193,4 +220,6 @@ public class PlayerUIManager : MonoBehaviour
     {
         PlayerManager.instance.ShowAttributeAllocationPanel();
     }
+
+
 }

@@ -1,8 +1,15 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/Items/Equipment/Bows/BaisicBow.asset.meta
+guid: 57c8d1e21d24ccf45aa8fa39ce3fb509
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+========
 guid: 776fbffe663fec349be332dbb3f895a6
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 7400000
+>>>>>>>> main:Assets/Prefabs/Collectable Object/ChestOpen.anim.meta
   userData: 
   assetBundleName: 
   assetBundleVariant: 
