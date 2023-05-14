@@ -11,7 +11,7 @@ public class AuctionListing : MonoBehaviour, IPointerClickHandler
 {
     public string ListingId;
     [SerializeField]
-    InventorySlot _inventorySlot;
+    public InventorySlot inventorySlot;
     [SerializeField]
     TMP_Text itemName;
     [SerializeField]
@@ -23,16 +23,27 @@ public class AuctionListing : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     TMP_Text buyoutPrice;
 
+    public event Action<InventorySlot> OnPressEvent;
+
     public void SetListing(AuctionListingItem listing)
     {
         ListingId = listing.ListingId;
         Item item = listing.Item.ToItem();
-        //_inventorySlot.AddToSlot(item, listing.ItemAmount); // fix this
+        inventorySlot.AddToSlot(item, listing.ItemAmount);
+        inventorySlot.OnPressEvent += slot => EventHelper(slot,OnPressEvent);
         itemName.text = listing.ItemName;
         timeLeft.text = CalculateTimeLeft(listing.ExpirationTime);
         sellerName.text = listing.SellerName;
         currentBid.text = listing.TopBid + "G";
         buyoutPrice.text = listing.BuyoutPrice + "G";
+    }
+
+    public void EventHelper(InventorySlot slot, Action<InventorySlot> action)
+    {
+        if (action != null)
+        {
+            action(slot);
+        }
     }
 
     public void UpdateListing(AuctionListingItem listing)

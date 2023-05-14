@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ListingId: 
-  _inventorySlot: {fileID: 637922967269935146}
+  inventorySlot: {fileID: 637922967269935146}
   itemName: {fileID: 8564522806582231830}
   timeLeft: {fileID: 4091040764191188025}
   sellerName: {fileID: 4537975634130963201}

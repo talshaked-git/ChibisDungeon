@@ -61,6 +61,9 @@ public class ItemSaveData {
     [FirestoreProperty]
     public string ItemName { get; set; }
 
+    [FirestoreProperty]
+    public string EquipmentType { get; set; }
+
     public ItemSaveData() { }
 
 
@@ -69,6 +72,7 @@ public class ItemSaveData {
         ID = item.ID;
         uniqueID = item.uniqueID;
         ItemName = item.ItemName;
+        EquipmentType = (item as EquippableItem)?.equipmentType.ToString();
     }
 
     public virtual Item ToItem()

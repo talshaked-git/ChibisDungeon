@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using static UnityEditor.Progress;
 
 public class Auction : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class Auction : MonoBehaviour
 
     Color UnselectedColor = Color.white;
     Color SelectedColor = new Color(0.5f, 0.5f, 0.5f, 1);
+
+    private bool _isTooltipActive = false;
 
     public void Start()
     {
@@ -102,7 +105,7 @@ public class Auction : MonoBehaviour
     {
         AuctionListing auctionListing = Instantiate(auctionListingPrefab, auctionListingPanel.gameObject.transform);
         auctionListing.SetListing(auctionListingItem);
-
+        auctionListing.OnPressEvent += ShowTooltip;
         auctionListings.Add(auctionListing);
     }
 
@@ -164,6 +167,13 @@ public class Auction : MonoBehaviour
             return;
         }
 
+        if (auctionListingItem.SellerId == PlayerManager.instance.CurrentPlayer.CID)
+        {
+            Debug.Log("Bids On your own Item");
+            ShowInfoPanel("Can't Buy Out your own Item");
+            return;
+        }
+
 
         if (!PlayerManager.instance.RemoveGold(auctionListingItem.GetBuyoutPrice()))
         {
@@ -187,6 +197,7 @@ public class Auction : MonoBehaviour
         else
         {
             Debug.Log("Buy Out Successful");
+            
         }
     }
 
@@ -206,7 +217,14 @@ public class Auction : MonoBehaviour
             Debug.Log("AuctionListingItem is null");
             return;
         }
-        
+
+        if (auctionListingItem.SellerId == PlayerManager.instance.CurrentPlayer.CID)
+        {
+            Debug.Log("Bids On your own Item");
+            ShowInfoPanel("Can't Bid on your own Item");
+            return;
+        }
+
         int bid = int.Parse(myBid.text);
         int topBidder = int.Parse(auctionListingItem.TopBid);
         if(bid  <= topBidder)
@@ -254,7 +272,15 @@ public class Auction : MonoBehaviour
             Debug.Log("Error updating bid");
             //add return To Current Biddier and save
             return;
-       }
+        }
+        else
+        {
+            Debug.Log("Bid was Successful");
+            //add logic to return money to previous bidder here or DB trigger
+            myBid.text = "";
+            ShowInfoPanel("Bid was Successful");
+        }
+
 
     }
 
@@ -278,4 +304,108 @@ public class Auction : MonoBehaviour
         informationPanel.SetInfoText(text);
         PlayerManager.instance.ShowInformationPanel();
     }
+
+    private void ShowTooltip(InventorySlot slot)
+    {
+        Item item = slot.item;
+
+        if (item != null && (_isTooltipActive == false || slot.isTooltipActive == false))
+        {
+            _isTooltipActive = true;
+            slot.isTooltipActive = true;
+            ResetTooltip(slot);
+            PlayerManager.instance.tooltip.ShowTooltip(item, slot.transform as RectTransform);
+        }
+        else
+        {
+            _isTooltipActive = false;
+            ResetTooltip(null);
+            PlayerManager.instance.tooltip.HideTooltip();
+        }
+    }
+
+    private void ResetTooltip(InventorySlot slot)
+    {
+        foreach(AuctionListing listing in auctionListings)
+        {
+            if (listing.inventorySlot == slot)
+                continue;
+            listing.inventorySlot.isTooltipActive = false;
+        }
+    }
+
+    public void GetGearByType(string gearType)
+    {
+        // Remove all existing listings
+        foreach (AuctionListing listing in auctionListings)
+        {
+            Destroy(listing.gameObject);
+        }
+        auctionListings.Clear();
+
+        if (auctionListenerRegistration != null)
+        {
+            auctionListenerRegistration.Stop();
+        }
+        FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
+        Query query;
+        if (gearType == "All")
+        {
+            query = db.Collection("auctions")
+                .OrderByDescending("ExpirationTime")
+                .Limit(30);
+        }
+        else
+        {
+            query = db.Collection("auctions")
+                .WhereEqualTo(new FieldPath("Item", "EquipmentType"), gearType) // Add filter for GearType
+                .OrderByDescending("ExpirationTime")
+                .Limit(30);
+        }
+
+        auctionListenerRegistration = query.Listen(snapshot =>
+            {
+                foreach (DocumentChange change in snapshot.GetChanges())
+                {
+                    Debug.Log(change.ToString());
+                    Debug.Log("Change Type: " + change.ChangeType);
+                    if (change.ChangeType == DocumentChange.Type.Added)
+                    {
+                        AuctionListingItem auctionListingItem = change.Document.ConvertTo<AuctionListingItem>();
+                        AuctionListing existingListing = auctionListings.Find(listing => listing.ListingId == auctionListingItem.ListingId);
+                        if (existingListing == null)
+                        {
+                            NewListing(auctionListingItem);
+                        }
+                        else
+                        {
+                            UpdateListing(existingListing, auctionListingItem);
+                        }
+                    }
+                    else if (change.ChangeType == DocumentChange.Type.Modified)
+                    {
+                        AuctionListingItem auctionListingItem = change.Document.ConvertTo<AuctionListingItem>();
+                        AuctionListing existingListing = auctionListings.Find(listing => listing.ListingId == auctionListingItem.ListingId);
+                        if (existingListing == null)
+                        {
+                            NewListing(auctionListingItem);
+                        }
+                        else
+                        {
+                            UpdateListing(existingListing, auctionListingItem);
+                        }
+                    }
+                    else if (change.ChangeType == DocumentChange.Type.Removed)
+                    {
+                        AuctionListingItem auctionListingItem = change.Document.ConvertTo<AuctionListingItem>();
+                        RemoveListing(auctionListingItem);
+                    }
+                    else
+                    {
+                        Debug.Log("Unknown Document Change Type");
+                    }
+                }
+            });
+    }
+
 }

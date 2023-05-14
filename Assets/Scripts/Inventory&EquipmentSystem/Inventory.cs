@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -11,6 +12,22 @@ public class Inventory : ItemContainer, IItemContainer
     [SerializeField] InventorySlot invSlotPrefab;
     public int MaxSlots { get; set; }
 
+    [SerializeField] private TMP_Text gold;
+    [SerializeField] private TMP_Text chibiCoins;
+
+    private void Start()
+    {
+        gold.text = PlayerManager.instance.CurrentPlayer.gold.ToString();
+        chibiCoins.text = PlayerManager.instance.CurrentPlayer.chibiCoins.ToString();
+    }
+
+    private void FixedUpdate()
+    {
+        if(gold.text != PlayerManager.instance.CurrentPlayer.gold.ToString())
+            gold.text = PlayerManager.instance.CurrentPlayer.gold.ToString();
+        if(chibiCoins.text != PlayerManager.instance.CurrentPlayer.chibiCoins.ToString())
+            chibiCoins.text = PlayerManager.instance.CurrentPlayer.chibiCoins.ToString();
+    }
 
     public void InitInventory()
     {

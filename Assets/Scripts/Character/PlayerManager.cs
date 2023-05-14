@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] Inventory inventory;
     [SerializeField] EquipmentPanel equipmentPanel;
     [SerializeField] StatPanel statPanel;
-    [SerializeField] ItemTooltip tooltip;
+    [SerializeField] public ItemTooltip tooltip;
     [SerializeField] Image dragableItem;
     [SerializeField] DropItemArea dropItemArea;
     [SerializeField] QuestionDialog questionDialog;
@@ -631,5 +631,10 @@ public class PlayerManager : MonoBehaviour
     public void ShowInformationPanel()
     {
         informationPanel.gameObject.SetActive(true);
+    }
+
+    public void GetGearByType(string gearType)
+    {
+        auction.GetGearByType(gearType);
     }
 }

@@ -12,7 +12,7 @@ public class ItemTooltip : MonoBehaviour
     [SerializeField] Canvas canvas;
     private RectTransform canvasRectTransform;
     private Vector2 tooltipSize;
-    private Vector2 padding = new Vector2(40, 40); // Adjust the padding between the tooltip and the slot
+    private Vector2 padding = new Vector2(60, 60); // Adjust the padding between the tooltip and the slot
 
     private void Awake()
     {
