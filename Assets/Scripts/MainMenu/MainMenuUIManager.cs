@@ -164,7 +164,6 @@ public class MainMenuUIManager : MonoBehaviour
         Vector3 scale = new Vector3(60f, 60f, 1f);
         charcterPrefab.transform.localScale = scale;
         charcterPrefab.transform.localPosition = new Vector3(0f, -225f, 1f);
-        charcterPrefab.GetComponentInChildren<PlayerMovement>().enabled = false;
         charcterPrefab.GetComponentInChildren<EntityRenderer>().SortingLayerName = "Player";
 
     }
@@ -298,12 +297,11 @@ public class MainMenuUIManager : MonoBehaviour
         if (currentCharcter == 0)
         {
             currentCharcterPrefab.transform.localScale = new Vector3(100f, 100f, 1f);
-            currentCharcterPrefab.GetComponentInChildren<ArcherAttack>().enabled = false;
         }
         else
             currentCharcterPrefab.transform.localScale = new Vector3(80f, 80f, 1f);
         currentCharcterPrefab.transform.localPosition += new Vector3(0, -225f, 0);
-        currentCharcterPrefab.GetComponentInChildren<PlayerMovement>().enabled = false;
+
     }
 
     public void AboutScreen()

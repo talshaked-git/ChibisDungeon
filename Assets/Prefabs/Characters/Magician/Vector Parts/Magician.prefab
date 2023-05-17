@@ -130,7 +130,9 @@ GameObject:
   - component: {fileID: 114381864237393456}
   - component: {fileID: -1065815716004483731}
   - component: {fileID: -3704009143802537140}
-  - component: {fileID: -8592054927268342604}
+  - component: {fileID: -3651354170899651532}
+  - component: {fileID: -9172303355175372875}
+  - component: {fileID: 5570372206938209804}
   m_Layer: 0
   m_Name: Magician
   m_TagString: Player
@@ -159,7 +161,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &95763106316365224
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -176,7 +178,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &114381864237393456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,7 +231,7 @@ CapsuleCollider2D:
   m_Offset: {x: -0.018846989, y: 2.1490815}
   m_Size: {x: 1.8196154, y: 4.006398}
   m_Direction: 0
---- !u!114 &-8592054927268342604
+--- !u!114 &-3651354170899651532
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,12 +240,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 1131733873716716}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42be6453baaa4dd489612078bc9e2c17, type: 3}
+  m_Script: {fileID: 11500000, guid: 97619cda22581cc4d9095f1b8c19ece2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 5
+--- !u!114 &-9172303355175372875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131733873716716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3be19c122e6ae05438bb95d6c484a44d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5570372206938209804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131733873716716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47e5aedfec5103f40b67aa655bc65e72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpForce: 10
   movementJoystick: {fileID: 0}
-  playerSpeed: 5
-  playerJump: 25
   isGrounded: 0
   jumpButtonName: Jump
   jumpButton: {fileID: 0}
@@ -7454,7 +7481,7 @@ AnimationClip:
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
     m_LoopTime: 1
-    m_LoopBlend: 0
+    m_LoopBlend: 1
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
     m_LoopBlendPositionXZ: 0
@@ -13380,7 +13407,7 @@ AnimationClip:
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
     m_LoopTime: 1
-    m_LoopBlend: 0
+    m_LoopBlend: 1
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
     m_LoopBlendPositionXZ: 0

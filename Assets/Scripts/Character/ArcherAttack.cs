@@ -16,6 +16,10 @@ public class ArcherAttack : MonoBehaviour
     public float attackCooldown = 1f;
     private float timeSinceLastAttack;
 
+    void Awake()
+    {
+        this.enabled = false;
+    }
     public void InitComponents()
     {
         myAnimator = GetComponent<Animator>();

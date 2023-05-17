@@ -246,8 +246,10 @@ GameObject:
   - component: {fileID: 114083286871331964}
   - component: {fileID: 3360262468295737448}
   - component: {fileID: 2317620913017616864}
-  - component: {fileID: 4309764913592160337}
   - component: {fileID: 2494889157530797035}
+  - component: {fileID: -2439334335040221529}
+  - component: {fileID: 8067507953856158395}
+  - component: {fileID: -4767259992678186106}
   m_Layer: 6
   m_Name: Archer
   m_TagString: Player
@@ -346,24 +348,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.018846989, y: 2.1490815}
   m_Size: {x: 1.8196154, y: 4.006398}
   m_Direction: 0
---- !u!114 &4309764913592160337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1200857932597562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42be6453baaa4dd489612078bc9e2c17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementJoystick: {fileID: 0}
-  playerSpeed: 5
-  playerJump: 25
-  isGrounded: 0
-  jumpButtonName: Jump
-  jumpButton: {fileID: 0}
 --- !u!114 &2494889157530797035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,6 +367,49 @@ MonoBehaviour:
   arrowLifetime: 1.8
   arrowSpawnDelay: 0.3
   attackCooldown: 1
+--- !u!114 &-2439334335040221529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200857932597562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3be19c122e6ae05438bb95d6c484a44d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8067507953856158395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200857932597562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97619cda22581cc4d9095f1b8c19ece2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+--- !u!114 &-4767259992678186106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200857932597562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47e5aedfec5103f40b67aa655bc65e72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementJoystick: {fileID: 0}
+  playerSpeed: 5
+  playerJump: 1500
+  isGrounded: 0
+  jumpButtonName: Jump
+  jumpButton: {fileID: 0}
 --- !u!1 &1208762743255038
 GameObject:
   m_ObjectHideFlags: 0
