@@ -249,4 +249,14 @@ public class FirebaseFirestoreManager : MonoBehaviour
         
     }
 
+    internal void DeletePlayer(string cID)
+    {
+        Account account = GameManager.instance.account;
+        DocumentReference docRef = db.Collection("players").Document(cID);
+        account.PlayerRefs.Remove(docRef);
+        batch = db.StartBatch();
+        batch.Delete(docRef);
+        batch.Set(db.Collection("users").Document(account.UID), account, SetOptions.MergeAll);
+        batch.CommitAsync();
+    }
 }

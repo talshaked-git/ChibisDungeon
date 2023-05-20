@@ -12,6 +12,7 @@ TagManager:
   - Interactables
   - Inventory
   - Portal
+  - Enemy
   layers:
   - Default
   - TransparentFX

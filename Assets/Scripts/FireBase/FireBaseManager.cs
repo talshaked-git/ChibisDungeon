@@ -101,4 +101,9 @@ public class FireBaseManager : MonoBehaviour
     {
         firebaseFirestoreManager.CreateNewAccountDocument(userId);
     }
+
+    internal void DeletePlayer(string cID)
+    {
+        firebaseFirestoreManager.DeletePlayer(cID);
+    }
 }

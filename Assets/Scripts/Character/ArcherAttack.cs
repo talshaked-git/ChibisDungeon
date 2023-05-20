@@ -8,6 +8,7 @@ public class ArcherAttack : MonoBehaviour
     public GameObject arrowPrefab;
     public Transform arrowSpawnPoint;
     public float arrowSpeed = 20f;
+
     private Animator myAnimator;
     public Button attackButton;
     private bool isAttacking = false;
@@ -22,14 +23,12 @@ public class ArcherAttack : MonoBehaviour
     }
     public void InitComponents()
     {
-        myAnimator = GetComponent<Animator>();
         attackButton = GameObject.Find("Attack").GetComponent<Button>();
         attackButton.onClick.AddListener(Attack);
     }
 
     void Update()
     {
-        myAnimator.SetBool("isAttacking", isAttacking);
         timeSinceLastAttack += Time.deltaTime;
     }
 

@@ -14,19 +14,25 @@ public class MainMenuUIManager : MonoBehaviour
 
     [Header("Refrences")]
     [SerializeField]
+    private GameObject EmptyScreen;
+    [SerializeField]
     private GameObject SettingUI;
     [SerializeField]
     private GameObject CharcterAddUI;
     [SerializeField]
     private GameObject AboutUI;
     [SerializeField]
+    private DeleteCharacterDialog CharacterDeleteUI;
+    [SerializeField]
     private Transform CharcterSelectUI;
     [SerializeField]
     private GameObject CharcterSelectPrefab;
     [SerializeField]
     private GameObject CharcterAddButtonPrefab;
-    private List<GameObject> charcterSelectObjects = new List<GameObject>();
-    private List<GameObject> charcterAddButtons = new List<GameObject>();
+    [SerializeField] private Sprite[] _charcterClassImages;
+    private List<GameObject> panelGameObjects = new List<GameObject>();
+    private ListenerRegistration _playerListener;
+
 
     [Space(5f)]
     [Header("Charcter Add UI Refrences")]
@@ -45,20 +51,14 @@ public class MainMenuUIManager : MonoBehaviour
     [SerializeField]
     private TMP_Text _charcterStatsVIT;
     [SerializeField]
-    private GameObject _charcterPrefabParent;
-    [SerializeField]
-    private GameObject[] _charcterPrefab = new GameObject[4];
-    [SerializeField]
     private GameObject _NicknameTooltip;
     [SerializeField]
     private TMP_Text _NicknameTooltipText;
 
-    private bool isSetttingUION = false;
-    private bool isAboutUION = false;
-    private bool isCharcterAddUION = false;
 
+    [SerializeField]
+    private Image currentCharacterImage;
     public int currentCharcter = 0;
-    private GameObject currentCharcterPrefab;
 
     [SerializeField] private PlayerUIManager playerUIManagerPrefab;
 
@@ -77,50 +77,90 @@ public class MainMenuUIManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(UpdateCharcterScreen());
+        ClearUI();
+        MainMenuListner();
     }
 
-    private void CleanCharacterScreen()
+    public void MainMenuListner()
     {
-        foreach (GameObject charcterSelectObject in charcterSelectObjects)
+        FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
+        DocumentReference userRef = db.Collection("users").Document(GameManager.instance.account.UID);
+        _playerListener = userRef.Listen(snapshot =>
         {
-            Destroy(charcterSelectObject);
-        }
-
-        foreach (GameObject charcterAddButton in charcterAddButtons)
-        {
-            Destroy(charcterAddButton);
-        }
-    }
-
-    public IEnumerator UpdateCharcterScreen()
-    {
-        CleanCharacterScreen();
-        yield return new WaitUntil(() => GameManager.instance.account != null);
-        int i = 0;
-        foreach (DocumentReference playerRef in GameManager.instance.account.PlayerRefs)
-        {
-            GameObject characterShow = Instantiate(CharcterSelectPrefab, CharcterSelectUI);
-            charcterSelectObjects.Add(characterShow);
-            int index = i; // Capture the current index to use inside the callback
-            FireBaseManager.instance.LoadPlayer(playerRef.Id, player =>
+            if (snapshot.Exists)
             {
-                UpdateCharTextFields(characterShow, player);
-                InstantiateCharPrefab(characterShow, player);
-                characterShow.GetComponentInChildren<Button>().onClick.AddListener(() => startGame(player));
-            });
+                Debug.Log($"Current data: {snapshot.ToDictionary()}");
+                List<DocumentReference> playerRefsNew = snapshot.GetValue<List<DocumentReference>>("PlayerRefs");
+  
+                DestroyAllCharcterSelectUI();
+                panelGameObjects = new List<GameObject>();
+                int index = 0;
+                foreach(DocumentReference playerRef in playerRefsNew)
+                {
+                    GameObject characterShow = Instantiate(CharcterSelectPrefab, CharcterSelectUI);
+                    panelGameObjects.Add(characterShow);
+                    index++;
+                    FireBaseManager.instance.LoadPlayer(playerRef.Id, player =>
+                    {
+                        Image imageComponent = characterShow.transform.Find("CharcterShow").GetComponentInChildren<Image>();
+                        imageComponent.sprite = GetImageByClass(player.classType);
+                        imageComponent.preserveAspect = true;
+                        UpdateCharTextFields(characterShow, player);
+                        characterShow.GetComponentsInChildren<Button>()[0].onClick.AddListener(() => startGame(player));
+                        characterShow.GetComponentsInChildren<Button>()[1].onClick.AddListener(() => DeleteCharacterDialog(player.CID));
 
-            i++;
-        }
-        
+                    });
+                }
 
+                for (int i = index; i < 4; i++)
+                {
+                    GameObject gameObject = Instantiate(CharcterAddButtonPrefab, CharcterSelectUI);
+                    gameObject.GetComponentInChildren<Button>().onClick.AddListener(CharcterAddScreen);
+                    panelGameObjects.Add(gameObject);
+                }
+            }
+            else
+            {
+                Debug.Log($"Current data: null");
+            }
 
-        for (int j = i; j < 4; j++)
+        });
+    }
+
+    private void DeleteCharacterDialog(string CID)
+    {
+        CharacterDeleteUI.Show();
+        CharacterDeleteUI.OnYesEvent += () => DeleteCharacter(CID);
+    }
+
+    private void DeleteCharacter(string CID)
+    {
+        FireBaseManager.instance.DeletePlayer(CID);
+    }
+
+    private void DestroyAllCharcterSelectUI()
+    {
+        foreach (GameObject panel in panelGameObjects)
         {
-            GameObject addButtons = Instantiate(CharcterAddButtonPrefab, CharcterSelectUI);
-            addButtons.GetComponentInChildren<Button>().onClick.AddListener(() => CharcterAddScreen());
-            charcterAddButtons.Add(addButtons);
+            if (panel != null)
+                Destroy(panel);
+        }
+    }
 
+    private Sprite GetImageByClass(CharClassType charClass)
+    {
+        switch (charClass)
+        {
+            case CharClassType.Archer:
+                return _charcterClassImages[0];
+            case CharClassType.Wizard:
+                return _charcterClassImages[1];
+            case CharClassType.Warrior:
+                return _charcterClassImages[2];
+            case CharClassType.Rogue:
+                return _charcterClassImages[3];
+            default:
+                return null;
         }
     }
 
@@ -132,41 +172,43 @@ public class MainMenuUIManager : MonoBehaviour
         Instantiate(playerUIManagerPrefab);
     }
 
-    private void InstantiateCharPrefab(GameObject gameObject, Player player)
-    {
-        int prefabIndex = 0;
-        switch (player.classType)
-        {
-            case CharClassType.Archer:
-                prefabIndex = 0;
-                break;
-            case CharClassType.Wizard:
-                prefabIndex = 1;
-                break;
-            case CharClassType.Warrior:
-                prefabIndex = 2;
-                break;
-            case CharClassType.Rogue:
-                prefabIndex = 3;
-                break;
-            default:
-                prefabIndex = 0;
-                break;
-        }
-        //instantiate charcter prefab in charcterSelectObjects[i]
-        GameObject charcterPrefab = Instantiate(_charcterPrefab[prefabIndex], gameObject.transform);
-        if (player.classType == CharClassType.Archer)
-        {
-            // scale = new Vector3(75f, 75f, 1f);
-            charcterPrefab.GetComponentInChildren<ArcherAttack>().enabled = false;
-        }
+    //private void InstantiateCharPrefab(GameObject gameObject, Player player)
+    //{
+    //    int prefabIndex = 0;
+    //    switch (player.classType)
+    //    {
+    //        case CharClassType.Archer:
+    //            prefabIndex = 0;
+    //            break;
+    //        case CharClassType.Wizard:
+    //            prefabIndex = 1;
+    //            break;
+    //        case CharClassType.Warrior:
+    //            prefabIndex = 2;
+    //            break;
+    //        case CharClassType.Rogue:
+    //            prefabIndex = 3;
+    //            break;
+    //        default:
+    //            prefabIndex = 0;
+    //            break;
+    //    }
 
-        Vector3 scale = new Vector3(60f, 60f, 1f);
-        charcterPrefab.transform.localScale = scale;
-        charcterPrefab.transform.localPosition = new Vector3(0f, -225f, 1f);
-        charcterPrefab.GetComponentInChildren<EntityRenderer>().SortingLayerName = "Player";
+    //    change to Imag
+    //    instantiate charcter prefab in charcterSelectObjects[i]
+    //    GameObject charcterPrefab = Instantiate(_charcterPrefab[prefabIndex], gameObject.transform);
+    //    if (player.classType == CharClassType.Archer)
+    //    {
+    //        // scale = new Vector3(75f, 75f, 1f);
+    //        charcterPrefab.GetComponentInChildren<ArcherAttack>().enabled = false;
+    //    }
 
-    }
+    //    Vector3 scale = new Vector3(60f, 60f, 1f);
+    //    charcterPrefab.transform.localScale = scale;
+    //    charcterPrefab.transform.localPosition = new Vector3(0f, -225f, 1f);
+    //    charcterPrefab.GetComponentInChildren<EntityRenderer>().SortingLayerName = "Player";
+
+    //}
 
     private void UpdateCharTextFields(GameObject gameObject, Player player)
     {
@@ -184,37 +226,32 @@ public class MainMenuUIManager : MonoBehaviour
         }
     }
 
-    private void ClearUI()
+    public void ClearUI()
     {
         SettingUI.SetActive(false);
         CharcterAddUI.SetActive(false);
         AboutUI.SetActive(false);
-        //TODO: Clear all UI
+        EmptyScreen.SetActive(false);
+        CharacterDeleteUI.gameObject.SetActive(false);
+
     }
 
 
     public void SettingScreen()
     {
         ClearUI();
-        isAboutUION = false;
-        isCharcterAddUION = false;
-        isSetttingUION = !isSetttingUION;
-        SettingUI.SetActive(isSetttingUION);
+        SettingUI.SetActive(true);
+        EmptyScreen.SetActive(true);
     }
 
     public void CharcterAddScreen()
     {
         ClearUI();
-        isSetttingUION = false;
-        isAboutUION = false;
-        isCharcterAddUION = !isCharcterAddUION;
-        if (isCharcterAddUION)
-        {
-            currentCharcter = 0;
-            _nickName.text = "";
-            UpdateCharcterAddScreen();
-        }
-        CharcterAddUI.SetActive(isCharcterAddUION);
+        EmptyScreen.SetActive(true);
+        currentCharcter = 0;
+        _nickName.text = "";
+        UpdateCharcterAddScreen();
+        CharcterAddUI.SetActive(true);
     }
 
     public void NextCharcter()
@@ -290,27 +327,17 @@ public class MainMenuUIManager : MonoBehaviour
         _charcterStatsVIT.text = CharcterStatsVIT;
         _charcterStatsINT.text = CharcterStatsINT;
         _charcterStatsAGI.text = CharcterStatsAGI;
-        Destroy(currentCharcterPrefab);
 
-
-        currentCharcterPrefab = (GameObject)Instantiate(_charcterPrefab[currentCharcter], _charcterPrefabParent.transform.position, Quaternion.identity, _charcterPrefabParent.transform);
-        if (currentCharcter == 0)
-        {
-            currentCharcterPrefab.transform.localScale = new Vector3(100f, 100f, 1f);
-        }
-        else
-            currentCharcterPrefab.transform.localScale = new Vector3(80f, 80f, 1f);
-        currentCharcterPrefab.transform.localPosition += new Vector3(0, -225f, 0);
+        currentCharacterImage.sprite = _charcterClassImages[currentCharcter];
+        currentCharacterImage.preserveAspect = true;
 
     }
 
     public void AboutScreen()
     {
         ClearUI();
-        isSetttingUION = false;
-        isCharcterAddUION = false;
-        isAboutUION = !isAboutUION;
-        AboutUI.SetActive(isAboutUION);
+        EmptyScreen.SetActive(true);
+        AboutUI.SetActive(true);
     }
 
     public void CreateCharcter()
@@ -346,8 +373,7 @@ public class MainMenuUIManager : MonoBehaviour
         Debug.Log("New Player Created");
         Debug.Log(newPlayer);
 
-        CharcterAddScreen();
-        UpdateCharcterScreen();
+        ClearUI();
     }
 
     public Player CreatePlayer(string nickname)

@@ -130,9 +130,9 @@ GameObject:
   - component: {fileID: 114381864237393456}
   - component: {fileID: -1065815716004483731}
   - component: {fileID: -3704009143802537140}
-  - component: {fileID: -3651354170899651532}
-  - component: {fileID: -9172303355175372875}
-  - component: {fileID: 5570372206938209804}
+  - component: {fileID: -6134931041083685470}
+  - component: {fileID: -6482407708338883802}
+  - component: {fileID: 4200739196284622859}
   m_Layer: 0
   m_Name: Magician
   m_TagString: Player
@@ -231,7 +231,7 @@ CapsuleCollider2D:
   m_Offset: {x: -0.018846989, y: 2.1490815}
   m_Size: {x: 1.8196154, y: 4.006398}
   m_Direction: 0
---- !u!114 &-3651354170899651532
+--- !u!114 &-6134931041083685470
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -240,11 +240,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1131733873716716}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97619cda22581cc4d9095f1b8c19ece2, type: 3}
+  m_Script: {fileID: 11500000, guid: a5013a78efb9e3041b795b013cade9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
---- !u!114 &-9172303355175372875
+--- !u!114 &-6482407708338883802
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,10 +252,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1131733873716716}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3be19c122e6ae05438bb95d6c484a44d, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d5ca188dd6df6741bd91b70d899b05b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5570372206938209804
+  moveSpeed: 6.5
+  jumpForce: 5
+--- !u!114 &4200739196284622859
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -265,13 +266,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1131733873716716}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47e5aedfec5103f40b67aa655bc65e72, type: 3}
+  m_Script: {fileID: 11500000, guid: b6c6bc0bbc77a484aa984c74f9945f25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 10
   movementJoystick: {fileID: 0}
-  isGrounded: 0
-  jumpButtonName: Jump
   jumpButton: {fileID: 0}
 --- !u!1 &1177078754121038
 GameObject:

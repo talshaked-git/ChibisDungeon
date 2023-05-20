@@ -246,10 +246,9 @@ GameObject:
   - component: {fileID: 114083286871331964}
   - component: {fileID: 3360262468295737448}
   - component: {fileID: 2317620913017616864}
-  - component: {fileID: 2494889157530797035}
-  - component: {fileID: -2439334335040221529}
-  - component: {fileID: 8067507953856158395}
-  - component: {fileID: -4767259992678186106}
+  - component: {fileID: -1976825626064031680}
+  - component: {fileID: 6910723773471437072}
+  - component: {fileID: -211927935507678164}
   m_Layer: 6
   m_Name: Archer
   m_TagString: Player
@@ -348,7 +347,7 @@ CapsuleCollider2D:
   m_Offset: {x: -0.018846989, y: 2.1490815}
   m_Size: {x: 1.8196154, y: 4.006398}
   m_Direction: 0
---- !u!114 &2494889157530797035
+--- !u!114 &-1976825626064031680
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -357,17 +356,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1200857932597562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0a8cdd2ab07d67499ec04f532f07503, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cca973a72dceec429c5395e085726e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowPrefab: {fileID: 2822083279040954853, guid: 4bac5e3c46f8ead49b6316e2c89b4278, type: 3}
-  arrowSpawnPoint: {fileID: 4312529925952810536}
-  arrowSpeed: 20
-  attackButton: {fileID: 0}
-  arrowLifetime: 1.8
-  arrowSpawnDelay: 0.3
-  attackCooldown: 1
---- !u!114 &-2439334335040221529
+--- !u!114 &6910723773471437072
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -376,10 +368,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1200857932597562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3be19c122e6ae05438bb95d6c484a44d, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d5ca188dd6df6741bd91b70d899b05b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8067507953856158395
+  moveSpeed: 6.5
+  jumpForce: 5
+--- !u!114 &-211927935507678164
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -388,27 +382,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1200857932597562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97619cda22581cc4d9095f1b8c19ece2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
---- !u!114 &-4767259992678186106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1200857932597562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47e5aedfec5103f40b67aa655bc65e72, type: 3}
+  m_Script: {fileID: 11500000, guid: b6c6bc0bbc77a484aa984c74f9945f25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   movementJoystick: {fileID: 0}
-  playerSpeed: 5
-  playerJump: 1500
-  isGrounded: 0
-  jumpButtonName: Jump
   jumpButton: {fileID: 0}
 --- !u!1 &1208762743255038
 GameObject:
