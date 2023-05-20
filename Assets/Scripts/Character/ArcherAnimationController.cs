@@ -7,16 +7,16 @@ public class ArcherAnimationController : BaseCharacterAnimationController
         switch (state)
         {
             case CharacterState.Idle:
-                animator.Play("Idle");
+                animator.CrossFade("Idle",0.1f);
                 break;
             case CharacterState.Running:
                 animator.Play("Running");
                 break;
             case CharacterState.Jumping:
-                animator.Play("Jump Loop");
+                animator.CrossFade("Jump Loop",0.1f);
                 break;
             case CharacterState.Falling:
-                animator.Play("Falling Down");
+                animator.CrossFade("Falling Down",0.1f);
                 break;
             case CharacterState.Hurt:
                 animator.Play("Hurt");
@@ -25,7 +25,7 @@ public class ArcherAnimationController : BaseCharacterAnimationController
                 animator.Play("Dying");
                 break;
             case CharacterState.Attacking:
-                animator.Play("Shooting");
+                animator.CrossFade("Shooting",0.1f);
                 break;
         }
     }

@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 114381864237393456}
   - component: {fileID: -1065815716004483731}
   - component: {fileID: -3704009143802537140}
-  - component: {fileID: -6134931041083685470}
+  - component: {fileID: 1295488094804863623}
   - component: {fileID: -6482407708338883802}
   - component: {fileID: 4200739196284622859}
   m_Layer: 0
@@ -231,7 +231,7 @@ CapsuleCollider2D:
   m_Offset: {x: -0.018846989, y: 2.1490815}
   m_Size: {x: 1.8196154, y: 4.006398}
   m_Direction: 0
---- !u!114 &-6134931041083685470
+--- !u!114 &1295488094804863623
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,7 +256,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 6.5
-  jumpForce: 5
+  jumpForce: 15
+  gravity: 30
 --- !u!114 &4200739196284622859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementJoystick: {fileID: 0}
   jumpButton: {fileID: 0}
+  attackButton: {fileID: 0}
 --- !u!1 &1177078754121038
 GameObject:
   m_ObjectHideFlags: 0

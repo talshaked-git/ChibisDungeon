@@ -1,9 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterMovementController : MonoBehaviour, IMovementController
 {
     [SerializeField] private float moveSpeed = 6.5f;
     [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float gravity = 20f;
 
     private Rigidbody2D rigidbody2D;
     private BaseCharacterAnimationController animationController;
@@ -12,7 +14,7 @@ public class CharacterMovementController : MonoBehaviour, IMovementController
     private bool isJumping = false;
     private bool isGrounded = false;
 
-    private void Awake()
+    private void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         animationController = GetComponent<BaseCharacterAnimationController>();
@@ -21,6 +23,11 @@ public class CharacterMovementController : MonoBehaviour, IMovementController
     public void Move(float horizontalInput)
     {
         velocity.x = horizontalInput * moveSpeed;
+
+        // Flip the character based on the direction of movement
+        Vector3 characterScale = transform.localScale;
+        characterScale.x = horizontalInput > 0 ? Mathf.Abs(characterScale.x) : -Mathf.Abs(characterScale.x);
+        transform.localScale = characterScale;
     }
 
 
@@ -37,7 +44,7 @@ public class CharacterMovementController : MonoBehaviour, IMovementController
         else if (!isGrounded)
         {
             // Apply gravity
-            velocity.y -= 9.81f * Time.fixedDeltaTime;
+            velocity.y -= gravity * Time.fixedDeltaTime;
         }
         else
         {
@@ -48,10 +55,17 @@ public class CharacterMovementController : MonoBehaviour, IMovementController
         // Apply the calculated velocity
         rigidbody2D.velocity = velocity;
 
+
+        var attackController = GetComponent<IAttackController>();
+        if (attackController != null && attackController.IsAttacking())
+        {
+            return;
+        }
+
         // Determine the character state and play the appropriate animation
         if (!isGrounded)
         {
-            if (velocity.y < 0)
+            if (velocity.y < 0.1f)
             {
                 animationController.PlayAnimation(CharacterState.Falling);
             }

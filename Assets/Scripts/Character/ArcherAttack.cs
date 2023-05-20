@@ -3,28 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ArcherAttack : MonoBehaviour
+public class ArcherAttack : MonoBehaviour,IAttackController
 {
     public GameObject arrowPrefab;
     public Transform arrowSpawnPoint;
     public float arrowSpeed = 20f;
 
-    private Animator myAnimator;
-    public Button attackButton;
     private bool isAttacking = false;
     public float arrowLifetime = 1.8f;
     public float arrowSpawnDelay = 0.3f;
     public float attackCooldown = 1f;
     private float timeSinceLastAttack;
 
-    void Awake()
+    private BaseCharacterAnimationController animationController;
+
+    private void Start()
     {
-        this.enabled = false;
-    }
-    public void InitComponents()
-    {
-        attackButton = GameObject.Find("Attack").GetComponent<Button>();
-        attackButton.onClick.AddListener(Attack);
+        animationController = GetComponent<ArcherAnimationController>();
     }
 
     void Update()
@@ -34,17 +29,11 @@ public class ArcherAttack : MonoBehaviour
 
     public void Attack()
     {
-        // if (timeSinceLastAttack >= attackCooldown)
-        // {
-        //     timeSinceLastAttack = 0f;
-        //     isAttacking = true;
-        //     StartCoroutine(SpawnArrow());
-        //     StartCoroutine(ResetIsAttacking());
-        // }
         if (timeSinceLastAttack >= attackCooldown)
         {
             timeSinceLastAttack = 0f;
             isAttacking = true;
+            animationController.PlayAnimation(CharacterState.Attacking);
             // Calculate the arrow velocity based on the character's facing direction
             float arrowVelocityX = transform.localScale.x * arrowSpeed;
             StartCoroutine(SpawnArrow());
@@ -74,7 +63,12 @@ public class ArcherAttack : MonoBehaviour
 
     IEnumerator ResetIsAttacking()
     {
-        yield return new WaitForSeconds(0.5f); // Adjust this value according to the attack animation duration
+        yield return new WaitForSeconds(0.3f); // Adjust this value according to the attack animation duration
         isAttacking = false;
+    }
+
+    public bool IsAttacking()
+    {
+        return isAttacking;
     }
 }
