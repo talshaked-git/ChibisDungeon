@@ -31,22 +31,9 @@ public class FirebaseAuthenticationManager : MonoBehaviour
     public void Start()
     {
         authUIManager = FindObjectOfType<AuthUIManager>();
-
-        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
-            dependencyStatus = task.Result;
-            if (dependencyStatus == DependencyStatus.Available)
-            {
-                InitializeFirebase();
-            }
-            else
-            {
-                Debug.LogError(
-                  "Could not resolve all Firebase dependencies: " + dependencyStatus);
-            }
-        });
     }
 
-    private void InitializeFirebase()
+    public void InitializeFirebase()
     {
         Debug.Log("Setting up Firebase Auth");
 
@@ -71,10 +58,11 @@ public class FirebaseAuthenticationManager : MonoBehaviour
             if (signedIn)
             {
                 Debug.Log("Signed in " + user.UserId);
-                if (user.IsEmailVerified)
-                {
-                    StartCoroutine(CreateNewAccountDocument());
-                }
+                StartCoroutine(CreateNewAccountDocument());
+                //if (user.IsEmailVerified)
+                //{
+                //  StartCoroutine(CreateNewAccountDocument());
+                //}
             }
         }
     }
@@ -161,72 +149,179 @@ public class FirebaseAuthenticationManager : MonoBehaviour
 
     private async void LoginLogic(string _email, string _password)
     {
-        Credential credential = EmailAuthProvider.GetCredential(_email, _password);
+        if (auth == null)
+        {
+            Debug.LogError("Auth is null");
+            return;
+        }
 
- 
-            var loginTask = auth.SignInWithCredentialAsync(credential);
-            await loginTask.ContinueWithOnMainThread(async task =>
+        if (authUIManager == null)
+        {
+            Debug.LogError("authUIManager is null");
+            return;
+        }
+
+        if (FireBaseManager.instance == null)
+        {
+            Debug.LogError("FireBaseManager.instance is null");
+            return;
+        }
+
+        if (GameManager.instance == null)
+        {
+            Debug.LogError("GameManager.instance is null");
+            return;
+        }
+
+        try
+        {
+            Credential credential = EmailAuthProvider.GetCredential(_email, _password);
+            var loginTask = await auth.SignInWithCredentialAsync(credential);
+
+            var user = loginTask;
+            if (user == null)
             {
-                if (task.IsFaulted)
+                Debug.LogError("User is null");
+                return;
+            }
+
+            if (!user.IsEmailVerified)
+            {
+                authUIManager.LoginOutputUIShow("Please Verify Your Email");
+                Debug.Log("Please Verify Your Email");
+                return;
+            }
+
+            Task<Account> taskAccount = FireBaseManager.instance.LoadAccount();
+            Account account = await taskAccount;
+
+            if (taskAccount.IsFaulted)
+            {
+                authUIManager.LoginOutputUIShow("Error Loading Account");
+                Debug.Log($"Error Loading Account. Error: {taskAccount.Exception}");
+                return;
+            }
+
+            GameManager.instance.account = account;
+            Debug.Log("Login Succesfull");
+            GameManager.instance.ChangeScene("Scene_MainMenu");
+        }
+        catch (Exception ex)
+        {
+            if (ex is FirebaseException firebaseException)
+            {
+                AuthError error = (AuthError)firebaseException.ErrorCode;
+
+                string output = "";
+
+                switch (error)
                 {
-                    FirebaseException firebaseException = task.Exception.GetBaseException() as FirebaseException;
-                    if (firebaseException != null)
-                    {
-                        AuthError error = (AuthError)firebaseException.ErrorCode;
-
-                        string output = "";
-
-                        switch (error)
-                        {
-                            case AuthError.MissingEmail:
-                                output = "Yoho You Forgot Your Mail";
-                                break;
-                            case AuthError.MissingPassword:
-                                output = "Yoho You Forgot Your Password";
-                                break;
-                            case AuthError.WrongPassword:
-                                output = "";
-                                break;
-                            case AuthError.InvalidEmail:
-                                output = "Invalid Email";
-                                break;
-                            case AuthError.UserNotFound:
-                                output = "Did You Register?";
-                                break;
-                            default:
-                                output = "Unknown Error";
-                                break;
-                        }
-
-                        if (output == "")
-                        {
-                            output = "LOL Did you even try?";
-                        }
-                        authUIManager.LoginOutputUIShow(output);
-                        return;
-                    }
+                    case AuthError.MissingEmail:
+                        output = "Yoho You Forgot Your Mail";
+                        break;
+                    case AuthError.MissingPassword:
+                        output = "Yoho You Forgot Your Password";
+                        break;
+                    case AuthError.WrongPassword:
+                        output = "";
+                        break;
+                    case AuthError.InvalidEmail:
+                        output = "Invalid Email";
+                        break;
+                    case AuthError.UserNotFound:
+                        output = "Did You Register?";
+                        break;
+                    default:
+                        output = "Unknown Error";
+                        break;
                 }
 
-                if (!user.IsEmailVerified)
+                if (output == "")
                 {
-                    authUIManager.LoginOutputUIShow("Please Verify Your Email");
+                    output = "LOL Did you even try?";
                 }
-
-                Task<Account> taskAccount = FireBaseManager.instance.LoadAccount();
-                await taskAccount;
-                if (taskAccount.IsCompletedSuccessfully)
-                {
-                    Account account = taskAccount.Result;
-                    GameManager.instance.account = account;
-                    new WaitUntil(() => GameManager.instance.account != null);
-                    GameManager.instance.ChangeScene("Scene_MainMenu");
-                }
-                else
-                {
-                    authUIManager.LoginOutputUIShow("Error Loading Account");
-                }
-            });
+                authUIManager.LoginOutputUIShow(output);
+            }
+            else
+            {
+                Debug.LogError($"Exception occurred: {ex}");
+            }
+        }
     }
+
+
+
+    //private async void LoginLogic(string _email, string _password)
+    //{
+    //    Credential credential = EmailAuthProvider.GetCredential(_email, _password);
+
+
+    //        var loginTask = auth.SignInWithCredentialAsync(credential);
+    //        await loginTask.ContinueWithOnMainThread(async task =>
+    //        {
+    //            if (task.IsFaulted)
+    //            {
+    //                FirebaseException firebaseException = task.Exception.GetBaseException() as FirebaseException;
+    //                if (firebaseException != null)
+    //                {
+    //                    AuthError error = (AuthError)firebaseException.ErrorCode;
+
+    //                    string output = "";
+
+    //                    switch (error)
+    //                    {
+    //                        case AuthError.MissingEmail:
+    //                            output = "Yoho You Forgot Your Mail";
+    //                            break;
+    //                        case AuthError.MissingPassword:
+    //                            output = "Yoho You Forgot Your Password";
+    //                            break;
+    //                        case AuthError.WrongPassword:
+    //                            output = "";
+    //                            break;
+    //                        case AuthError.InvalidEmail:
+    //                            output = "Invalid Email";
+    //                            break;
+    //                        case AuthError.UserNotFound:
+    //                            output = "Did You Register?";
+    //                            break;
+    //                        default:
+    //                            output = "Unknown Error";
+    //                            break;
+    //                    }
+
+    //                    if (output == "")
+    //                    {
+    //                        output = "LOL Did you even try?";
+    //                    }
+    //                    authUIManager.LoginOutputUIShow(output);
+    //                    return;
+    //                }
+    //            }
+
+    //            //if (!user.IsEmailVerified)
+    //            //{
+    //            //    authUIManager.LoginOutputUIShow("Please Verify Your Email");
+    //            //    Debug.Log("Please Verify Your Email");
+    //            //    return;
+    //            //}
+
+    //            Task<Account> taskAccount = FireBaseManager.instance.LoadAccount();
+    //            await taskAccount;
+    //            if (taskAccount.IsCompletedSuccessfully)
+    //            {
+    //                Account account = taskAccount.Result;
+    //                GameManager.instance.account = account;
+    //                Debug.Log("Login Succesfull");
+    //                GameManager.instance.ChangeScene("Scene_MainMenu");
+    //            }
+    //            else
+    //            {
+    //                authUIManager.LoginOutputUIShow("Error Loading Account");
+    //                Debug.Log("Error Loading Account");
+    //            }
+    //        });
+    //}
 
     private IEnumerator RegisterLogic(string _email, string _password, string _confirmPassword)
     {
