@@ -125,6 +125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf8c5367822e6c48a367a34389b401b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHp: 100
+  Attack: 50
+  Defense: 5
 --- !u!114 &4866852426557382891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,12 +197,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d89df317d34397a4b9815c6b0180479a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   targetUpdateRate: 0.5
   pathUpdateRate: 2
-  scoutRange: 8
+  _patrolRange: 1
+  sightRange: 3.5
   stopDistance: 2
-  attackRange: 1
+  attackRange: 2
   nextWaypointDistance: 3
 --- !u!114 &5927096477611271827
 MonoBehaviour:

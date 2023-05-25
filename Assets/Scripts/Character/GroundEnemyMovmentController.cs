@@ -8,6 +8,8 @@ public class GroundEnemyMovmentController : MonoBehaviour, IMovementController
 
     private Rigidbody2D rigidbody2D;
     private BaseCharacterAnimationController animationController;
+    private IAttackController attackController;
+
 
     private Vector2 velocity;
 
@@ -16,11 +18,11 @@ public class GroundEnemyMovmentController : MonoBehaviour, IMovementController
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         animationController = GetComponent<BaseCharacterAnimationController>();
+        attackController = GetComponent<IAttackController>();
     }
 
     private void FixedUpdate()
     {
-        var attackController = GetComponent<IAttackController>();
         if (attackController != null && attackController.IsAttacking())
         {
             return;
@@ -50,8 +52,7 @@ public class GroundEnemyMovmentController : MonoBehaviour, IMovementController
 
         // Flip the character based on the direction of movement
         Vector3 characterScale = transform.localScale;
-        characterScale.x = horizontalInput > 0 ? Mathf.Abs(characterScale.x) : -Mathf.Abs(characterScale.x);
+        characterScale.x = horizontalInput >= 0 ? Mathf.Abs(characterScale.x) : -Mathf.Abs(characterScale.x);
         transform.localScale = characterScale;
     }
-
 }
