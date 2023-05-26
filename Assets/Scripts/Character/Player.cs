@@ -242,13 +242,23 @@ public class Player
         return (long)((Math.Pow(level, 2.1) * LevelFactor1) + (level * LevelFactor2));
     }
 
-    public void AddExp(long exp)
+    private void HandleExperienceChange(long newExperience)
     {
-        CurrentExp += exp;
+        CurrentExp += newExperience;
         if (CurrentExp >= _requiredExpForNextLevel)
         {
             LevelUp();
         }
+    }
+
+    public void SetExpListner()
+    {
+        ExperienceManager.instance.OnExperienceChange += HandleExperienceChange;
+    }
+
+    public void RemoveExpListner()
+    {
+        ExperienceManager.instance.OnExperienceChange -= HandleExperienceChange;
     }
 
     private void LevelUp()
@@ -257,6 +267,8 @@ public class Player
         AttributePoints += 3;
         Level++;
         _requiredExpForNextLevel = CalculateExpForLevel(Level);
+        currentHP = (int)HP.Value;
+        currentMP = (int)MP.Value;
     }
 
     public bool UseAttributePoints(int points, string stat)

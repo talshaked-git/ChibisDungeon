@@ -598,6 +598,7 @@ GameObject:
   - component: {fileID: 8976579306808433410}
   - component: {fileID: 8403643384181362677}
   - component: {fileID: 5086176227962429237}
+  - component: {fileID: 8875381842365484992}
   m_Layer: 0
   m_Name: Heavy Armored Defender Knight
   m_TagString: Untagged
@@ -738,6 +739,18 @@ MonoBehaviour:
   movementJoystick: {fileID: 0}
   jumpButton: {fileID: 0}
   attackButton: {fileID: 0}
+--- !u!114 &8875381842365484992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541123529650618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a74a794e5f9f84b9174876366e2500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1559303672269180
 GameObject:
   m_ObjectHideFlags: 0

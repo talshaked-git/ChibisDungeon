@@ -19,8 +19,7 @@ public class DeadState : IState
         // Add code here to play the death animation before disabling the enemy.
 
         // Here, we disable the enemy after it dies.
-        _enemyAI.gameObject.SetActive(false);
-
+        _enemyAI.PlayDeadAnim();
         // We could also use Destroy() if we don't plan to reuse the enemy object.
         // Destroy(_enemyAI.gameObject);
     }

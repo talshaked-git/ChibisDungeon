@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class BaseCharacterAnimationController : MonoBehaviour
 {
     protected Animator animator;
+    protected bool isDead = false;
 
     void Awake()
     {
@@ -10,4 +11,6 @@ public abstract class BaseCharacterAnimationController : MonoBehaviour
     }
 
     public abstract void PlayAnimation(CharacterState state);
+
+    public abstract bool IsDeadDonePlaying();
 }

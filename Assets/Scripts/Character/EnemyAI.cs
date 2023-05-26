@@ -26,6 +26,7 @@ public class EnemyAI : MonoBehaviour
 
     private IMovementController movementController;
     private IAttackController attackController;
+    private BaseCharacterAnimationController animationController;
 
     private void Start()
     {
@@ -33,6 +34,7 @@ public class EnemyAI : MonoBehaviour
         seeker = GetComponent<Seeker>();
         movementController = GetComponent<IMovementController>();
         attackController = GetComponent<IAttackController>();
+        animationController = GetComponent<BaseCharacterAnimationController>();
 
         _currentState = new RoamSearchState(this, _patrolRange);
         _currentState.Enter();
@@ -119,9 +121,41 @@ public class EnemyAI : MonoBehaviour
             currentWaypoint = 0;
         }
     }
-
     internal void SetDestination(Vector3 pointB)
     {
         _destination = pointB;
+    }
+
+    public void PlayDeadAnim()
+    {
+        movementController.Move(0);
+        animationController.PlayAnimation(CharacterState.Dead);
+        StartCoroutine(HideAfterDeadAnimFinishes());
+
+    }
+
+    private IEnumerator HideAfterDeadAnimFinishes()
+    {
+        yield return new WaitUntil(() => animationController.IsDeadDonePlaying() == true);
+        yield return new WaitForSeconds(2f);
+        HideSelf();
+    }
+
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
+
+    public void HideSelf()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void Respawn()
+    {
+        enemy.Respawn();
+        gameObject.SetActive(true);
+        _currentState = new RoamSearchState(this, _patrolRange);
+        _currentState.Enter();
     }
 }

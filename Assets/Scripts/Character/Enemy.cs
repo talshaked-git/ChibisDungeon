@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,13 +15,18 @@ public class Enemy : MonoBehaviour, IDamageable
     private int Defense;
 
     private EnemyAI enemyAI;
-    private BaseCharacterAnimationController animationController;
+
+
+    [SerializeField] private FloatingHealthBar healthBar;
+
+    [SerializeField] private long expAmount = 100;
 
     private void Start()
     {
-        animationController = GetComponent<BaseCharacterAnimationController>();
         enemyAI = GetComponent<EnemyAI>();
         CurrentHp = MaxHp;
+        healthBar = GetComponentInChildren<FloatingHealthBar>();
+        healthBar.SetMaxValue(MaxHp);
     }
 
     public bool IsDead()
@@ -30,16 +36,29 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void TakeDamage(int damage)
     {
-        CurrentHp -= Mathf.Clamp(damage - Defense, 0, int.MaxValue);
-        if(enemyAI._currentState is RoamSearchState)
-        {
-            enemyAI.ChangeState(new ChaseState(enemyAI));
-        }
+        CurrentHp -= Mathf.Clamp(damage - Defense, 1, int.MaxValue);
+        healthBar.UpdateHealthBar(CurrentHp);
 
         if (IsDead())
         {
-            animationController.PlayAnimation(CharacterState.Dead);
-            enemyAI.ChangeState(new DeadState(enemyAI));
+            Die();
+            return;
         }
+
+        if (enemyAI._currentState is RoamSearchState)
+        {
+            enemyAI.ChangeState(new ChaseState(enemyAI));
+        }
+    }
+
+    private void Die()
+    {
+        enemyAI.ChangeState(new DeadState(enemyAI));
+        ExperienceManager.instance.AddExperience(expAmount);
+    }
+
+    internal void Respawn()
+    {
+        throw new NotImplementedException();
     }
 }

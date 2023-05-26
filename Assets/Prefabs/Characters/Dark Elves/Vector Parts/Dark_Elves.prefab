@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 246899061046380737}
   - component: {fileID: -7513525678982855973}
   - component: {fileID: 7026041659133576721}
+  - component: {fileID: 6211750921086564759}
   m_Layer: 0
   m_Name: Dark_Elves
   m_TagString: Untagged
@@ -156,6 +157,18 @@ MonoBehaviour:
   movementJoystick: {fileID: 0}
   jumpButton: {fileID: 0}
   attackButton: {fileID: 0}
+--- !u!114 &6211750921086564759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477185018268155203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a74a794e5f9f84b9174876366e2500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &883246662191938174
 GameObject:
   m_ObjectHideFlags: 0

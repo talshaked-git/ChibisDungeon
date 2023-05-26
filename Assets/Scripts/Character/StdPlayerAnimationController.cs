@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class StdPlayerAnimationController : BaseCharacterAnimationController
 {
+    public override bool IsDeadDonePlaying()
+    {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        bool isDeadAnimationPlaying = stateInfo.IsName("Dying");  // replace "Dead" with your animation's name
+        bool animationFinished = stateInfo.normalizedTime >= 1;
+        return animationFinished && isDeadAnimationPlaying;
+    }
+
     public override void PlayAnimation(CharacterState state)
     {
+        if(isDead)
+            return;
+
         switch (state)
         {
             case CharacterState.Idle:
@@ -25,6 +36,7 @@ public class StdPlayerAnimationController : BaseCharacterAnimationController
                 break;
             case CharacterState.Dead:
                 animator.Play("Dying");
+                isDead = true;
                 break;
             case CharacterState.Attacking:
                 animator.Play("Slashing");

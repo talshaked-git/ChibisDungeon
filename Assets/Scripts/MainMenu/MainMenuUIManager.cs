@@ -172,44 +172,6 @@ public class MainMenuUIManager : MonoBehaviour
         Instantiate(playerUIManagerPrefab);
     }
 
-    //private void InstantiateCharPrefab(GameObject gameObject, Player player)
-    //{
-    //    int prefabIndex = 0;
-    //    switch (player.classType)
-    //    {
-    //        case CharClassType.Archer:
-    //            prefabIndex = 0;
-    //            break;
-    //        case CharClassType.Wizard:
-    //            prefabIndex = 1;
-    //            break;
-    //        case CharClassType.Warrior:
-    //            prefabIndex = 2;
-    //            break;
-    //        case CharClassType.Rogue:
-    //            prefabIndex = 3;
-    //            break;
-    //        default:
-    //            prefabIndex = 0;
-    //            break;
-    //    }
-
-    //    change to Imag
-    //    instantiate charcter prefab in charcterSelectObjects[i]
-    //    GameObject charcterPrefab = Instantiate(_charcterPrefab[prefabIndex], gameObject.transform);
-    //    if (player.classType == CharClassType.Archer)
-    //    {
-    //        // scale = new Vector3(75f, 75f, 1f);
-    //        charcterPrefab.GetComponentInChildren<ArcherAttack>().enabled = false;
-    //    }
-
-    //    Vector3 scale = new Vector3(60f, 60f, 1f);
-    //    charcterPrefab.transform.localScale = scale;
-    //    charcterPrefab.transform.localPosition = new Vector3(0f, -225f, 1f);
-    //    charcterPrefab.GetComponentInChildren<EntityRenderer>().SortingLayerName = "Player";
-
-    //}
-
     private void UpdateCharTextFields(GameObject gameObject, Player player)
     {
         TMP_Text[] fieldsToUpdate = gameObject.GetComponentsInChildren<TMP_Text>();
