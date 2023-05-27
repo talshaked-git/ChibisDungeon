@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 95294889248297422}
   - component: {fileID: 114571654311812176}
   - component: {fileID: 4413082448065542326}
+  - component: {fileID: 5055949576453173152}
   - component: {fileID: 643170397843691502}
   - component: {fileID: 45706019186603022}
   - component: {fileID: 4866852426557382891}
   - component: {fileID: 2172192316026002350}
-  - component: {fileID: 5055949576453173152}
   - component: {fileID: 6542361987454931909}
   - component: {fileID: 5927096477611271827}
   m_Layer: 0
@@ -102,6 +102,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!70 &5055949576453173152
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022982428031314}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 2.5}
+  m_Size: {x: 2.5, y: 5}
+  m_Direction: 0
 --- !u!114 &643170397843691502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,6 +146,7 @@ MonoBehaviour:
   Attack: 50
   Defense: 5
   healthBar: {fileID: 0}
+  expAmount: 100
 --- !u!114 &4866852426557382891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,22 +188,6 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!70 &5055949576453173152
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1022982428031314}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 2.5}
-  m_Size: {x: 2.5, y: 5}
-  m_Direction: 0
 --- !u!114 &6542361987454931909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1539,7 +1540,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8996596369689454451, guid: da79bf9468cedc84ebd2f2ee35817f30, type: 3}
       propertyPath: m_Value
-      value: 0.316
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da79bf9468cedc84ebd2f2ee35817f30, type: 3}

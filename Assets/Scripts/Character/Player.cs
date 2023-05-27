@@ -71,10 +71,10 @@ public class Player
         set
         {
             _currentHP = value;
-            if (_currentHP <= 0)
-            {
-                // Die();
-            }
+            //if (_currentHP <= 0)
+            //{
+            //    // Die();
+            //}
         }
     }
     [FirestoreProperty]
@@ -313,5 +313,15 @@ public class Player
     public void AddGold(int amount)
     {
         gold += amount;
+    }
+
+    internal int GetDamage()
+    {
+        return (int)DMG.Value;
+    }
+
+    internal int GetDefense()
+    {
+        return (int)DEF.Value;
     }
 }

@@ -56,6 +56,7 @@ public class ArcherAttack : MonoBehaviour,IAttackController
         {
             arrow.transform.localPosition += new Vector3(0.75f, 0, 0);
         }
+        arrow.GetComponent<Arrow>().SetDamage(GetComponent<PlayerController>().GetDamage()); //set arror damage
         Rigidbody2D arrowRb = arrow.GetComponent<Rigidbody2D>();
         arrowRb.velocity = arrow.transform.right * arrowSpeed;
         Destroy(arrow, arrowLifetime);

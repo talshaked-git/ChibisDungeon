@@ -36,8 +36,10 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void TakeDamage(int damage)
     {
-        CurrentHp -= Mathf.Clamp(damage - Defense, 1, int.MaxValue);
+        int damageAmount = Mathf.Clamp(damage - Defense, 1, int.MaxValue);
+        CurrentHp -= damageAmount;
         healthBar.UpdateHealthBar(CurrentHp);
+        DamagePopup.Create(transform.position + new Vector3(0, 2.5f), damageAmount);
 
         if (IsDead())
         {
