@@ -188,7 +188,7 @@ public class Player
         UpdateDerivedStats();
     }
 
-    private void UpdateDerivedStats()
+    public void UpdateDerivedStats()
     {
         switch (classType)
         {
