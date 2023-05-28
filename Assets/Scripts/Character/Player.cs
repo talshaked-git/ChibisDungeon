@@ -324,4 +324,16 @@ public class Player
     {
         return (int)DEF.Value;
     }
+
+    internal void SetGoldListner()
+    {
+        GoldManager.instance.OnGoldIncrease += AddGold;
+        GoldManager.instance.OnGoldDecrease += RemoveGold;
+    }
+
+    internal void RemoveGoldListner()
+    {
+        GoldManager.instance.OnGoldIncrease -= AddGold;
+        GoldManager.instance.OnGoldDecrease -= RemoveGold;
+    }
 }

@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour,IDamageable
         player = new Player();
         player = GameManager.instance.currentPlayer;
         player.SetExpListner();
+        player.SetGoldListner();
     }
 
     public int GetDamage()
@@ -21,6 +22,8 @@ public class PlayerController : MonoBehaviour,IDamageable
     private void OnDestroy()
     {
         player.RemoveExpListner();
+        player.RemoveGoldListner();
+
     }
 
     public void TakeDamage(int damage)

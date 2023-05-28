@@ -618,11 +618,6 @@ public class PlayerManager : MonoBehaviour
         _lastClickTime = currentTime;
     }
 
-    public bool RemoveGold(int goldToRemove)
-    {
-        return currentPlayer.RemoveGold(goldToRemove);
-    }
-
     public void HideInformationPanel()
     {
         informationPanel.gameObject.SetActive(false);

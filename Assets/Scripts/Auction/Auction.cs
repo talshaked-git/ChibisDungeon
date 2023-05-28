@@ -174,7 +174,7 @@ public class Auction : MonoBehaviour
         }
 
 
-        if (!PlayerManager.instance.RemoveGold(auctionListingItem.GetBuyoutPrice()))
+        if (!GoldManager.instance.RemoveGold(auctionListingItem.GetBuyoutPrice()))
         {
             ShowInfoPanel("Not Enough Gold\n To Buy Out Item");
             return;
@@ -190,6 +190,7 @@ public class Auction : MonoBehaviour
         {
             Debug.Log("Buy Out Failed");
             PlayerManager.instance.RemoveItem(auctionListingItem.Item.ToItem());
+            GoldManager.instance.AddGold(auctionListingItem.GetBuyoutPrice());
             PlayerManager.instance.SavePlayerData();
             ShowInfoPanel("Buy Out Failed");
         }
@@ -243,7 +244,7 @@ public class Auction : MonoBehaviour
             return;
         }
 
-        if (!PlayerManager.instance.RemoveGold(int.Parse(myBid.text)))
+        if (!GoldManager.instance.RemoveGold(int.Parse(myBid.text)))
         {
             ShowInfoPanel("Not Enough Gold To Bid");
             return;
@@ -269,6 +270,7 @@ public class Auction : MonoBehaviour
        if(updateBidTask.IsFaulted)
        {
             Debug.Log("Error updating bid");
+            GoldManager.instance.AddGold(int.Parse(myBid.text));
             //add return To Current Biddier and save
             return;
         }

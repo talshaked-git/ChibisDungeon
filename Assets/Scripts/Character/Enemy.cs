@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private FloatingHealthBar healthBar;
 
     [SerializeField] private long expAmount = 100;
+    [SerializeField] private int goldDrop = 5;
 
     private void Start()
     {
@@ -49,11 +50,6 @@ public class Enemy : MonoBehaviour, IDamageable
             Die();
             return;
         }
-
-        //if (enemyAI._currentState is RoamSearchState)
-        //{
-        //    enemyAI.ChangeState(new ChaseState(enemyAI));
-        //}
     }
 
     private void Die()
@@ -61,6 +57,7 @@ public class Enemy : MonoBehaviour, IDamageable
         isDead = true;
         enemyAI.ChangeState(new DeadState(enemyAI));
         ExperienceManager.instance.AddExperience(expAmount);
+        GoldManager.instance.AddGold(goldDrop);
     }
 
     internal void Respawn()
