@@ -28,13 +28,13 @@ public class GoldManager : MonoBehaviour
     public void AddGold(int amount)
     {
         OnGoldIncrease?.Invoke(amount);
-        OnGoldChange?.Invoke();
+        ChangeGold();
     }
 
     public bool RemoveGold(int amount)
     {
         bool result = OnGoldDecrease?.Invoke(amount) ?? false;
-        OnGoldChange?.Invoke();
+        ChangeGold();
         return result;
     }
 

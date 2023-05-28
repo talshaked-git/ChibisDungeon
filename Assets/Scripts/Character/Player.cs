@@ -315,6 +315,21 @@ public class Player
         gold += amount;
     }
 
+    public bool RemoveCoins(int amount)
+    {
+        if (chibiCoins < amount)
+        {
+            return false;
+        }
+        chibiCoins -= amount;
+        return true;
+    }
+
+    public void AddCoins(int amount)
+    {
+        chibiCoins += amount;
+    }
+
     internal int GetDamage()
     {
         return (int)DMG.Value;
@@ -335,5 +350,17 @@ public class Player
     {
         GoldManager.instance.OnGoldIncrease -= AddGold;
         GoldManager.instance.OnGoldDecrease -= RemoveGold;
+    }
+
+    internal void SetCoinsListner()
+    {
+        ChibiCoinsManager.instance.OnChibiCoinsIncrease += AddCoins;
+        ChibiCoinsManager.instance.OnChibiCoinsDecrease += RemoveCoins;
+    }
+
+    internal void RemoveCoinsListner()
+    {
+        ChibiCoinsManager.instance.OnChibiCoinsIncrease -= AddCoins;
+        ChibiCoinsManager.instance.OnChibiCoinsDecrease -= RemoveCoins;
     }
 }

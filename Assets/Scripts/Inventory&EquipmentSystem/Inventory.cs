@@ -21,13 +21,7 @@ public class Inventory : ItemContainer, IItemContainer
         chibiCoins.text = PlayerManager.instance.CurrentPlayer.chibiCoins.ToString();
 
         GoldManager.instance.OnGoldChange += OnGoldChange;
-        //add same for chibi coins
-    }
-
-    private void FixedUpdate()
-    {
-        if(chibiCoins.text != PlayerManager.instance.CurrentPlayer.chibiCoins.ToString())
-            chibiCoins.text = PlayerManager.instance.CurrentPlayer.chibiCoins.ToString();
+        ChibiCoinsManager.instance.OnChibiCoinsChange += OnChibiCoinsChange;
     }
 
     private void OnGoldChange()
@@ -77,6 +71,7 @@ public class Inventory : ItemContainer, IItemContainer
     private void OnDestroy()
     {
         GoldManager.instance.OnGoldChange -= OnGoldChange;
+        ChibiCoinsManager.instance.OnChibiCoinsChange -= OnChibiCoinsChange;
     }
 
 }

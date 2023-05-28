@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour,IDamageable
         player = GameManager.instance.currentPlayer;
         player.SetExpListner();
         player.SetGoldListner();
+        player.SetCoinsListner();
     }
 
     public int GetDamage()
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour,IDamageable
     {
         player.RemoveExpListner();
         player.RemoveGoldListner();
+        player.RemoveCoinsListner();
 
     }
 
