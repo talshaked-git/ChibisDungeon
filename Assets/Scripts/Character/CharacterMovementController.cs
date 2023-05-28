@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class CharacterMovementController : MonoBehaviour, IMovementController
 {
-    [SerializeField] private float moveSpeed = 6.5f;
+    [SerializeField] private float runSpeed = 6.5f;
+    [SerializeField] private float walkingSpeed = 2f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float gravity = 20f;
 
@@ -13,6 +14,7 @@ public class CharacterMovementController : MonoBehaviour, IMovementController
     private Vector2 velocity;
     private bool isJumping = false;
     private bool isGrounded = false;
+    private bool isLookingRight = false;
 
     private void Start()
     {
@@ -22,11 +24,39 @@ public class CharacterMovementController : MonoBehaviour, IMovementController
 
     public void Move(float horizontalInput)
     {
-        velocity.x = horizontalInput * moveSpeed;
+        //if(horizontalInput <= 0.5f || horizontalInput >= -0.5f)
+        //{
+        //    velocity.x = horizontalInput * runSpeed;
+        //}
+        //else
+        //{
+        //    velocity.x = horizontalInput * runSpeed;
+        //}
 
+        velocity.x = horizontalInput * runSpeed;
         // Flip the character based on the direction of movement
         Vector3 characterScale = transform.localScale;
-        characterScale.x = horizontalInput > 0 ? Mathf.Abs(characterScale.x) : -Mathf.Abs(characterScale.x);
+        if(horizontalInput > 0)
+        {
+            characterScale.x = Mathf.Abs(characterScale.x);
+            isLookingRight = true;
+        }
+        else if(horizontalInput < 0)
+        {
+            characterScale.x = -Mathf.Abs(characterScale.x);
+            isLookingRight = false;
+        }
+        else
+        {
+            if(isLookingRight)
+            {
+                characterScale.x = Mathf.Abs(characterScale.x);
+            }
+            else
+            {
+                characterScale.x = -Mathf.Abs(characterScale.x);
+            }
+        }
         transform.localScale = characterScale;
     }
 
@@ -74,6 +104,10 @@ public class CharacterMovementController : MonoBehaviour, IMovementController
         {
             animationController.PlayAnimation(CharacterState.Running);
         }
+        //else if (velocity.x != 0 && (velocity.x <= 0.5f* runSpeed || velocity.x >= -0.5f* runSpeed))
+        //{
+        //    animationController.PlayAnimation(CharacterState.Walking);
+        //}
         else
         {
             animationController.PlayAnimation(CharacterState.Idle);

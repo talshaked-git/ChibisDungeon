@@ -137,7 +137,7 @@ public class EnemyAI : MonoBehaviour
     private IEnumerator HideAfterDeadAnimFinishes()
     {
         yield return new WaitUntil(() => animationController.IsDeadDonePlaying() == true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         HideSelf();
     }
 

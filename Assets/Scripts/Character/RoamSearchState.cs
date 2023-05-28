@@ -6,6 +6,7 @@ public class RoamSearchState : IState
     private float _patrolRange;
     private Vector3 _pointA, _pointB;
     private bool _movingToB;
+    private float moveSpeed;
 
     public RoamSearchState(EnemyAI enemyAI, float patrolRange)
     {
@@ -20,6 +21,7 @@ public class RoamSearchState : IState
         GenerateRandomPoints();
         _movingToB = true;
         _enemyAI.SetDestination(_pointB);
+        moveSpeed = Random.Range(0.1f, 0.5f);
     }
 
     public void Execute()
@@ -34,13 +36,14 @@ public class RoamSearchState : IState
             if (_movingToB)
             {
                 _enemyAI.SetDestination(_pointA);
-                _enemyAI.MoveTowards(-1);
+
+                _enemyAI.MoveTowards(-moveSpeed);
                 _movingToB = false;
             }
             else
             {
                 _enemyAI.SetDestination(_pointB);
-                _enemyAI.MoveTowards(1);
+                _enemyAI.MoveTowards(moveSpeed);
                 _movingToB = true;
             }
         }
@@ -48,11 +51,11 @@ public class RoamSearchState : IState
         {
             if (_movingToB)
             {
-                _enemyAI.MoveTowards(1);
+                _enemyAI.MoveTowards(moveSpeed);
             }
             else
             {
-                _enemyAI.MoveTowards(-1);
+                _enemyAI.MoveTowards(-moveSpeed);
             }
         }
     }

@@ -21,6 +21,9 @@ public class ArcherAnimationController : BaseCharacterAnimationController
             case CharacterState.Idle:
                 animator.CrossFade("Idle",0.1f);
                 break;
+            case CharacterState.Walking:
+                animator.Play("Walking");
+                break;
             case CharacterState.Running:
                 animator.Play("Running");
                 break;

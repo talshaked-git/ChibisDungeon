@@ -23,6 +23,9 @@ public class SlasherAnimationController : BaseCharacterAnimationController
             case CharacterState.Idle:
                 animator.Play("Idle");
                 break;
+            case CharacterState.Walking:
+                animator.Play("Walking");
+                break;
             case CharacterState.Running:
                 animator.Play("Running");
                 break;

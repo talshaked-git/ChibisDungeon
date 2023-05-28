@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private EnemyAI enemyAI;
 
+    public bool isDead = false;
+
 
     [SerializeField] private FloatingHealthBar healthBar;
 
@@ -36,6 +38,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void TakeDamage(int damage)
     {
+        if (isDead) return;
         int damageAmount = Mathf.Clamp(damage - Defense, 1, int.MaxValue);
         CurrentHp -= damageAmount;
         healthBar.UpdateHealthBar(CurrentHp);
@@ -47,14 +50,15 @@ public class Enemy : MonoBehaviour, IDamageable
             return;
         }
 
-        if (enemyAI._currentState is RoamSearchState)
-        {
-            enemyAI.ChangeState(new ChaseState(enemyAI));
-        }
+        //if (enemyAI._currentState is RoamSearchState)
+        //{
+        //    enemyAI.ChangeState(new ChaseState(enemyAI));
+        //}
     }
 
     private void Die()
     {
+        isDead = true;
         enemyAI.ChangeState(new DeadState(enemyAI));
         ExperienceManager.instance.AddExperience(expAmount);
     }

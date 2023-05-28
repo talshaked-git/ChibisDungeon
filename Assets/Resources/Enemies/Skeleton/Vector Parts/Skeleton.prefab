@@ -145,6 +145,7 @@ MonoBehaviour:
   MaxHp: 100
   Attack: 50
   Defense: 5
+  isDead: 0
   healthBar: {fileID: 0}
   expAmount: 100
 --- !u!114 &4866852426557382891
@@ -203,7 +204,7 @@ MonoBehaviour:
   targetUpdateRate: 0.5
   pathUpdateRate: 2
   _patrolRange: 1
-  sightRange: 3.5
+  sightRange: 5
   stopDistance: 2
   attackRange: 2
   nextWaypointDistance: 3
