@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 6542361987454931909}
   - component: {fileID: 5927096477611271827}
   - component: {fileID: 7099025040428494043}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Skeleton
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -225,6 +225,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swordHitboxPoint: {fileID: 4881835768959794}
   hitboxSize: {x: 2, y: 1}
+  enemyLayers:
+    serializedVersion: 2
+    m_Bits: 64
   attackCooldown: 1
 --- !u!114 &7099025040428494043
 MonoBehaviour:
@@ -250,7 +253,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4812867818860662}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bone_003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +286,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4826948769709954}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bone_005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -315,7 +318,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4123888071909326}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bone_006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4456368060767722}
   - component: {fileID: 212922324793651836}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Left Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +437,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4028136751990744}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bone_002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -468,7 +471,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4232250624380604}
   - component: {fileID: 212844090261339188}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Right Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -551,7 +554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4253288217770320}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bone_000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -584,7 +587,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4127649232216688}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bone_004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -617,7 +620,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4072018610483974}
   - component: {fileID: 212378114873823674}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Left Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -701,7 +704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4530450144604626}
   - component: {fileID: 212323898541993424}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Left Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -786,7 +789,7 @@ GameObject:
   - component: {fileID: 4358327176971620}
   - component: {fileID: 212632115033238402}
   - component: {fileID: 6961433672739157739}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SlashFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -994,7 +997,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4674149055122382}
   - component: {fileID: 212178860583278698}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Right Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1078,7 +1081,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4586286697398614}
   - component: {fileID: 212226045655763880}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1161,7 +1164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4420234688425312}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bone_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1194,7 +1197,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4881966380245306}
   - component: {fileID: 212430852285739830}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Right Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1279,7 +1282,7 @@ GameObject:
   - component: {fileID: 4881835768959794}
   - component: {fileID: 212297307959450946}
   - component: {fileID: 5016186875701729047}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1405,7 +1408,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4731297919499444}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bone_007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1439,7 +1442,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4686952391434382}
   - component: {fileID: 212607775326916246}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1524,7 +1527,7 @@ GameObject:
   - component: {fileID: 4245625837366328}
   - component: {fileID: 212313612726341332}
   - component: {fileID: 8439536665781768567}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Face 01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1622,6 +1625,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4187483004367958}
     m_Modifications:
+    - target: {fileID: 1853650971220340873, guid: da79bf9468cedc84ebd2f2ee35817f30, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538998753515901221, guid: da79bf9468cedc84ebd2f2ee35817f30, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2555492465391659613, guid: da79bf9468cedc84ebd2f2ee35817f30, type: 3}
       propertyPath: target
       value: 
@@ -1630,9 +1641,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 3205228893098643849, guid: da79bf9468cedc84ebd2f2ee35817f30, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4229309832870805038, guid: da79bf9468cedc84ebd2f2ee35817f30, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484755471452980008, guid: da79bf9468cedc84ebd2f2ee35817f30, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5094756075956300779, guid: da79bf9468cedc84ebd2f2ee35817f30, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1725,6 +1744,10 @@ PrefabInstance:
     - target: {fileID: 7770357862728223225, guid: da79bf9468cedc84ebd2f2ee35817f30, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8497831013984202379, guid: da79bf9468cedc84ebd2f2ee35817f30, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8996596369689454451, guid: da79bf9468cedc84ebd2f2ee35817f30, type: 3}
       propertyPath: m_Value

@@ -13,6 +13,8 @@ public class Arrow : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("Arrow hit " + collision.gameObject.name);
+        Debug.Log("Arrow hit " + collision.gameObject.tag);
         if (collision.gameObject.GetComponent<IDamageable>() != null)
         {
             collision.gameObject.GetComponent<IDamageable>().TakeDamage(damage);

@@ -6,8 +6,9 @@ public class SlasherAttack : MonoBehaviour, IAttackController
 {
     public Transform swordHitboxPoint;
     public Vector2 hitboxSize = new Vector2(2f, 1f);
-    private int attackDamage;
+    public LayerMask enemyLayers;
 
+    private int attackDamage;
     private bool isAttacking = false;
     public float attackCooldown = 1f;
     private float timeSinceLastAttack;
@@ -31,7 +32,18 @@ public class SlasherAttack : MonoBehaviour, IAttackController
             timeSinceLastAttack = 0f;
             isAttacking = true;
             animationController.PlayAnimation(CharacterState.Attacking);
+            StartCoroutine(DetectEnemiesHit());
             StartCoroutine(ResetIsAttacking());
+        }
+    }
+
+    IEnumerator DetectEnemiesHit()
+    {
+        yield return new WaitForSeconds(0.3f); // Delay for when the attack hits in the animation
+        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(swordHitboxPoint.position, hitboxSize, 0f, enemyLayers);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            enemy.GetComponent<IDamageable>()?.TakeDamage(attackDamage);
         }
     }
 
@@ -48,13 +60,6 @@ public class SlasherAttack : MonoBehaviour, IAttackController
         return isAttacking;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.GetComponent<IDamageable>() != null)
-        {
-            collision.gameObject.GetComponent<IDamageable>().TakeDamage(attackDamage);
-        }
-    }
 
     // Draw hitbox in editor
     void OnDrawGizmosSelected()
