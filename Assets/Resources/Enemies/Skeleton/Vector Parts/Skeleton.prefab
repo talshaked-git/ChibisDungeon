@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swordHitboxPoint: {fileID: 4881835768959794}
-  hitboxSize: {x: 2, y: 1}
+  hitboxSize: {x: 3, y: 2}
   enemyLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -414,7 +414,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1412329523
+  m_SortingLayerID: -1759692907
   m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 24ab6fb42025da44fa05a40b3ff6dd9d, type: 3}
@@ -531,7 +531,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1412329523
+  m_SortingLayerID: -1759692907
   m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 90e556caf6657694f80fd4aab91cd3b9, type: 3}
@@ -680,7 +680,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1412329523
+  m_SortingLayerID: -1759692907
   m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 4cbcc344d5cbfa441a97059b90d3f901, type: 3}
@@ -764,7 +764,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1412329523
+  m_SortingLayerID: -1759692907
   m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 640a49f74c500594a9a9033803b8c562, type: 3}
@@ -849,7 +849,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1412329523
+  m_SortingLayerID: -1759692907
   m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e79f32032edfee54990e03c86baf3cf0, type: 3}
@@ -1057,7 +1057,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1412329523
+  m_SortingLayerID: -1759692907
   m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a0e36f540a4984f44a6519b5b6dba49a, type: 3}
@@ -1141,7 +1141,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1412329523
+  m_SortingLayerID: -1759692907
   m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a116ed61fae1a164496ea54c8c5e7374, type: 3}
@@ -1257,7 +1257,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1412329523
+  m_SortingLayerID: -1759692907
   m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b69e00f5b6d265146887a992a080c932, type: 3}
@@ -1281,7 +1281,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4881835768959794}
   - component: {fileID: 212297307959450946}
-  - component: {fileID: 5016186875701729047}
   m_Layer: 10
   m_Name: Sword
   m_TagString: Untagged
@@ -1342,7 +1341,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1412329523
+  m_SortingLayerID: -1759692907
   m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 329b6076a8cb37e459cdd66da537d9b9, type: 3}
@@ -1356,49 +1355,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &5016186875701729047
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1841340057117270}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 1}
-    oldSize: {x: 4, y: 1.28}
-    newSize: {x: 4, y: 1.28}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 3.6499999, y: -0.63}
-      - {x: 3.6499999, y: -0.5}
-      - {x: 3.61, y: -0.44}
-      - {x: 1.4699999, y: -0.25}
-      - {x: 1.42, y: -0.17}
-      - {x: 1.11, y: -0.17}
-      - {x: 1.01, y: -0.17999999}
-      - {x: 0.97999996, y: -0.42999998}
-      - {x: 0.12, y: -0.39}
-      - {x: 0.12, y: -0.89}
-      - {x: 0.24, y: -0.91999996}
-      - {x: 0.51, y: -0.85999995}
-      - {x: 1.04, y: -1.1}
-      - {x: 1.11, y: -1.11}
-      - {x: 1.43, y: -1.11}
-      - {x: 1.5, y: -1.01}
-      - {x: 1.48, y: -0.83}
-      - {x: 3.35, y: -0.88}
 --- !u!1 &1873831128992774
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,7 +1458,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1412329523
+  m_SortingLayerID: -1759692907
   m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0e7f5b30c9fb0b9459b26e9411b5fdef, type: 3}
@@ -1587,7 +1543,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1412329523
+  m_SortingLayerID: -1759692907
   m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a588dca9af9353648847f038505e55cc, type: 3}
