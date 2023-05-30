@@ -360,11 +360,11 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
-    public bool AddItem(Item item)
+    public bool AddItem(Item item,int amount=1)
     {
-        if (inventory.CanAddItem(item))
+        if (inventory.CanAddItem(item,amount))
         {
-            return inventory.AddItem(item);
+            return inventory.AddItem(item,amount);
         }
         return false;
     }

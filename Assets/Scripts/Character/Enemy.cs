@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     [SerializeField] private long expAmount = 100;
     [SerializeField] private int goldDrop = 5;
+    [SerializeField] private LootBag lootBag;
 
     private void Start()
     {
@@ -30,6 +31,7 @@ public class Enemy : MonoBehaviour, IDamageable
         CurrentHp = MaxHp;
         healthBar = GetComponentInChildren<FloatingHealthBar>();
         healthBar.SetMaxValue(MaxHp);
+        //lootBag = GetComponent<LootBag>();
     }
 
     public bool IsDead()
@@ -56,6 +58,7 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         isDead = true;
         enemyAI.ChangeState(new DeadState(enemyAI));
+        lootBag.InstantiateLoot(transform.position + Vector3.one);
         ExperienceManager.instance.AddExperience(expAmount);
         GoldManager.instance.AddGold(goldDrop);
     }

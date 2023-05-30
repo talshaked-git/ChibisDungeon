@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 2172192316026002350}
   - component: {fileID: 6542361987454931909}
   - component: {fileID: 5927096477611271827}
+  - component: {fileID: 7099025040428494043}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Enemy
@@ -148,6 +149,8 @@ MonoBehaviour:
   isDead: 0
   healthBar: {fileID: 0}
   expAmount: 100
+  goldDrop: 5
+  lootBag: {fileID: 7099025040428494043}
 --- !u!114 &4866852426557382891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,6 +230,21 @@ MonoBehaviour:
     m_Bits: 0
   attackDamage: 25
   attackCooldown: 1
+--- !u!114 &7099025040428494043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022982428031314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61a3684dfbd8fe4480546c102a58692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootList:
+  - {fileID: 11400000, guid: ef6d65873624f0a49a7b5c77595c8deb, type: 2}
+  - {fileID: 11400000, guid: a09100b6de36afd4fa8f0cdb0828c5de, type: 2}
 --- !u!1 &1051073019290164
 GameObject:
   m_ObjectHideFlags: 0
