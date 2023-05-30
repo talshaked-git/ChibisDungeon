@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdfe8bf3592ba374384c82000ba2608a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  lootList: []
   isLooted: 0
   isInRange: 0
 --- !u!212 &4369034362991438884
@@ -157,7 +157,7 @@ BoxCollider2D:
   m_EdgeRadius: 0
 --- !u!95 &-8212940673782029454
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -165,7 +165,7 @@ Animator:
   m_GameObject: {fileID: 4265465179301869904}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 30d093a0f1d55cb42ba8e0d6c9e9cbc6, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4e03723f2ecb1f8429db0d8988c5e914, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -174,4 +174,5 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
