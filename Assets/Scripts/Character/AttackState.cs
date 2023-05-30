@@ -25,7 +25,6 @@ public class AttackState : IState
         {
             // If we're still in attack range, continue attacking
             AttackTarget();
-
         }
         else
         {

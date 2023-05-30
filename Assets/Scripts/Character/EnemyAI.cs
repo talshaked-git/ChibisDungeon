@@ -70,11 +70,10 @@ public class EnemyAI : MonoBehaviour
     {
         Transform player = GameObject.FindGameObjectWithTag("Player").transform;
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        //Vector3 directionToPlayer = (player.position - transform.position).normalized;
 
-        //return distanceToPlayer <= sightRange && Vector3.Dot(transform.forward, directionToPlayer) > 0;
-        return distanceToPlayer <= sightRange;
+        return distanceToPlayer <= sightRange && IsFaceingTarget();
     }
+
 
     public void MoveTowards( float direction)
     {
@@ -110,8 +109,41 @@ public class EnemyAI : MonoBehaviour
     public void Attack()
     {
         movementController.Move(0);
+
+        if (!IsFaceingTarget())
+        {
+            // Flip the enemy to face the target
+            Flip();
+        }
+
         attackController.Attack();
     }
+
+    private void Flip()
+    {
+        // Switch the way the enemy is labelled as facing.
+        Vector3 enemyScale = transform.localScale;
+        enemyScale.x *= -1;
+        transform.localScale = enemyScale;
+    }
+
+    private bool IsFaceingTarget()
+    {
+        Vector2 targetPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+        Vector2 myPoistion = transform.position;
+        Vector2 toTarget = (targetPosition - myPoistion).normalized;
+
+        // If the enemy is facing right and the target is to the right, or if the enemy is facing left and the target is to the left, return true
+        if ((transform.localScale.x > 0 && toTarget.x > 0) || (transform.localScale.x < 0 && toTarget.x < 0))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
     void OnPathComplete(Path p)
     {
@@ -138,7 +170,7 @@ public class EnemyAI : MonoBehaviour
     private IEnumerator HideAfterDeadAnimFinishes()
     {
         yield return new WaitUntil(() => animationController.IsDeadDonePlaying() == true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         HideSelf();
     }
 
