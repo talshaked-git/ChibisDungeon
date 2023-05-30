@@ -15,6 +15,8 @@ public class ArcherAttack : MonoBehaviour,IAttackController
     public float attackCooldown = 1f;
     private float timeSinceLastAttack;
 
+    private int attackDamage;
+
     private BaseCharacterAnimationController animationController;
 
     private void Start()
@@ -56,7 +58,7 @@ public class ArcherAttack : MonoBehaviour,IAttackController
         {
             arrow.transform.localPosition += new Vector3(0.75f, 0, 0);
         }
-        arrow.GetComponent<Arrow>().SetDamage(GetComponent<PlayerController>().GetDamage()); //set arror damage
+        arrow.GetComponent<Arrow>().SetDamage(attackDamage);
         Rigidbody2D arrowRb = arrow.GetComponent<Rigidbody2D>();
         arrowRb.velocity = arrow.transform.right * arrowSpeed;
         Destroy(arrow, arrowLifetime);
@@ -71,5 +73,15 @@ public class ArcherAttack : MonoBehaviour,IAttackController
     public bool IsAttacking()
     {
         return isAttacking;
+    }
+
+    public int SetAttackDamage()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SetAttackDamage(int dmg)
+    {
+        attackDamage = dmg;
     }
 }

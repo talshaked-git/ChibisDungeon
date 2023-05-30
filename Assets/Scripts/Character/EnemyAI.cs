@@ -35,6 +35,7 @@ public class EnemyAI : MonoBehaviour
         movementController = GetComponent<IMovementController>();
         attackController = GetComponent<IAttackController>();
         animationController = GetComponent<BaseCharacterAnimationController>();
+        attackController.SetAttackDamage(enemy.GetDamage());
 
         _currentState = new RoamSearchState(this, _patrolRange);
         _currentState.Enter();

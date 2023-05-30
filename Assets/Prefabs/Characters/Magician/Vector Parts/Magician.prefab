@@ -130,10 +130,11 @@ GameObject:
   - component: {fileID: 114381864237393456}
   - component: {fileID: -1065815716004483731}
   - component: {fileID: -3704009143802537140}
-  - component: {fileID: 1295488094804863623}
   - component: {fileID: -6482407708338883802}
   - component: {fileID: 4200739196284622859}
   - component: {fileID: 6126098464522285220}
+  - component: {fileID: 2441334130045577528}
+  - component: {fileID: 8308652539811327094}
   m_Layer: 0
   m_Name: Magician
   m_TagString: Player
@@ -232,18 +233,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.018846989, y: 2.1490815}
   m_Size: {x: 1.8196154, y: 4.006398}
   m_Direction: 0
---- !u!114 &1295488094804863623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1131733873716716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5013a78efb9e3041b795b013cade9b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-6482407708338883802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +245,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5ca188dd6df6741bd91b70d899b05b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6.5
+  runSpeed: 6.5
+  walkingSpeed: 2
   jumpForce: 15
   gravity: 30
 --- !u!114 &4200739196284622859
@@ -286,6 +276,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a74a794e5f9f84b9174876366e2500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2441334130045577528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131733873716716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 940f095ead1ec27418f640045d891f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8308652539811327094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131733873716716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e75514bf2103a6c46aa7525502b83214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swordHitboxPoint: {fileID: 4983993986391748}
+  hitboxSize: {x: 2, y: 1}
+  attackCooldown: 1
 --- !u!1 &1177078754121038
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,6 +832,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4983993986391748}
   - component: {fileID: 212644418604931050}
+  - component: {fileID: 5271024045369438035}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -889,6 +907,80 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!60 &5271024045369438035
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572248186728826}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 1}
+    oldSize: {x: 4, y: 1.28}
+    newSize: {x: 4, y: 1.28}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 3.74, y: -0.57}
+      - {x: 3.74, y: -0.39999998}
+      - {x: 3.7099998, y: -0.32999998}
+      - {x: 3.57, y: -0.17}
+      - {x: 3.5, y: -0.13}
+      - {x: 3.37, y: -0.07}
+      - {x: 3.23, y: -0.03}
+      - {x: 2.85, y: -0.03}
+      - {x: 2.6299999, y: -0.08}
+      - {x: 2.5, y: -0.19}
+      - {x: 2.46, y: -0.29999998}
+      - {x: 2.4199998, y: -0.42}
+      - {x: 2.25, y: -0.37}
+      - {x: 1.8399999, y: -0.35}
+      - {x: 1.5699999, y: -0.39}
+      - {x: 1.4599999, y: -0.42999998}
+      - {x: 1.04, y: -0.42999998}
+      - {x: 0.84, y: -0.34}
+      - {x: 0.55, y: -0.32999998}
+      - {x: 0.35, y: -0.38}
+      - {x: 0.21, y: -0.48}
+      - {x: 0.16, y: -0.59999996}
+      - {x: 0.16, y: -0.76}
+      - {x: 0.25, y: -0.89}
+      - {x: 0.39, y: -0.95}
+      - {x: 0.59, y: -0.96}
+      - {x: 0.69, y: -0.90999997}
+      - {x: 0.74, y: -0.85999995}
+      - {x: 0.9, y: -0.9}
+      - {x: 1.24, y: -0.90999997}
+      - {x: 1.5799999, y: -0.93}
+      - {x: 1.75, y: -0.91999996}
+      - {x: 2.33, y: -0.9}
+      - {x: 2.47, y: -0.96999997}
+      - {x: 2.71, y: -0.96}
+      - {x: 2.85, y: -0.85999995}
+      - {x: 2.8799999, y: -0.81}
+      - {x: 2.9099998, y: -0.53999996}
+      - {x: 3.1, y: -0.51}
+      - {x: 3.22, y: -0.57}
+      - {x: 3.1899998, y: -0.68}
+      - {x: 2.9399998, y: -0.76}
+      - {x: 2.87, y: -0.85999995}
+      - {x: 2.8899999, y: -1}
+      - {x: 3.05, y: -1.15}
+      - {x: 3.23, y: -1.15}
+      - {x: 3.37, y: -1.1}
+      - {x: 3.49, y: -1.01}
+      - {x: 3.56, y: -0.93}
 --- !u!1 &1591844456114602
 GameObject:
   m_ObjectHideFlags: 0

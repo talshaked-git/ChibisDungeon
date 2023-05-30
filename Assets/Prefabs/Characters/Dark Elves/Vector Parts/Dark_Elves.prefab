@@ -13,13 +13,14 @@ GameObject:
   - component: {fileID: 6072744347105673094}
   - component: {fileID: 5254038209448545050}
   - component: {fileID: -3979712829210267833}
-  - component: {fileID: 246899061046380737}
   - component: {fileID: -7513525678982855973}
   - component: {fileID: 7026041659133576721}
   - component: {fileID: 6211750921086564759}
+  - component: {fileID: 4602239005218429796}
+  - component: {fileID: 752475908333614325}
   m_Layer: 0
   m_Name: Dark_Elves
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,18 +116,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.018846989, y: 2.1490815}
   m_Size: {x: 1.8196154, y: 4.006398}
   m_Direction: 0
---- !u!114 &246899061046380737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 477185018268155203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5013a78efb9e3041b795b013cade9b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-7513525678982855973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5ca188dd6df6741bd91b70d899b05b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6.5
+  runSpeed: 6.5
+  walkingSpeed: 2
   jumpForce: 15
   gravity: 30
 --- !u!114 &7026041659133576721
@@ -169,6 +159,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a74a794e5f9f84b9174876366e2500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4602239005218429796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477185018268155203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 940f095ead1ec27418f640045d891f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &752475908333614325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477185018268155203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e75514bf2103a6c46aa7525502b83214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swordHitboxPoint: {fileID: 4788371022832086682}
+  hitboxSize: {x: 2, y: 1}
+  attackCooldown: 1
 --- !u!1 &883246662191938174
 GameObject:
   m_ObjectHideFlags: 0
@@ -1368,6 +1385,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4788371022832086682}
   - component: {fileID: 2343486851720304837}
+  - component: {fileID: 6765830089117369381}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -1442,6 +1460,72 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!60 &6765830089117369381
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8854856091895088994}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 1}
+    oldSize: {x: 4, y: 1.28}
+    newSize: {x: 4, y: 1.28}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 2.26, y: -0.89}
+      - {x: 2.84, y: -0.88}
+      - {x: 3.07, y: -0.84}
+      - {x: 3.29, y: -0.79999995}
+      - {x: 3.53, y: -0.71}
+      - {x: 3.6899998, y: -0.64}
+      - {x: 3.86, y: -0.48}
+      - {x: 3.86, y: -0.41}
+      - {x: 3.85, y: -0.35}
+      - {x: 3.76, y: -0.26999998}
+      - {x: 3.5, y: -0.31}
+      - {x: 3.3, y: -0.31}
+      - {x: 3.09, y: -0.19}
+      - {x: 2.99, y: -0.19}
+      - {x: 2.61, y: -0.31}
+      - {x: 2.31, y: -0.38}
+      - {x: 1.68, y: -0.45999998}
+      - {x: 1.4599999, y: -0.32}
+      - {x: 1.4399999, y: -0.26999998}
+      - {x: 1.39, y: -0.24}
+      - {x: 1.1899999, y: -0.24}
+      - {x: 1.13, y: -0.26}
+      - {x: 1.1, y: -0.44}
+      - {x: 0.59, y: -0.45}
+      - {x: 0.55, y: -0.39999998}
+      - {x: 0.41, y: -0.39}
+      - {x: 0.29999998, y: -0.41}
+      - {x: 0.22999999, y: -0.47}
+      - {x: 0.17999999, y: -0.58}
+      - {x: 0.17999999, y: -0.74}
+      - {x: 0.26, y: -0.88}
+      - {x: 0.52, y: -0.9}
+      - {x: 0.59999996, y: -0.84999996}
+      - {x: 1.12, y: -0.84}
+      - {x: 1.11, y: -0.96999997}
+      - {x: 1.16, y: -1.04}
+      - {x: 1.1899999, y: -1.05}
+      - {x: 1.39, y: -1.05}
+      - {x: 1.4399999, y: -1.02}
+      - {x: 1.5999999, y: -0.82}
+      - {x: 1.76, y: -0.84}
 --- !u!74 &-8235703687136944383
 AnimationClip:
   m_ObjectHideFlags: 0

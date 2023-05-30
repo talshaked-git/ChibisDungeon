@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4855362060725020}
   - component: {fileID: 212584832125759948}
+  - component: {fileID: 3531591788466668525}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -168,6 +169,43 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!60 &3531591788466668525
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071346551599372}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 1}
+    oldSize: {x: 4, y: 1.28}
+    newSize: {x: 4, y: 1.28}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 3.3, y: -0.24}
+      - {x: 3.05, y: -0.22999999}
+      - {x: 0.75, y: -0.22999999}
+      - {x: 0.22, y: -0.35999998}
+      - {x: 0.12, y: -0.52}
+      - {x: 0.12, y: -0.81}
+      - {x: 0.45, y: -0.88}
+      - {x: 0.94, y: -0.96999997}
+      - {x: 3.33, y: -0.96999997}
+      - {x: 3.83, y: -0.78}
+      - {x: 3.84, y: -0.74}
+      - {x: 3.84, y: -0.45}
 --- !u!1 &1087351554256584
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,10 +633,11 @@ GameObject:
   - component: {fileID: 114988320855570750}
   - component: {fileID: 3154788450930433366}
   - component: {fileID: 7474527774186589459}
-  - component: {fileID: 8976579306808433410}
   - component: {fileID: 8403643384181362677}
   - component: {fileID: 5086176227962429237}
   - component: {fileID: 8875381842365484992}
+  - component: {fileID: 8918840029334753778}
+  - component: {fileID: 4265296203607321378}
   m_Layer: 0
   m_Name: Heavy Armored Defender Knight
   m_TagString: Untagged
@@ -697,18 +736,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.018846989, y: 2.1490815}
   m_Size: {x: 1.8196154, y: 4.006398}
   m_Direction: 0
---- !u!114 &8976579306808433410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1541123529650618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5013a78efb9e3041b795b013cade9b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8403643384181362677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,7 +748,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5ca188dd6df6741bd91b70d899b05b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6.5
+  runSpeed: 6.5
+  walkingSpeed: 2
   jumpForce: 15
   gravity: 30
 --- !u!114 &5086176227962429237
@@ -751,6 +779,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a74a794e5f9f84b9174876366e2500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8918840029334753778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541123529650618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 940f095ead1ec27418f640045d891f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4265296203607321378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541123529650618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e75514bf2103a6c46aa7525502b83214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swordHitboxPoint: {fileID: 4855362060725020}
+  hitboxSize: {x: 2, y: 1}
+  attackCooldown: 1
 --- !u!1 &1559303672269180
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,6 +34,11 @@ public class Enemy : MonoBehaviour, IDamageable
         //lootBag = GetComponent<LootBag>();
     }
 
+    public int GetDamage()
+    {
+        return Attack;
+    }
+
     public bool IsDead()
     {
         return CurrentHp <= 0;

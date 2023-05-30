@@ -4768,6 +4768,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 45706019186603022, guid: 5ede2cae6fca7c9469ee79ee30aafd7d, type: 3}
+      propertyPath: Attack
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 45706019186603022, guid: 5ede2cae6fca7c9469ee79ee30aafd7d, type: 3}
+      propertyPath: Defense
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 5991925750772422703, guid: 5ede2cae6fca7c9469ee79ee30aafd7d, type: 3}
       propertyPath: m_Value
       value: 0
@@ -8562,6 +8570,14 @@ PrefabInstance:
     - target: {fileID: 4187483004367958, guid: 5ede2cae6fca7c9469ee79ee30aafd7d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 45706019186603022, guid: 5ede2cae6fca7c9469ee79ee30aafd7d, type: 3}
+      propertyPath: Attack
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 45706019186603022, guid: 5ede2cae6fca7c9469ee79ee30aafd7d, type: 3}
+      propertyPath: Defense
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7586869557315605687, guid: 5ede2cae6fca7c9469ee79ee30aafd7d, type: 3}
       propertyPath: m_AnchorMax.y
