@@ -21,7 +21,7 @@ public class CharacterPortrait : MonoBehaviour
         
         hpSlider.fillAmount = player.currentHP / player.HP.Value;
         mpSlider.fillAmount = player.currentMP / player.MP.Value;
-        expSlider.fillAmount = player.CurrentExp / player.requiredExpForNextLevel;
+        expSlider.fillAmount = (float)player.CurrentExp / player.requiredExpForNextLevel;
 
         hpSlider.GetComponentInChildren<TMP_Text>().text = player.currentHP.ToString() + "/" + player.HP.Value.ToString();
         mpSlider.GetComponentInChildren<TMP_Text>().text = player.currentMP.ToString() + "/" + player.MP.Value.ToString();
@@ -48,9 +48,7 @@ public class CharacterPortrait : MonoBehaviour
         fillChange = Mathf.Clamp(fillDifference, -fillSpeed * Time.unscaledDeltaTime, fillSpeed * Time.unscaledDeltaTime);
         mpSlider.fillAmount += fillChange;
 
-        fillDifference = player.CurrentExp / player.requiredExpForNextLevel - expSlider.fillAmount;
-        fillChange = Mathf.Clamp(fillDifference, -fillSpeed * Time.unscaledDeltaTime, fillSpeed * Time.unscaledDeltaTime);
-        expSlider.fillAmount += fillChange;
+        expSlider.fillAmount = (float)player.CurrentExp / player.requiredExpForNextLevel;
 
         hpSlider.GetComponentInChildren<TMP_Text>().text = player.currentHP.ToString() + "/" + player.HP.Value.ToString();
         mpSlider.GetComponentInChildren<TMP_Text>().text = player.currentMP.ToString() + "/" + player.MP.Value.ToString();

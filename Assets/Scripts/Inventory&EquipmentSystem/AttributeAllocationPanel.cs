@@ -10,11 +10,6 @@ public class AttributeAllocationPanel : MonoBehaviour
     private int m_statPointsAvilableOriginal;
     private int m_statPointsAvilable;
 
-    private void awake()
-    {
-
-    }
-
     private void Update()
     {
         foreach (AttributeAllocateDisplayStat statDisplay in statDisplays)
@@ -49,20 +44,27 @@ public class AttributeAllocationPanel : MonoBehaviour
 
     }
 
-    private void Reset()
+    public void ResetStats()
     {
         foreach (AttributeAllocateDisplayStat statDisplay in statDisplays)
         {
-            statDisplay.Reset();
+            statDisplay.ResetStat();
         }
+        m_statPointsAvilable = m_statPointsAvilableOriginal;
+        statPointsText.text = "Points Left: " + m_statPointsAvilableOriginal.ToString();
     }
 
-    private void ConfirmStats()
+    public void ConfirmStats()
     {
         foreach (AttributeAllocateDisplayStat statDisplay in statDisplays)
         {
             statDisplay.ConfirmStats(PlayerManager.instance.CurrentPlayer);
         }
+        m_statPointsAvilableOriginal = PlayerManager.instance.CurrentPlayer.AttributePoints;
+        m_statPointsAvilable = m_statPointsAvilableOriginal;
+        statPointsText.text = "Points Left: " + m_statPointsAvilableOriginal.ToString();
+        PlayerManager.instance.CurrentPlayer.UpdateDerivedStats();
+        PlayerManager.instance.UpdateStatusPanel();
     }
 
     public void SetPointsAmount()
@@ -82,25 +84,25 @@ public class AttributeAllocationPanel : MonoBehaviour
         statDisplays[0].SetStatText("STR", PlayerManager.instance.CurrentPlayer.STR.BaseValue);
         statDisplays[1].SetStatText("INT", PlayerManager.instance.CurrentPlayer.INT.BaseValue);
         statDisplays[2].SetStatText("VIT", PlayerManager.instance.CurrentPlayer.STR.BaseValue);
-        statDisplays[3].SetStatText("AGI", PlayerManager.instance.CurrentPlayer.STR.BaseValue);
+        statDisplays[3].SetStatText("AGI", PlayerManager.instance.CurrentPlayer.AGI.BaseValue);
     }
 
     public void IncreaseStatPoints()
     {
         m_statPointsAvilable++;
-        statPointsText.text = m_statPointsAvilable.ToString();
+        statPointsText.text = "Points Left: " + m_statPointsAvilable.ToString();
     }
 
     public void DecreaseStatPoints()
     {
         m_statPointsAvilable--;
-        statPointsText.text = m_statPointsAvilable.ToString();
+        statPointsText.text = "Points Left: " + m_statPointsAvilable.ToString();
     }
 
     public void InitAllocationPanel()
     {
         SetPointsAmount();
         SetStatText();
-        Reset();
+        ResetStats();
     }
 }

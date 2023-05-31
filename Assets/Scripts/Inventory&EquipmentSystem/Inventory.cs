@@ -19,14 +19,19 @@ public class Inventory : ItemContainer, IItemContainer
     {
         gold.text = PlayerManager.instance.CurrentPlayer.gold.ToString();
         chibiCoins.text = PlayerManager.instance.CurrentPlayer.chibiCoins.ToString();
+
+        GoldManager.instance.OnGoldChange += OnGoldChange;
+        ChibiCoinsManager.instance.OnChibiCoinsChange += OnChibiCoinsChange;
     }
 
-    private void FixedUpdate()
+    private void OnGoldChange()
     {
-        if(gold.text != PlayerManager.instance.CurrentPlayer.gold.ToString())
-            gold.text = PlayerManager.instance.CurrentPlayer.gold.ToString();
-        if(chibiCoins.text != PlayerManager.instance.CurrentPlayer.chibiCoins.ToString())
-            chibiCoins.text = PlayerManager.instance.CurrentPlayer.chibiCoins.ToString();
+        gold.text = PlayerManager.instance.CurrentPlayer.gold.ToString();
+    }
+
+    private void OnChibiCoinsChange()
+    {
+        chibiCoins.text = PlayerManager.instance.CurrentPlayer.chibiCoins.ToString();
     }
 
     public void InitInventory()
@@ -61,6 +66,12 @@ public class Inventory : ItemContainer, IItemContainer
     public List<InventorySlot> GetInventorySlots()
     {
         return inventorySlots;
+    }
+
+    private void OnDestroy()
+    {
+        GoldManager.instance.OnGoldChange -= OnGoldChange;
+        ChibiCoinsManager.instance.OnChibiCoinsChange -= OnChibiCoinsChange;
     }
 
 }

@@ -11,29 +11,15 @@ public class FirebaseFirestoreManager : MonoBehaviour
 {
     public FirebaseFirestore db;
     public bool isInitialized = false;
-    private DependencyStatus dependencyStatus = DependencyStatus.UnavailableOther;
     WriteBatch batch;
-
-    public void Start()
-    {
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
-            dependencyStatus = task.Result;
-            if (dependencyStatus == DependencyStatus.Available)
-            {
-                db = FirebaseFirestore.DefaultInstance;
-                isInitialized = true;
-                Debug.Log("FirebaseFirestoreManager: Connected to Firebase!");
-            }
-            else
-            {
-                Debug.LogError(
-                  "Could not resolve all Firebase dependencies: " + dependencyStatus);
-            }
-        });
-    }
 
     public Task<Account> LoadAccount()
     {
+        if (!isInitialized)
+        {
+            new WaitUntil(() => isInitialized == true);
+        }
+        new WaitUntil(() => FireBaseManager.instance.firebaseAuthManager.user != null);
         FirebaseUser user = FireBaseManager.instance.firebaseAuthManager.user;
 
         if (user == null)
@@ -249,4 +235,21 @@ public class FirebaseFirestoreManager : MonoBehaviour
         
     }
 
+    internal void DeletePlayer(string cID)
+    {
+        Account account = GameManager.instance.account;
+        DocumentReference docRef = db.Collection("players").Document(cID);
+        account.PlayerRefs.Remove(docRef);
+        batch = db.StartBatch();
+        batch.Delete(docRef);
+        batch.Set(db.Collection("users").Document(account.UID), account, SetOptions.MergeAll);
+        batch.CommitAsync();
+    }
+
+    internal void InitializeFirebase()
+    {
+        db = FirebaseFirestore.DefaultInstance;
+        isInitialized = true;
+        Debug.Log("FirebaseFirestoreManager: Connected to Firebase!");
+    }
 }

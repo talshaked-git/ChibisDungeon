@@ -12,6 +12,7 @@ TagManager:
   - Interactables
   - Inventory
   - Portal
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Background
   - Foreground
   - Doors
-  - 
+  - Enemy
   - 
   - 
   - Platforms
@@ -81,6 +82,9 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 552843751
+    locked: 0
+  - name: Enemy
+    uniqueID: 2535274389
     locked: 0
   - name: Player
     uniqueID: 2882637773

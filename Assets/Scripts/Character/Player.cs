@@ -71,10 +71,10 @@ public class Player
         set
         {
             _currentHP = value;
-            if (_currentHP <= 0)
-            {
-                // Die();
-            }
+            //if (_currentHP <= 0)
+            //{
+            //    // Die();
+            //}
         }
     }
     [FirestoreProperty]
@@ -188,7 +188,7 @@ public class Player
         UpdateDerivedStats();
     }
 
-    private void UpdateDerivedStats()
+    public void UpdateDerivedStats()
     {
         switch (classType)
         {
@@ -242,13 +242,23 @@ public class Player
         return (long)((Math.Pow(level, 2.1) * LevelFactor1) + (level * LevelFactor2));
     }
 
-    public void AddExp(long exp)
+    private void HandleExperienceChange(long newExperience)
     {
-        CurrentExp += exp;
+        CurrentExp += newExperience;
         if (CurrentExp >= _requiredExpForNextLevel)
         {
             LevelUp();
         }
+    }
+
+    public void SetExpListner()
+    {
+        ExperienceManager.instance.OnExperienceChange += HandleExperienceChange;
+    }
+
+    public void RemoveExpListner()
+    {
+        ExperienceManager.instance.OnExperienceChange -= HandleExperienceChange;
     }
 
     private void LevelUp()
@@ -257,6 +267,8 @@ public class Player
         AttributePoints += 3;
         Level++;
         _requiredExpForNextLevel = CalculateExpForLevel(Level);
+        currentHP = (int)HP.Value;
+        currentMP = (int)MP.Value;
     }
 
     public bool UseAttributePoints(int points, string stat)
@@ -301,5 +313,54 @@ public class Player
     public void AddGold(int amount)
     {
         gold += amount;
+    }
+
+    public bool RemoveCoins(int amount)
+    {
+        if (chibiCoins < amount)
+        {
+            return false;
+        }
+        chibiCoins -= amount;
+        return true;
+    }
+
+    public void AddCoins(int amount)
+    {
+        chibiCoins += amount;
+    }
+
+    internal int GetDamage()
+    {
+        return (int)DMG.Value;
+    }
+
+    internal int GetDefense()
+    {
+        return (int)DEF.Value;
+    }
+
+    internal void SetGoldListner()
+    {
+        GoldManager.instance.OnGoldIncrease += AddGold;
+        GoldManager.instance.OnGoldDecrease += RemoveGold;
+    }
+
+    internal void RemoveGoldListner()
+    {
+        GoldManager.instance.OnGoldIncrease -= AddGold;
+        GoldManager.instance.OnGoldDecrease -= RemoveGold;
+    }
+
+    internal void SetCoinsListner()
+    {
+        ChibiCoinsManager.instance.OnChibiCoinsIncrease += AddCoins;
+        ChibiCoinsManager.instance.OnChibiCoinsDecrease += RemoveCoins;
+    }
+
+    internal void RemoveCoinsListner()
+    {
+        ChibiCoinsManager.instance.OnChibiCoinsIncrease -= AddCoins;
+        ChibiCoinsManager.instance.OnChibiCoinsDecrease -= RemoveCoins;
     }
 }

@@ -47,6 +47,12 @@ public class AttributeAllocateDisplayStat : MonoBehaviour
         decreaseStatButton.onClick.AddListener(DecreaseStat);
     }
 
+    private void Start()
+    {
+        increaseStatButton.onClick.AddListener(IncreaseStat);
+        decreaseStatButton.onClick.AddListener(DecreaseStat);
+    }
+
     private void IncreaseStat()
     {
         m_statsAdded++;
@@ -63,7 +69,7 @@ public class AttributeAllocateDisplayStat : MonoBehaviour
         attributeAllocationPanel.IncreaseStatPoints();
     }
 
-    public void Reset()
+    public void ResetStat()
     {
         m_statValue = m_statOriginalValue;
         m_statsAdded = 0;
