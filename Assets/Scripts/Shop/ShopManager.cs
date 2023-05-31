@@ -31,12 +31,17 @@ public class ShopManager : MonoBehaviour
         chibiCoinsPanel.SetActive(false);
         goldPacksPanel.SetActive(false);
         rewardsPanel.SetActive(false);
-        coinsUI.text = PlayerManager.instance.CurrentPlayer.chibiCoins.ToString();
+        ChibiCoinsManager.instance.OnChibiCoinsChange += UpdateCoinsText;
+        UpdateCoinsText();
     }
 
     public void AddCoins()
     {
-        PlayerManager.instance.CurrentPlayer.chibiCoins+= 20;
+        ChibiCoinsManager.instance.AddChibiCoins(20);
+    }
+
+    private void UpdateCoinsText()
+    {
         coinsUI.text = PlayerManager.instance.CurrentPlayer.chibiCoins.ToString();
     }
 
@@ -82,15 +87,13 @@ public class ShopManager : MonoBehaviour
 
     public void PurchasePack(ShopItemSO pack)
     {
-        if (PlayerManager.instance.CurrentPlayer.chibiCoins < pack.baseCost)
+        if (!ChibiCoinsManager.instance.RemoveChibiCoins(pack.baseCost))
         {
             purchaseItemDialog.SetText("Not enough Chibi Coins");
             purchaseItemDialog.Show();
             return;
         }
 
-        PlayerManager.instance.CurrentPlayer.chibiCoins -= pack.baseCost;
-        coinsUI.text = PlayerManager.instance.CurrentPlayer.chibiCoins.ToString();
         //add items to inventory
         foreach (var item in pack.items)
         {
