@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System.Text;
 using UnityEngine.UI;
+using System;
 
 public class ShopTemplate : MonoBehaviour
 {
@@ -21,22 +22,51 @@ public class ShopTemplate : MonoBehaviour
     {
         titleTxt.text = shop_item.title;
         CreateDescription();
-        costTxt.text = shop_item.baseCost.ToString() + " Chibi Coins";
+        costTxt.text = shop_item.baseCost.ToString();
         PackIcon.sprite = shop_item.PackIcon;
         
     }
 
+
+
+
     private void CreateDescription()
     {
-        
-        sb.Length = 0;
+        // Create a dictionary to hold the item counts
+        Dictionary<string, int> itemCounts = new Dictionary<string, int>();
+
+        // Count the items
         foreach (Item item in shop_item.items)
         {
-            sb.AppendLine(item.ItemName);
+            if(itemCounts.ContainsKey(item.ItemName))
+            {
+                itemCounts[item.ItemName]++;
+            }
+            else
+            {
+                itemCounts.Add(item.ItemName, 1);
+            }
         }
-        descriptionTxt.text = sb.ToString();
 
+        // Clear the StringBuilder
+        sb.Length = 0;
+
+        // Generate the description
+        foreach (KeyValuePair<string, int> pair in itemCounts)
+        {
+            if (pair.Value > 1)
+            {
+                sb.AppendLine(pair.Key + " x" + pair.Value);
+            }
+            else
+            {
+                sb.AppendLine(pair.Key);
+            }
+        }
+
+        descriptionTxt.text = sb.ToString();
     }
+
 
     public void PurchasePack()
     {

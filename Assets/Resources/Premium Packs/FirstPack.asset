@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94dc10e2e959d7848a9cceebbb19950c, type: 3}
   m_Name: FirstPack
   m_EditorClassIdentifier: 
-  title: First Pack
-  description: Standard Pack
+  title: Standard Pack
+  description: 
   baseCost: 20
   PackIcon: {fileID: 21300000, guid: 27da4ed1f27c5f64795c98485d30f2b5, type: 3}
   items:
   - {fileID: 11400000, guid: 8039f7e05eda5e247b74158ee9fdc97f, type: 2}
   - {fileID: 11400000, guid: 7420b8ba1b47e014ba0e5bcbf81a45c5, type: 2}
+  - {fileID: 11400000, guid: 7420b8ba1b47e014ba0e5bcbf81a45c5, type: 2}
+  - {fileID: 11400000, guid: cc3acad761e5e414da04e24e9b7e436c, type: 2}
+  - {fileID: 11400000, guid: cc3acad761e5e414da04e24e9b7e436c, type: 2}
   - {fileID: 11400000, guid: cc3acad761e5e414da04e24e9b7e436c, type: 2}

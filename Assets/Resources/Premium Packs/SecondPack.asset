@@ -12,8 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94dc10e2e959d7848a9cceebbb19950c, type: 3}
   m_Name: SecondPack
   m_EditorClassIdentifier: 
-  title: Second Pack
-  description: Rare Pack
-  baseCost: 30
+  title: Rare Pack
+  description: 
+  baseCost: 35
   PackIcon: {fileID: 21300000, guid: 46a83a17dd93b314dbf7e0aa5aa4da57, type: 3}
-  items: []
+  items:
+  - {fileID: 11400000, guid: 9fd2acc5011fce846b545641f0a73c35, type: 2}
+  - {fileID: 11400000, guid: a2dc50b11c8626b4b96ec1f9205b016e, type: 2}
+  - {fileID: 11400000, guid: a2dc50b11c8626b4b96ec1f9205b016e, type: 2}
+  - {fileID: 11400000, guid: a2dc50b11c8626b4b96ec1f9205b016e, type: 2}
+  - {fileID: 11400000, guid: a2dc50b11c8626b4b96ec1f9205b016e, type: 2}
+  - {fileID: 11400000, guid: c229609bdd39ddf41b33b25d280ecc82, type: 2}
+  - {fileID: 11400000, guid: c229609bdd39ddf41b33b25d280ecc82, type: 2}
+  - {fileID: 11400000, guid: c229609bdd39ddf41b33b25d280ecc82, type: 2}
+  - {fileID: 11400000, guid: c229609bdd39ddf41b33b25d280ecc82, type: 2}

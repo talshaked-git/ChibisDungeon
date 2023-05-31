@@ -12,8 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94dc10e2e959d7848a9cceebbb19950c, type: 3}
   m_Name: ThirdPack
   m_EditorClassIdentifier: 
-  title: Third Pack
-  description: Legendary Pack
-  baseCost: 50
+  title: Legendary Pack
+  description: 
+  baseCost: 55
   PackIcon: {fileID: 21300000, guid: c0bd41322f99c3f47b5becf59cb480db, type: 3}
-  items: []
+  items:
+  - {fileID: 11400000, guid: 569cc48665ee09544b1ecd0ca105902d, type: 2}
+  - {fileID: 11400000, guid: 4ec0c072309da864098bf8fcb263a362, type: 2}
+  - {fileID: 11400000, guid: f0b575d8e409b3b408990562df0f98b7, type: 2}
+  - {fileID: 11400000, guid: f0b575d8e409b3b408990562df0f98b7, type: 2}
+  - {fileID: 11400000, guid: f0b575d8e409b3b408990562df0f98b7, type: 2}
+  - {fileID: 11400000, guid: f0b575d8e409b3b408990562df0f98b7, type: 2}
+  - {fileID: 11400000, guid: f0b575d8e409b3b408990562df0f98b7, type: 2}
+  - {fileID: 11400000, guid: 82e0d094ef5b5b949a596431fc50dd96, type: 2}
+  - {fileID: 11400000, guid: 82e0d094ef5b5b949a596431fc50dd96, type: 2}
+  - {fileID: 11400000, guid: 82e0d094ef5b5b949a596431fc50dd96, type: 2}
+  - {fileID: 11400000, guid: 82e0d094ef5b5b949a596431fc50dd96, type: 2}
+  - {fileID: 11400000, guid: 82e0d094ef5b5b949a596431fc50dd96, type: 2}
+  - {fileID: 11400000, guid: 82e0d094ef5b5b949a596431fc50dd96, type: 2}

@@ -9,7 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a70f8da3a85dae64fa9ec8961b5ceac1, type: 3}
-  m_Name: Small HP Potion - Heal Effect
+  m_Script: {fileID: 11500000, guid: 76169b51454047a428e1c3fc66e9bb30, type: 3}
+  m_Name: Elixer III - All Stats effect
   m_EditorClassIdentifier: 
-  healAmount: 50
+  STRBuff: 30
+  VITBuff: 30
+  INTBuff: 30
+  AGIBuff: 30
+  Duration: 180

@@ -9,6 +9,9 @@ public class ShopManager : MonoBehaviour
     public static ShopManager instance;
     public PurchaseItemDialog purchaseItemDialog;
     public TMP_Text coinsUI;
+
+    public GameObject premiumPacksPanel, chibiCoinsPanel, goldPacksPanel, rewardsPanel;
+    private GameObject currentPanel;
     
     private void Awake()
     {
@@ -23,14 +26,58 @@ public class ShopManager : MonoBehaviour
     }
     void Start()
     {
-
+        currentPanel = premiumPacksPanel;
+        currentPanel.SetActive(true);
+        chibiCoinsPanel.SetActive(false);
+        goldPacksPanel.SetActive(false);
+        rewardsPanel.SetActive(false);
         coinsUI.text = PlayerManager.instance.CurrentPlayer.chibiCoins.ToString();
     }
 
     public void AddCoins()
     {
-        PlayerManager.instance.CurrentPlayer.chibiCoins++;
+        PlayerManager.instance.CurrentPlayer.chibiCoins+= 20;
         coinsUI.text = PlayerManager.instance.CurrentPlayer.chibiCoins.ToString();
+    }
+
+    public void ShowPremiumPacks()
+    {
+        if (currentPanel != premiumPacksPanel)
+        {
+            currentPanel.SetActive(false);
+            premiumPacksPanel.SetActive(true);
+            currentPanel = premiumPacksPanel;
+        }
+    }
+
+    public void ShowChibiCoins()
+    {
+        if (currentPanel != chibiCoinsPanel)
+        {
+            currentPanel.SetActive(false);
+            chibiCoinsPanel.SetActive(true);
+            currentPanel = chibiCoinsPanel;
+        }
+    }
+
+    public void ShowGoldPacks()
+    {
+        if (currentPanel != goldPacksPanel)
+        {
+            currentPanel.SetActive(false);
+            goldPacksPanel.SetActive(true);
+            currentPanel = goldPacksPanel;
+        }
+    }
+
+    public void ShowRewards()
+    {
+        if (currentPanel != rewardsPanel)
+        {
+            currentPanel.SetActive(false);
+            rewardsPanel.SetActive(true);
+            currentPanel = rewardsPanel;
+        }
     }
 
     public void PurchasePack(ShopItemSO pack)
