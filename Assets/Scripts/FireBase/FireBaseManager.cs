@@ -1,3 +1,5 @@
+using Firebase;
+using Firebase.Extensions;
 using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,8 @@ public class FireBaseManager : MonoBehaviour
     public FirebaseAuthenticationManager firebaseAuthManager;
     public FirebaseFirestoreManager firebaseFirestoreManager;
 
+    Firebase.DependencyStatus dependencyStatus = Firebase.DependencyStatus.UnavailableOther;
+
 
     private void Awake()
     {
@@ -25,6 +29,27 @@ public class FireBaseManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+    }
+
+    private void Start()
+    {
+        firebaseAuthManager = GetComponent<FirebaseAuthenticationManager>();
+        firebaseFirestoreManager = GetComponent<FirebaseFirestoreManager>();
+
+
+        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
+            dependencyStatus = task.Result;
+            if (dependencyStatus == DependencyStatus.Available)
+            {
+                firebaseAuthManager.InitializeFirebase();
+                firebaseFirestoreManager.InitializeFirebase();
+            }
+            else
+            {
+                Debug.LogError(
+                  "Could not resolve all Firebase dependencies: " + dependencyStatus);
+            }
+        });
     }
 
     public DocumentReference SaveNewPlayer(Player player)
@@ -100,5 +125,10 @@ public class FireBaseManager : MonoBehaviour
     public void CreateNewAccountDocument(string userId)
     {
         firebaseFirestoreManager.CreateNewAccountDocument(userId);
+    }
+
+    internal void DeletePlayer(string cID)
+    {
+        firebaseFirestoreManager.DeletePlayer(cID);
     }
 }

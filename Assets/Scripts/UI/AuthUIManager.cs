@@ -96,26 +96,44 @@ public class AuthUIManager : MonoBehaviour
 
     public void LoadPrefs()
     {
-        if (PlayerPrefs.HasKey("email"))
+        try
         {
-            emailInput.text = PlayerPrefs.GetString("email");
-            rememberMe.isOn = true;
+            if (PlayerPrefs.HasKey("email"))
+            {
+                emailInput.text = PlayerPrefs.GetString("email");
+                rememberMe.isOn = true;
+            }
         }
+        catch (System.Exception e)
+        {
+            Debug.Log(e);
+            Debug.Log("error loading email");
+        }
+
     }
 
     public void SavePrefs()
     {
-        string email = emailInput.text;
-        if (rememberMe.isOn)
+        try
         {
-            PlayerPrefs.SetString("email", email);
-            PlayerPrefs.Save();
+            string email = emailInput.text;
+            if (rememberMe.isOn)
+            {
+                PlayerPrefs.SetString("email", email);
+                PlayerPrefs.Save();
+            }
+            else
+            {
+                PlayerPrefs.DeleteKey("email");
+                PlayerPrefs.Save();
+            }
         }
-        else
+        catch (System.Exception e)
         {
-            PlayerPrefs.DeleteKey("email");
-            PlayerPrefs.Save();
+            Debug.Log(e);
+            Debug.Log("error saving email");
         }
+
     }
 
     public void LoginOutputUIShow(string text)
