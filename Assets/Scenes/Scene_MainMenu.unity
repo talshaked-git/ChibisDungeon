@@ -4161,7 +4161,7 @@ MonoBehaviour:
   CharacterDeleteUI: {fileID: 1187480562}
   CharcterSelectUI: {fileID: 1848896779}
   CharcterSelectPrefab: {fileID: 4766313927120203585, guid: 394cc1ad33a147b4b8f859a3be55bd3a, type: 3}
-  CharcterAddButtonPrefab: {fileID: 8198795634381872258, guid: ce87cd9d8f413354c903b798b62878c4, type: 3}
+  CharcterAddButtonPrefab: {fileID: 8198795634381872258, guid: a5850dc2b834cba4abdeb77fef10728e, type: 3}
   _charcterClassImages:
   - {fileID: 21300000, guid: bff7823a39eb7474681dd2f41b0074ba, type: 3}
   - {fileID: 21300000, guid: 0b871f9a47c7fef40b085d731833452a, type: 3}
