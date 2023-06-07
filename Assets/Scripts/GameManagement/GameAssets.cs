@@ -18,4 +18,5 @@ public class GameAssets : MonoBehaviour
     public Transform pfDamagePopup;
 
     public GameObject pfLoot;
+    public GameObject pfShopItemTMP;
 }
