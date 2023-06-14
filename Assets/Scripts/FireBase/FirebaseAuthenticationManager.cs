@@ -42,7 +42,7 @@ public class FirebaseAuthenticationManager : MonoBehaviour
         InitConfiguration();
         StartCoroutine(CheckAutoLogin());
         AuthStateChanged(this, null);
- 
+
     }
 
     private void AuthStateChanged(object sender, System.EventArgs eventArgs)
@@ -109,7 +109,7 @@ public class FirebaseAuthenticationManager : MonoBehaviour
             await taskAccount;
             if (taskAccount == null || taskAccount.IsCompletedSuccessfully)
             {
-                if(taskAccount == null)
+                if (taskAccount == null)
                 {
                     authUIManager.LoginOutputUIShow("Error Loading Account During AutoLogin");
                     Debug.Log("Error Loading Account During AutoLogin ACcount = NULL");
@@ -121,7 +121,7 @@ public class FirebaseAuthenticationManager : MonoBehaviour
             }
             else
             {
-                authUIManager.LoginOutputUIShow( "Error Loading Account During AutoLogin");
+                authUIManager.LoginOutputUIShow("Error Loading Account During AutoLogin");
             }
         }
         else
@@ -136,7 +136,7 @@ public class FirebaseAuthenticationManager : MonoBehaviour
         string email = authUIManager.emailInput.text;
         string password = authUIManager.passwordInput.text;
 
-        LoginLogic(email,password);
+        LoginLogic(email, password);
     }
 
     public void RegisterButton()
@@ -144,7 +144,7 @@ public class FirebaseAuthenticationManager : MonoBehaviour
         string email = authUIManager.registerEmailInput.text;
         string password = authUIManager.registerPasswordInput.text;
         string confirmPassword = authUIManager.registerConfirmPasswordInput.text;
-        StartCoroutine(RegisterLogic(email,password,confirmPassword));
+        StartCoroutine(RegisterLogic(email, password, confirmPassword));
     }
 
     private async void LoginLogic(string _email, string _password)
@@ -172,7 +172,6 @@ public class FirebaseAuthenticationManager : MonoBehaviour
             Debug.LogError("GameManager.instance is null");
             return;
         }
-
         try
         {
             Credential credential = EmailAuthProvider.GetCredential(_email, _password);
@@ -208,7 +207,8 @@ public class FirebaseAuthenticationManager : MonoBehaviour
         }
         catch (Exception ex)
         {
-            if (ex is FirebaseException firebaseException)
+            FirebaseException firebaseException = (ex as AggregateException)?.InnerExceptions[0] as FirebaseException;
+            if (firebaseException != null)
             {
                 AuthError error = (AuthError)firebaseException.ErrorCode;
 
@@ -244,84 +244,11 @@ public class FirebaseAuthenticationManager : MonoBehaviour
             }
             else
             {
+                Debug.LogError("You had en exception");
                 Debug.LogError($"Exception occurred: {ex}");
             }
         }
     }
-
-
-
-    //private async void LoginLogic(string _email, string _password)
-    //{
-    //    Credential credential = EmailAuthProvider.GetCredential(_email, _password);
-
-
-    //        var loginTask = auth.SignInWithCredentialAsync(credential);
-    //        await loginTask.ContinueWithOnMainThread(async task =>
-    //        {
-    //            if (task.IsFaulted)
-    //            {
-    //                FirebaseException firebaseException = task.Exception.GetBaseException() as FirebaseException;
-    //                if (firebaseException != null)
-    //                {
-    //                    AuthError error = (AuthError)firebaseException.ErrorCode;
-
-    //                    string output = "";
-
-    //                    switch (error)
-    //                    {
-    //                        case AuthError.MissingEmail:
-    //                            output = "Yoho You Forgot Your Mail";
-    //                            break;
-    //                        case AuthError.MissingPassword:
-    //                            output = "Yoho You Forgot Your Password";
-    //                            break;
-    //                        case AuthError.WrongPassword:
-    //                            output = "";
-    //                            break;
-    //                        case AuthError.InvalidEmail:
-    //                            output = "Invalid Email";
-    //                            break;
-    //                        case AuthError.UserNotFound:
-    //                            output = "Did You Register?";
-    //                            break;
-    //                        default:
-    //                            output = "Unknown Error";
-    //                            break;
-    //                    }
-
-    //                    if (output == "")
-    //                    {
-    //                        output = "LOL Did you even try?";
-    //                    }
-    //                    authUIManager.LoginOutputUIShow(output);
-    //                    return;
-    //                }
-    //            }
-
-    //            //if (!user.IsEmailVerified)
-    //            //{
-    //            //    authUIManager.LoginOutputUIShow("Please Verify Your Email");
-    //            //    Debug.Log("Please Verify Your Email");
-    //            //    return;
-    //            //}
-
-    //            Task<Account> taskAccount = FireBaseManager.instance.LoadAccount();
-    //            await taskAccount;
-    //            if (taskAccount.IsCompletedSuccessfully)
-    //            {
-    //                Account account = taskAccount.Result;
-    //                GameManager.instance.account = account;
-    //                Debug.Log("Login Succesfull");
-    //                GameManager.instance.ChangeScene("Scene_MainMenu");
-    //            }
-    //            else
-    //            {
-    //                authUIManager.LoginOutputUIShow("Error Loading Account");
-    //                Debug.Log("Error Loading Account");
-    //            }
-    //        });
-    //}
 
     private IEnumerator RegisterLogic(string _email, string _password, string _confirmPassword)
     {
