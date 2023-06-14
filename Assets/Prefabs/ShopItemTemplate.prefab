@@ -817,7 +817,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2318372299246509150}
         m_TargetAssemblyTypeName: ShopTemplate, Assembly-CSharp
         m_MethodName: PurchasePack
         m_Mode: 1

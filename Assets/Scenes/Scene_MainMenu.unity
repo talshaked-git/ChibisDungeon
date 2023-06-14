@@ -4041,14 +4041,20 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-    when an unknown printer took a galley of type and scrambled it to make a type
-    specimen book. It has survived not only five centuries, but also the leap into
-    electronic typesetting, remaining essentially unchanged. It was popularised in
-    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-    and more recently with desktop publishing software like Aldus PageMaker including
-    versions of Lorem Ipsum.
+  m_text: 'Chibis & Dungeons game by
+
+    Rafael Azriaiev
+
+    Tal Shaked
+
+
+    Special
+    thanks to
+
+    Alona Kutsyy
+
+
+    og.rt.games@gmail.com'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f0c79db69e80ea64896f1d266c335f08, type: 2}
   m_sharedMaterial: {fileID: -5355491013863077485, guid: f0c79db69e80ea64896f1d266c335f08, type: 2}
@@ -4075,7 +4081,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.6
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
