@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70f8da3a85dae64fa9ec8961b5ceac1, type: 3}
   m_Name: Small HP Potion - Heal Effect
   m_EditorClassIdentifier: 
-  healAmount: 10
+  healAmount: 50

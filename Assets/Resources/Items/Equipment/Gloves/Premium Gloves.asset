@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b4064f918e1a14d85caa28d6c47b3c, type: 3}
+  m_Name: Premium Gloves
+  m_EditorClassIdentifier: 
+  _id: 3001
+  _itemName: Premium Gloves
+  MaxStack: 1
+  Icon: {fileID: 21300000, guid: 208d66229de0d254b8c1e70ed6c351f4, type: 3}
+  EquipableLV: 5
+  EquipableClass: 0
+  _strBonus: 15
+  _intBonus: 15
+  _agiBonus: 15
+  _vitBonus: 15
+  _strPercentAddBonus: 0
+  _intPercentAddBonus: 0
+  _vitPercentAddBonus: 0
+  _agiPercentAddBonus: 0
+  equipmentType: 2
+  isEquipped: 0

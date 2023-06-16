@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Premium Packs.meta
+guid: 3d0c52605168d914dbe77d23991a0849
+========
 guid: 496ef6a0579813945b1719d3e6fcdb5e
+>>>>>>>> 8b2381e7c80e36191d29cfe239d9db9f2fd38a90:Assets/Resources/CharacterImages.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

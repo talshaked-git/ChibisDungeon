@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b4064f918e1a14d85caa28d6c47b3c, type: 3}
+  m_Name: Premium Boots
+  m_EditorClassIdentifier: 
+  _id: 1001
+  _itemName: Premium Boots
+  MaxStack: 1
+  Icon: {fileID: 21300000, guid: e85bd4c16f176074daa385fc34fcb5f6, type: 3}
+  EquipableLV: 5
+  EquipableClass: 0
+  _strBonus: 10
+  _intBonus: 10
+  _agiBonus: 10
+  _vitBonus: 10
+  _strPercentAddBonus: 0
+  _intPercentAddBonus: 0
+  _vitPercentAddBonus: 0
+  _agiPercentAddBonus: 0
+  equipmentType: 3
+  isEquipped: 0

@@ -1,0 +1,128 @@
+{
+  "appleSKU": "",
+  "appleTeamID": "",
+  "enableCodelessAutoInitialization": false,
+  "enableUnityGamingServicesAutoInitialization": false,
+  "products": [
+    {
+      "id": "com.oggames.chibisanddungeons.chibicoinspack1",
+      "type": 0,
+      "storeIDs": [],
+      "defaultDescription": {
+        "googleLocale": 4,
+        "title": "Chibi Coins Pack 1",
+        "description": "100 coins pack!"
+      },
+      "screenshotPath": "",
+      "applePriceTier": 4,
+      "googlePrice": {
+        "data": [
+          1299,
+          0,
+          0,
+          131072
+        ],
+        "num": 12.99
+      },
+      "pricingTemplateID": "",
+      "descriptions": [],
+      "udpPrice": {
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "num": 0
+      },
+      "payouts": [
+        {
+          "t": "Currency",
+          "st": "Chibi Coins",
+          "q": 100,
+          "d": ""
+        }
+      ]
+    },
+    {
+      "id": "com.oggames.chibisanddungeons.chibicoinspack2",
+      "type": 0,
+      "storeIDs": [],
+      "defaultDescription": {
+        "googleLocale": 4,
+        "title": "Chibi Coins Pack 2",
+        "description": "225 coins pack!"
+      },
+      "screenshotPath": "",
+      "applePriceTier": 10,
+      "googlePrice": {
+        "data": [
+          3499,
+          0,
+          0,
+          131072
+        ],
+        "num": 34.99
+      },
+      "pricingTemplateID": "",
+      "descriptions": [],
+      "udpPrice": {
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "num": 0
+      },
+      "payouts": [
+        {
+          "t": "Currency",
+          "st": "Chibi Coins",
+          "q": 225,
+          "d": ""
+        }
+      ]
+    },
+    {
+      "id": "com.oggames.chibisanddungeons.chibicoinspack3",
+      "type": 0,
+      "storeIDs": [],
+      "defaultDescription": {
+        "googleLocale": 4,
+        "title": "Chibi Coins Pack 3",
+        "description": "600 coins pack!"
+      },
+      "screenshotPath": "",
+      "applePriceTier": 15,
+      "googlePrice": {
+        "data": [
+          4999,
+          0,
+          0,
+          131072
+        ],
+        "num": 49.99
+      },
+      "pricingTemplateID": "",
+      "descriptions": [],
+      "udpPrice": {
+        "data": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "num": 0
+      },
+      "payouts": [
+        {
+          "t": "Currency",
+          "st": "Chibi Coins",
+          "q": 600,
+          "d": ""
+        }
+      ]
+    }
+  ]
+}

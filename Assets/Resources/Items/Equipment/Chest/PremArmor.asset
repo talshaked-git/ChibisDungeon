@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b4064f918e1a14d85caa28d6c47b3c, type: 3}
+  m_Name: PremArmor
+  m_EditorClassIdentifier: 
+  _id: 2001
+  _itemName: ' Premium Chest Armor'
+  MaxStack: 1
+  Icon: {fileID: 21300000, guid: 64a7e5f7e0dfc144db200ab860eed4ad, type: 3}
+  EquipableLV: 1
+  EquipableClass: 0
+  _strBonus: 10
+  _intBonus: 10
+  _agiBonus: 10
+  _vitBonus: 10
+  _strPercentAddBonus: 0
+  _intPercentAddBonus: 0
+  _vitPercentAddBonus: 0
+  _agiPercentAddBonus: 0
+  equipmentType: 1
+  isEquipped: 0

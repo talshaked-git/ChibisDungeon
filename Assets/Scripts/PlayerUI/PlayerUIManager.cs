@@ -109,13 +109,20 @@ public class PlayerUIManager : MonoBehaviour
         if (!gamePaused)
         {
             PauseGame();
-            //settingsMenu.SetActive(true);
-            //characterSwitchMenu.SetActive(true);
-            //exitMenu.SetActive(true);
+            shopMenu.SetActive(true);
         }
         else
         {
             ResumeGame();
+        }
+    }
+
+    public void CloseShop()
+    {
+        if (gamePaused)
+        {
+            ResumeGame();
+            shopMenu.SetActive(false);
         }
     }
 
