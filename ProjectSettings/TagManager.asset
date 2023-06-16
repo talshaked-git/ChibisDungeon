@@ -13,6 +13,7 @@ TagManager:
   - Inventory
   - Portal
   - Enemy
+  - NPC
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - Foreground
   - Doors
   - Enemy
-  - 
+  - NPC
   - 
   - Platforms
   - 
@@ -85,6 +86,9 @@ TagManager:
     locked: 0
   - name: Enemy
     uniqueID: 2535274389
+    locked: 0
+  - name: NPC
+    uniqueID: 1476770793
     locked: 0
   - name: Player
     uniqueID: 2882637773
